@@ -238,7 +238,7 @@ var render = function render() {
     staticClass: "card-header custom-header p-0 m-1"
   }, [_vm._m(0), _vm._v(" "), _c("hr"), _vm._v(" "), _c("div", {
     staticClass: "text-center p-0 m-0"
-  }, [_c("h3", [_c("strong", [_vm._v("Demand note for\n                    " + _vm._s(_vm.finddata.services.service) + " Connection")])])])]), _vm._v(" "), _c("div", {
+  }, [_c("h3", [_c("strong", [_vm._v("Demand Note for\n                    " + _vm._s(_vm.finddata.services.service) + " Connection")])])])]), _vm._v(" "), _c("div", {
     staticClass: "card-body p-0 m-0"
   }, [_c("div", {
     staticClass: "row"
@@ -261,13 +261,13 @@ var render = function render() {
     staticClass: "mb-0"
   }, [_vm._v("\n                            :"), _c("strong", [_vm._v(_vm._s(_vm.finddata.customers.com_name))])]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                            : " + _vm._s(_vm.finddata.customers.bin_vat_etc) + "\n                          ")]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                            :" + _vm._s(_vm.finddata.customers.bin_vat_etc) + "\n                          ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
   }, [_vm._v("\n                            :" + _vm._s(_vm.finddata.customers.address) + "\n                          ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                            : " + _vm._s(_vm.finddata.customers.name) + "\n                          ")]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                            :" + _vm._s(_vm.finddata.customers.name) + "\n                          ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                            : " + _vm._s(_vm.finddata.customers.phone) + "\n                          ")])])]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                            :" + _vm._s(_vm.finddata.customers.phone) + "\n                          ")])])]), _vm._v(" "), _c("p", {
     staticClass: "mb-0 mt-4"
   }, [_vm._v("Customer License Type : " + _vm._s(_vm.customerType))]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
@@ -281,9 +281,7 @@ var render = function render() {
     return _c("p", {
       key: i,
       staticClass: "mb-0"
-    }, [_vm._v("\n                        Current Utilization :\n\n                        "), circuit.is_approved == 2 ? _c("span", {
-      staticClass: "badge"
-    }, [_vm._v("\n                          " + _vm._s(circuit.qty) + " * " + _vm._s(circuit.name) + "\n                        ")]) : _vm._e()]);
+    }, [_vm._v("\n                        Current Utilization :\n                        "), circuit.is_approved == 2 ? _c("span", [_vm._v("\n                           " + _vm._s(circuit.qty) + " * " + _vm._s(circuit.name) + "\n                        ")]) : _vm._e()]);
   })], 2), _vm._v(" "), _c("div", {
     staticClass: "col-md-3"
   }, [_c("p", {
@@ -297,7 +295,7 @@ var render = function render() {
     staticClass: "mb-0"
   }, [_vm._v("For Office Use Only")]), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                          ID No :: DN(" + _vm._s(_vm.cableType) + ")/" + _vm._s(_vm.customerType) + "/" + _vm._s(_vm.circuitType) + "/000" + _vm._s(_vm.iplcTotalDemandNote) + "\n                        ")]) : _vm._e()]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                          ID No : DN(" + _vm._s(_vm.cableType) + ")/" + _vm._s(_vm.customerType) + "/" + _vm._s(_vm.circuitType) + "/000" + _vm._s(_vm.iplcTotalDemandNote) + "\n                        ")]) : _vm._e()]), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
   }, [_vm._v("Commitment Period : N/A")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
@@ -431,7 +429,7 @@ var render = function render() {
       "text-align": "center"
     }
   }, [_vm._v("(9+10)")])])])])])])]), _vm._v(" "), _c("div", {
-    staticClass: "col-md-10 offset-2 mb-5"
+    staticClass: "col-md-10 offset-1 mb-2"
   }, [_c("p", [_vm._v("\n            In words (Taka) : " + _vm._s(_vm._f("toWords")(_vm.totalPayable())) + ".\n          ")])]), _vm._v(" "), _vm.manager[0] ? _c("div", {
     staticClass: "col-md-6 text-center",
     staticStyle: {
@@ -472,7 +470,7 @@ var render = function render() {
     staticClass: "col-md-12 text-left pl-4 pb-3"
   }, [_c("p", {
     staticClass: "mb-0"
-  }, [_c("b", [_vm._v("Note :")]), _vm._v(" "), _c("strong", [_vm._v('\n              Please issue payorder in favour of "Bangladesh Submarine Cable Company Limited" with an amount of Tk. ' + _vm._s(_vm.totalPayable().toFixed(2)) + "\n            ")])]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7)]) : _vm._e(), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("div", {
+  }, [_c("b", [_vm._v("Note :")]), _vm._v(" "), _c("strong", [_vm._v('\n              Please issue payorder in favour of "Bangladesh Submarine Cable Company Limited" with an amount of Tk. ' + _vm._s(_vm._f("comma")(_vm.totalPayable().toFixed(2))) + "\n            ")])]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7)]) : _vm._e(), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("div", {
     staticClass: "col-md-12 text-left pl-4 pb-3"
   }, [_vm._m(8), _vm._v(" "), _vm._m(9)]) : _vm._e(), _vm._v(" "), _vm.finddata.service_id == 7 ? _c("div", {
     staticClass: "col-md-12 text-left pl-4 pb-3"
@@ -586,10 +584,10 @@ var staticRenderFns = [function () {
   }, [_c("textarea", {
     staticClass: "form-control",
     attrs: {
-      rows: "2",
+      rows: "1",
       cols: "7"
     }
-  }, [_vm._v("                                                                                                                                                                                                                                                                                        ln addition to the standard IPLC Agreement, the terms and reference mentioned in the tariff scheme will be applicable.\n                                                                                                                                                                                                                                                                                       ")])]);
+  }, [_vm._v("ln addition to the standard IPLC Agreement, the terms and reference mentioned in the tariff scheme will be applicable.")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;

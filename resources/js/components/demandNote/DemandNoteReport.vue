@@ -45,7 +45,7 @@
                 <hr />
                 <div class="text-center p-0 m-0">
                   <h3>
-                    <strong>Demand note for
+                    <strong>Demand Note for
                       {{ finddata.services.service }} Connection</strong>
                   </h3>
                 </div>
@@ -92,16 +92,16 @@
                               :<strong>{{ finddata.customers.com_name }}</strong>
                             </p>
                             <p class="mb-0">
-                              : {{ finddata.customers.bin_vat_etc }}
+                              :{{ finddata.customers.bin_vat_etc }}
                             </p>
                             <p class="mb-0">
                               :{{ finddata.customers.address }}
                             </p>
                             <p class="mb-0">
-                              : {{ finddata.customers.name }}
+                              :{{ finddata.customers.name }}
                             </p>
                             <p class="mb-0">
-                              : {{ finddata.customers.phone }}
+                              :{{ finddata.customers.phone }}
                             </p>
                           </div>
 
@@ -135,9 +135,8 @@
 
                         <p v-for="(circuit, i) in circuitConnectionInformation" :key="i" class="mb-0">
                           Current Utilization :
-
-                          <span v-if="circuit.is_approved == 2" class="badge">
-                            {{ circuit.qty }} * {{ circuit.name }}
+                          <span v-if="circuit.is_approved == 2" >
+                             {{ circuit.qty }} * {{ circuit.name }}
                           </span>
 
                         </p>
@@ -149,6 +148,8 @@
                           </span>
 
                         </p> -->
+
+
                       </div>
 
                       <div class="col-md-3">
@@ -165,7 +166,7 @@
                           </p> -->
                           <p class="mb-0">For Office Use Only</p>
                           <p class="mb-0" v-if="finddata.service_id == 1">
-                            ID No :: DN({{ cableType }})/{{ customerType }}/{{
+                            ID No : DN({{ cableType }})/{{ customerType }}/{{
                               circuitType
                             }}/000{{ iplcTotalDemandNote }}
                           </p>
@@ -176,6 +177,11 @@
                         </p>
                         <p class="mb-0" v-else>Connection : upgrade from to {{ second_last_circuit }}
                         </p> -->
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+
                         <p class="mb-0">Commitment Period : N/A</p>
                         <p class="mb-0">
                           Discount on Wet Segment MRC : {{ finddata.discount + " %" }}
@@ -354,12 +360,11 @@
               <!-- end card body -->
             </div>
           </div>
-          <div class="col-md-10 offset-2 mb-5">
+          <div class="col-md-10 offset-1 mb-2">
             <p>
               In words (Taka) : {{ totalPayable() | toWords }}.
             </p>
           </div>
-
           <div class="col-md-6 text-center" style="padding-top: 25px" v-if="manager[0]">
             <p class="mb-0"> <img :src="manager[0].sign" alt="Photo" width="250" height="80px"> </p>
             <!-- <p class="mb-0"> <img :src="previewImage"  alt="Photo" width="250" height="80px"> </p> -->
@@ -371,19 +376,16 @@
             <p class="mb-0">{{ manager[1].name }}</p>
             <p class="mb-0">{{ manager[1].designation }}</p>
           </div>
-
           <div class="col-md-12 text-left pl-4 pb-3" v-if="finddata.service_id == 1">
             <p class="mb-0"> <b>Note :</b> <strong>
                 Please issue payorder in favour of "Bangladesh Submarine Cable Company Limited" with an amount of Tk. {{
-                  totalPayable().toFixed(2) }}
+                  totalPayable().toFixed(2) | comma }}
               </strong> </p>
             <p class="mb-0 pl-5"> <strong>
                 VAT amount may be changed according to the opinion of the VAT authority
               </strong></p>
             <p class="mb-0 pl-5">
-              <textarea class="form-control" rows="2" cols="7">
-                                                                                                                                                                                                                                                                                          ln addition to the standard IPLC Agreement, the terms and reference mentioned in the tariff scheme will be applicable.
-                                                                                                                                                                                                                                                                                         </textarea>
+              <textarea class="form-control" rows="1" cols="7">ln addition to the standard IPLC Agreement, the terms and reference mentioned in the tariff scheme will be applicable.</textarea>                                                                                                                                                                                                                                                                     </textarea>
             </p>
           </div>
 

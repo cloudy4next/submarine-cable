@@ -16,7 +16,7 @@ use App\Http\Resources\ColocationDemandNoteResource;
 use App\Http\Controllers\Configuration\ServiceController;
 use App\Models\CircuitCategory;
 use Datetime;
-use Illuminate\Support\Carbon; 
+use Illuminate\Support\Carbon;
 
 class DemandNoteController extends Controller
 {
@@ -136,6 +136,8 @@ class DemandNoteController extends Controller
 
     public function finddemandNote(Request $request)
     {
+        $oldMax = 0;
+
         $data = DemandNote::with('services', 'ports', 'customers.custype', 'subservice', 'capacity', 'zonelist', 'groups', 'countries', 'circuit')->where('id', $request->id)
             ->first();
 
@@ -165,7 +167,7 @@ class DemandNoteController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->skip(1)->take(1)
                     ->get();
-            
+
 
          $connectionData = [];
          foreach ($customerCircuits as $key => $c)
@@ -175,7 +177,7 @@ class DemandNoteController extends Controller
                     ->where('customer_id',$data->customer_id)
                     ->first();
 
-            $oldMax = $this->existingData($data->customer_id,$c->circuit_id);
+            // oldMax= $this->existingData($data->customer_id,$c->circuit_id);
             // dd($oldMax);
             $connectionData[] = [
                 'name' => $c->circuit->circuit_name,
@@ -191,7 +193,7 @@ class DemandNoteController extends Controller
                     ->whereDate('approved_date' ,'>',Carbon::today()->toDateString())
                     ->count(),
                 'is_approved' => $is_approved->approval_status,
-                
+
             ];
          }
 
@@ -316,7 +318,7 @@ class DemandNoteController extends Controller
     // MRC for demand note
     public function mrcCalculate(Request $request)
     {
-        
+
         $customerId = $request->customer_id;
         $circuitId = $request->circuit_id;
         $max = $request->max;
@@ -487,7 +489,7 @@ class DemandNoteController extends Controller
         }
         elseif ($circuitId == 7)
         { // 100 g
-            
+
             if ($max < 200)
             {
                 $price = $this->calculate(100, $circuitId, $grp_or_zone);
@@ -1103,7 +1105,7 @@ class DemandNoteController extends Controller
             $formatedData[$d->customer_id] = $d;
         }
 
-        return response(['msg' => 'success', 'data' => $formatedData, ]);
+        return response(['msg' => 'success', 'data' => $formatedData,]);
 
     }
 
