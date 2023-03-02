@@ -385,7 +385,7 @@ var render = function render() {
       staticStyle: {
         "text-align": "center"
       }
-    }, [_vm._v(_vm._s(item.circuit.id))]), _vm._v(" "), _c("td", {
+    }, [_vm._v(_vm._s(item.circuit_designation))]), _vm._v(" "), _c("td", {
       staticStyle: {
         "text-align": "center"
       }
@@ -526,7 +526,7 @@ var staticRenderFns = [function () {
     staticStyle: {
       "text-align": "center"
     }
-  }, [_vm._v("Circuit Id")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("Circuit Designation")]), _vm._v(" "), _c("th", {
     staticStyle: {
       "text-align": "center"
     }

@@ -2,14 +2,11 @@
   <div class="content-wrapper">
     <div class="modal-header">
       <h4 class="text-center" style="color: blue"><b>Bill Update (IPLC)</b></h4>
-      <router-link
-        :to="{
-          name: 'IplcBillingList',
-          params: { id: this.$route.params.serviceId },
-        }"
-        class="btn btn-success p-1 m-1"
-      >
-         <p class="pr-2 pb-1 mb-0"><i class="fa fa-list-ul  pl-2"> </i> Billing List</p>
+      <router-link :to="{
+        name: 'IplcBillingList',
+        params: { id: this.$route.params.serviceId },
+      }" class="btn btn-success p-1 m-1">
+        <p class="pr-2 pb-1 mb-0"><i class="fa fa-list-ul  pl-2"> </i> Billing List</p>
       </router-link>
     </div>
 
@@ -23,10 +20,7 @@
             <form @submit.prevent="handleSubmit(onSubmit)">
               <div class="row">
                 <div class="col-md-12">
-                  <table
-                    class="table table-striped table-bordered table-hover w-100"
-                    style="min-width: 100%"
-                  >
+                  <table class="table table-striped table-bordered table-hover w-100" style="min-width: 100%">
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col">SL</th>
@@ -34,10 +28,7 @@
                         <th scope="col" title="Circuit Rate">Rate</th>
                         <th scope="col" title="Rate After Discount">MRC</th>
 
-                        <th
-                          scope="col"
-                          title="Monthly Backhaul Charge After Discount BDT (TK)"
-                        >
+                        <th scope="col" title="Monthly Backhaul Charge After Discount BDT (TK)">
                           MBC
                         </th>
                         <th scope="col" title="Add Or Subtract">Add/Sub</th>
@@ -50,10 +41,7 @@
                         <th scope="col" title="5% VAT on MRC for Wet Segment">
                           5% VAT
                         </th>
-                        <th
-                          scope="col"
-                          title="(MRC+MBC) + Total VAT on MRC for Wet Segment & MBC"
-                        >
+                        <th scope="col" title="(MRC+MBC) + Total VAT on MRC for Wet Segment & MBC">
                           Net Bill
                         </th>
                         <th scope="col" title="De-activation or Others">
@@ -66,45 +54,23 @@
                         <td scope="row">{{ index + 1 }}</td>
                         <td>
                           {{ item.customers.com_name }}
-                          <input
-                            type="hidden"
-                            v-model="item.bill_id"
-                          />
-                          <input
-                            type="hidden"
-                            v-model="item.customer_id"
-                          />
+                          <input type="hidden" v-model="item.bill_id" />
+                          <input type="hidden" v-model="item.customer_id" />
                         </td>
 
                         <td>
-                          <input
-                            type="text"
-                            readonly
-                            class="form-control inputFillSize"
-                            v-model="item.old_mrc"
-                          />
+                          <input type="text" readonly class="form-control inputFillSize" v-model="item.old_mrc" />
                         </td>
                         <td>
-                          <input
-                            type="text"
-                            readonly
-                            class="form-control inputFillSize"
-                            v-model="item.old_mrc_after_discount"
-                          />
+                          <input type="text" readonly class="form-control inputFillSize"
+                            v-model="item.old_mrc_after_discount" />
                         </td>
 
                         <td>
-                          <input
-                            type="number"
-                            class="form-control inputFillSize"
-                            v-model.number="item.mbc"
-                          />
+                          <input type="number" class="form-control inputFillSize" v-model.number="item.mbc" />
                         </td>
                         <td>
-                          <select
-                            class="form-control inputFillSize"
-                            v-model="item.add_sub"
-                          >
+                          <select class="form-control inputFillSize" v-model="item.add_sub">
                             <option value="1" :selected="item.add_sub == 1">
                               Add
                             </option>
@@ -114,11 +80,7 @@
                           </select>
                         </td>
                         <td>
-                          <input
-                            type="number"
-                            class="form-control inputFillSize"
-                            v-model.number="item.adjust"
-                          />
+                          <input type="number" class="form-control inputFillSize" v-model.number="item.adjust" />
                         </td>
                         <td>
                           {{ getMrcCalculation(item, index).toFixed(2) }}
@@ -133,11 +95,7 @@
 
                         </td>
                         <td>
-                          <input
-                            type="text"
-                            class="form-control inputFillSize"
-                            v-model="item.remarks"
-                          />
+                          <input type="text" class="form-control inputFillSize" v-model="item.remarks" />
                         </td>
                       </tr>
                     </tbody>
@@ -200,7 +158,7 @@ export default {
   },
 
   methods: {
-    getMrcCalculation(item, index){
+    getMrcCalculation(item, index) {
       let result = 0;
       this.adjustAry[index] = item.adjust;
       this.addOrSubAry[index] = item.add_sub;
@@ -209,9 +167,9 @@ export default {
       this.bill_id[index] = item.bill_id;
       this.remarks[index] = item.remarks;
 
-      if(item.add_sub == 1){
+      if (item.add_sub == 1) {
         result = +item.mbc + +item.old_mrc_after_discount + +item.adjust;
-      }else{
+      } else {
         result = (+item.mbc + +item.old_mrc_after_discount) - +item.adjust;
       }
       // console.log(item, index)
@@ -219,14 +177,14 @@ export default {
       return result;
     },
 
-    getVatAmount(item, index){
+    getVatAmount(item, index) {
       let totalMrc = 0;
       totalMrc = this.getMrcCalculation(item, index);
-      return this.vatAry[index] = totalMrc/100*5;
+      return this.vatAry[index] = totalMrc / 100 * 5;
 
     },
-    getNatTotal(item, index){
-     return this.netAmountAry[index] = this.getMrcCalculation(item, index)+this.getVatAmount(item, index);
+    getNatTotal(item, index) {
+      return this.netAmountAry[index] = this.getMrcCalculation(item, index) + this.getVatAmount(item, index);
 
     },
 
@@ -237,7 +195,7 @@ export default {
           this.loading = false;
           this.demandNoteList = res.data.data;
         })
-        .catch(() => {});
+        .catch(() => { });
     },
 
     onSubmit() {
@@ -293,6 +251,7 @@ table {
 tbody tr td {
   width: auto;
 }
+
 .inputFillSize {
   width: 100%;
 }
@@ -300,6 +259,7 @@ tbody tr td {
 .dateFillSize {
   width: 70px;
 }
+
 .mrcAndDiscount {
   width: 95px;
 }

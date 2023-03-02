@@ -31,7 +31,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('DD-MM-YYYY');
+        return moment__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).format('DD-MMM-YYYY');
       }
     },
     getCustomerWiseCircuit: function getCustomerWiseCircuit() {
@@ -227,7 +227,39 @@ var render = function render() {
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("SL")]), _vm._v(" "), _c("th", [_vm._v(" Circuit Capacity")]), _vm._v(" "), _c("th", [_vm._v(" Cable")]), _vm._v(" "), _c("th", [_vm._v(" Designation")]), _vm._v(" "), _c("th", [_vm._v("Activation Date")]), _vm._v(" "), _c("th", [_vm._v("Deactivation Date")]), _vm._v(" "), _c("th", [_vm._v("Date")]), _vm._v(" "), _c("th", [_vm._v("Status")]), _vm._v(" "), _c("th", [_vm._v("Actions")])])]);
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("SL")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v(" Circuit Capacity")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v(" Cable")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v(" Designation")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Activation Date")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Deactivation Date")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Date")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Status")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Actions")])])]);
 }];
 render._withStripped = true;
 

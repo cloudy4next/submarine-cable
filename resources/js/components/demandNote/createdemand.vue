@@ -24,7 +24,7 @@
         </div>
         <div class="card-body" v-if="visibleForm">
           <ValidationObserver v-slot="{ handleSubmit }">
-            <form @submit.prevent="handleSubmit(onSubmit)">
+            <form @submit.prevent="handleSubmit(onSubmit)" ref="form">
               <div class="row">
 
                 <div class="col-md-4">
@@ -294,7 +294,18 @@
                     </div>
                   </ValidationProvider>
                 </div>
-
+                <div class="col-md-4">
+                  <ValidationProvider name="Security Deposit" v-slot="{ errors }">
+                    <div class="form-group">
+                      <label for="sub">Security Deposit</label>
+                      <input type="number" min="0" v-model="demand.deposit" class="form-control" id="deposit"
+                        placeholder="Enter security deposit" />
+                      <span class="invalid-feedback d-block">{{
+                        errors[0]
+                      }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
 
                 <div class="col-md-4">
                   <ValidationProvider name="byCalculate" rules="required" v-slot="{ errors }">
@@ -334,19 +345,6 @@
                       placeholder="Enter" />
                   </div>
                 </div>
-
-                <div class="col-md-4">
-                  <ValidationProvider name="Security Deposit" v-slot="{ errors }">
-                    <div class="form-group">
-                      <label for="sub">Security Deposit</label>
-                      <input type="number" min="0" v-model="demand.deposit" class="form-control" id="deposit"
-                        placeholder="Enter security deposit" />
-                      <span class="invalid-feedback d-block">{{
-                        errors[0]
-                      }}</span>
-                    </div>
-                  </ValidationProvider>
-                </div>
               </div>
               <div class="text-right">
                 <button type="submit" class="btn btn-primary float-left">
@@ -355,6 +353,11 @@
               </div>
             </form>
           </ValidationObserver>
+          <div class="text-left">
+            <button @click="resetForm" class="btn btn-warning float-right">
+              Clear all
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -435,6 +438,9 @@ export default {
   },
 
   methods: {
+    resetForm() {
+      this.$refs.form.reset();
+    },
     customerChange(e) {
       this.demand.customer_id = e.target.value;
       this.btnFide = true;

@@ -122,9 +122,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     rateAfterDiscount: function rateAfterDiscount(item, index) {
       if (item.discount != 0) {
-        return item.afterDiscount = (item.urate - item.urate / 100 * item.discount).toFixed(2);
+        return item.afterDiscount = parseFloat(item.urate - item.urate / 100 * item.discount).toFixed(2);
       } else {
-        return item.afterDiscount = item.urate.toFixed(2);
+        return item.afterDiscount = parseFloat(item.urate).toFixed(2);
       }
     },
     rateByDayWiseBill: function rateByDayWiseBill(item, index) {
@@ -429,13 +429,13 @@ var render = function render() {
               selected: "selected",
               disabled: ""
             }
-          }, [_vm._v("\n                                                            Select License\n                                                            ")]), _vm._v(" "), _vm._l(_vm.licenceList, function (val, index) {
+          }, [_vm._v("\n                                                            Select License\n                                                        ")]), _vm._v(" "), _vm._l(_vm.licenceList, function (val, index) {
             return _c("option", {
               key: index,
               domProps: {
                 value: val.id
               }
-            }, [_vm._v("\n                                                                " + _vm._s(val.cus_type_name) + "\n                                                            ")]);
+            }, [_vm._v("\n                                                            " + _vm._s(val.cus_type_name) + "\n                                                        ")]);
           })], 2)]), _vm._v(" "), _c("td", [_c("select", {
             directives: [{
               name: "model",
@@ -472,7 +472,7 @@ var render = function render() {
               domProps: {
                 value: item.id
               }
-            }, [_vm._v(_vm._s(item.group_name + "=" + item.subservice.sub_service_name))]) : _vm._e();
+            }, [_vm._v(_vm._s(item.group_name + "=" + item.subservice.sub_service_name) + "\n                                                        ")]) : _vm._e();
           })], 2)]), _vm._v(" "), _c("td", [_c("input", {
             directives: [{
               name: "model",
@@ -495,7 +495,7 @@ var render = function render() {
                 _vm.$set(item, "rate", $event.target.value);
               }
             }
-          })]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.rateMultiply(item)) + "\n                                               "), _c("input", {
+          })]), _vm._v(" "), _c("td", [_vm._v(" " + _vm._s(_vm.rateMultiply(item)) + "\n                                                    "), _c("input", {
             directives: [{
               name: "model",
               rawName: "v-model",
@@ -622,7 +622,7 @@ var render = function render() {
           }
         }, [_vm._v("SUBMIT")])])])])];
       }
-    }], null, false, 4046959516)
+    }], null, false, 1175314917)
   })], 1) : _vm._e(), _vm._v(" "), _vm.currentAdjustList.length > 0 ? _c("div", {
     staticClass: "card-body"
   }, [_c("table", {

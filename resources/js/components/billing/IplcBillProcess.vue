@@ -4,13 +4,10 @@
             <h4 class="modal-title mr-3" style="color: blue">
                 <b>Bill Processing (IPLC)</b>
             </h4>
-            <router-link
-                :to="{
-                    name: 'IplcBillingList',
-                    params: { id: this.$route.params.id },
-                }"
-                class="btn btn-success p-1 m-1"
-            >
+            <router-link :to="{
+                name: 'IplcBillingList',
+                params: { id: this.$route.params.id },
+            }" class="btn btn-success p-1 m-1">
                 <p class="pr-2 pb-1 mb-0">
                     <i class="fa fa-list-ul pl-2"> </i> Billing List
                 </p>
@@ -27,83 +24,44 @@
                         <form @submit.prevent="handleSubmit(onSubmit)">
                             <div class="row">
                                 <div class="col-md-2">
-                                    <ValidationProvider
-                                        name="Sub Services"
-                                        rules="required|min_value:1"
-                                        v-slot="{ errors }"
-                                    >
+                                    <ValidationProvider name="Sub Services" rules="required|min_value:1"
+                                        v-slot="{ errors }">
                                         <div class="form-group">
                                             <label>Submarine Cable</label>
-                                            <select
-                                                class="form-control"
-                                                style="width: 100%"
-                                                v-model="invoice.sub_service_id"
-                                            >
-                                                <option
-                                                    v-for="(
-                                                        item, index
-                                                    ) in subServiceList"
-                                                    :key="index"
-                                                    :value="item.id"
-                                                >
+                                            <select class="form-control" style="width: 100%"
+                                                v-model="invoice.sub_service_id">
+                                                <option v-for="(
+                                                                        item, index
+                                                                    ) in subServiceList" :key="index" :value="item.id">
                                                     {{ item.sub_service_name }}
                                                 </option>
-                                                <option
-                                                    value=""
-                                                    selected="selected"
-                                                    disabled
-                                                >
+                                                <option value="" selected="selected" disabled>
                                                     Select Submarine
                                                 </option>
                                             </select>
-                                            <span
-                                                class="invalid-feedback d-block"
-                                                >{{ errors[0] }}</span
-                                            >
+                                            <span class="invalid-feedback d-block">{{ errors[0] }}</span>
                                         </div>
                                     </ValidationProvider>
                                 </div>
 
                                 <!-- new License -->
                                 <div class="col-md-2">
-                                    <ValidationProvider
-                                        name="licence_id"
-                                        rules="required|min_value:1"
-                                        v-slot="{ errors }"
-                                    >
+                                    <ValidationProvider name="licence_id" rules="required|min_value:1" v-slot="{ errors }">
                                         <div class="form-group">
-                                            <label
-                                                >License
-                                                <span class="text-danger"
-                                                    >*</span
-                                                >
+                                            <label>License
+                                                <span class="text-danger">*</span>
                                             </label>
-                                            <select
-                                                class="form-control"
-                                                style="width: 100%"
-                                                v-model="invoice.licence_id"
-                                            >
-                                                <option
-                                                    value=""
-                                                    selected="selected"
-                                                    disabled
-                                                >
+                                            <select class="form-control" style="width: 100%" v-model="invoice.licence_id">
+                                                <option value="" selected="selected" disabled>
                                                     Select License
                                                 </option>
-                                                <option
-                                                    v-for="(
-                                                        item, index
-                                                    ) in licenceList"
-                                                    :key="index"
-                                                    :value="item.id"
-                                                >
+                                                <option v-for="(
+                                                                        item, index
+                                                                    ) in licenceList" :key="index" :value="item.id">
                                                     {{ item.cus_type_name }}
                                                 </option>
                                             </select>
-                                            <span
-                                                class="invalid-feedback d-block"
-                                                >{{ errors[0] }}</span
-                                            >
+                                            <span class="invalid-feedback d-block">{{ errors[0] }}</span>
                                         </div>
                                     </ValidationProvider>
                                 </div>
@@ -111,49 +69,27 @@
 
                                 <!-- Zone Name -->
                                 <div class="col-md-2">
-                                    <ValidationProvider
-                                        name="grp_or_zone_id"
-                                        rules="required|min_value:1"
-                                        v-slot="{ errors }"
-                                    >
+                                    <ValidationProvider name="grp_or_zone_id" rules="required|min_value:1"
+                                        v-slot="{ errors }">
                                         <div class="form-group">
-                                            <label
-                                                >Group/Zone<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                >
+                                            <label>Group/Zone<span class="text-danger">*</span>
                                             </label>
-                                            <select
-                                                class="form-control"
-                                                style="width: 100%"
-                                                v-model="invoice.grp_or_zone_id"
-                                            >
-                                                <option
-                                                    value=""
-                                                    selected="selected"
-                                                    disabled
-                                                >
+                                            <select class="form-control" style="width: 100%"
+                                                v-model="invoice.grp_or_zone_id">
+                                                <option value="" selected="selected" disabled>
                                                     Select Zone
                                                 </option>
-                                                <option
-                                                    v-for="(
-                                                        item, index
-                                                    ) in groupZoneList"
-                                                    :key="index"
-                                                    :value="item.id"
-                                                    v-if="
-                                                        item.sub_service_id ==
-                                                        invoice.sub_service_id
-                                                    "
-                                                >
+                                                <option v-for="(
+                                                                        item, index
+                                                                    ) in groupZoneList" :key="index" :value="item.id" v-if="
+                                                                        item.sub_service_id ==
+                                                                        invoice.sub_service_id
+                                                                    ">
                                                     {{ item.group_name }}
                                                     <!-- <input type="hidden" v-model=""> -->
                                                 </option>
                                             </select>
-                                            <span
-                                                class="invalid-feedback d-block"
-                                                >{{ errors[0] }}</span
-                                            >
+                                            <span class="invalid-feedback d-block">{{ errors[0] }}</span>
                                         </div>
                                     </ValidationProvider>
                                 </div>
@@ -161,28 +97,13 @@
 
                                 <!-- Customer Name -->
                                 <div class="col-md-2">
-                                    <ValidationProvider
-                                        name="customer_id"
-                                        rules="required"
-                                        v-slot="{ errors }"
-                                    >
+                                    <ValidationProvider name="customer_id" rules="required" v-slot="{ errors }">
                                         <div class="form-group">
                                             <label>
                                                 Customer
-                                                <span class="text-danger"
-                                                    >*</span
-                                                ></label
-                                            >
-                                            <select
-                                                class="form-control"
-                                                style="width: 100%"
-                                                v-model="invoice.customer_id"
-                                            >
-                                                <option
-                                                    value=""
-                                                    selected="selected"
-                                                    disabled
-                                                >
+                                                <span class="text-danger">*</span></label>
+                                            <select class="form-control" style="width: 100%" v-model="invoice.customer_id">
+                                                <option value="" selected="selected" disabled>
                                                     Select Customer
                                                 </option>
                                                 <option value="0">
@@ -201,10 +122,7 @@
                                                     }}
                                                 </option> -->
                                             </select>
-                                            <span
-                                                class="invalid-feedback d-block"
-                                                >{{ errors[0] }}</span
-                                            >
+                                            <span class="invalid-feedback d-block">{{ errors[0] }}</span>
                                         </div>
                                     </ValidationProvider>
                                 </div>
@@ -213,37 +131,24 @@
 
                                 <!-- Date Pecker -->
                                 <div class="col-md-2">
-                                    <ValidationProvider
-                                        name="billing_month"
-                                        rules="required"
-                                        v-slot="{ errors }"
-                                    >
+                                    <ValidationProvider name="billing_month" rules="required" v-slot="{ errors }">
                                         <div class="form-group">
                                             <label>
                                                 Billing Month
-                                                <span class="text-danger"
-                                                    >*</span
-                                                ></label
-                                            >
-                                            <input type="date" v-model="invoice.billing_month" class="form-control"/>
+                                                <span class="text-danger">*</span></label>
+                                            <input type="date" v-model="invoice.billing_month" class="form-control" />
 
-                                            <span
-                                                class="invalid-feedback d-block"
-                                                >{{ errors[0] }}</span
-                                            >
+                                            <span class="invalid-feedback d-block">{{ errors[0] }}</span>
                                         </div>
                                     </ValidationProvider>
                                 </div>
                                 <!-- end Date Pecker -->
 
                                 <div class="col-md-2" style="padding-top: 30px;">
-                                <button
-                                    type="button"
-                                    @click="showCustomerAndMrcInfo()"
-                                    class="btn btn-primary float-center"
-                                >
-                                    Generate
-                                </button>
+                                    <button type="button" @click="showCustomerAndMrcInfo()"
+                                        class="btn btn-primary float-center">
+                                        Generate
+                                    </button>
                                 </div>
 
                             </div>
@@ -260,175 +165,109 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table
-                                        class="table table-striped table-bordered table-hover w-100"
-                                        style="min-width: 100%"
-                                    >
+                                    <table class="table table-striped table-bordered table-hover w-100"
+                                        style="min-width: 100%">
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th scope="col">SL</th>
-                                                <th
-                                                    scope="col"
-                                                    title="Name of Clients"
-                                                >
+                                                <th scope="col" title="Name of Clients">
                                                     Name
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="Circuit Capacity"
-                                                >
+                                                <th scope="col" title="Circuit Capacity">
                                                     This C
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="Circuit Capacity"
-                                                >
+                                                <th scope="col" title="Circuit Capacity">
                                                     Circuit
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="Circuit Capacity"
-                                                >
+                                                <th scope="col" title="Circuit Capacity">
                                                     Tot C
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="Activation Date"
-                                                >
+                                                <th scope="col" title="Activation Date">
                                                     Date
                                                 </th>
                                                 <th scope="col" title="Rate">
                                                     Rate
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="Rate After Discount"
-                                                >
+                                                <th scope="col" title="Rate After Discount">
                                                     Rate After Discount
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="MRC For Wet Segment After slab and  days count BDT (TK)"
-                                                >
+                                                <th scope="col"
+                                                    title="MRC For Wet Segment After slab and  days count BDT (TK)">
                                                     MRC
                                                 </th>
                                                 <!-- <th scope="col" title="Discount">Discount</th> -->
                                                 <!-- <th scope="col" title="MRC For Wet Segment After slab and  days count BDT (TK)">MRC</th> -->
-                                                <th
-                                                    scope="col"
-                                                    title="Monthly Backhaul Charge After Discount BDT (TK)"
-                                                >
+                                                <th scope="col" title="Monthly Backhaul Charge After Discount BDT (TK)">
                                                     MBC
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="Adjust/Additional Discount"
-                                                >
+                                                <th scope="col" title="Adjust/Additional Discount">
                                                     Adjust
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="Add Or Subtract"
-                                                >
+                                                <th scope="col" title="Add Or Subtract">
                                                     Add/Sub
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="Monthly rental MRC+MBC + Adjust"
-                                                >
+                                                <th scope="col" title="Monthly rental MRC+MBC + Adjust">
                                                     MRC + MBC + Adjust
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="5% VAT on MRC for Wet Segment"
-                                                >
+                                                <th scope="col" title="5% VAT on MRC for Wet Segment">
                                                     5% VAT
                                                 </th>
                                                 <!-- <th scope="col" title="5% VAT on MBC">5% Vat.MBC</th> -->
                                                 <!-- <th scope="col" title="Total  VAT on MRC for Wet Segment & MBC">Total VAT</th> -->
-                                                <th
-                                                    scope="col"
-                                                    title="(MRC+MBC) + Total VAT on MRC for Wet Segment & MBC"
-                                                >
+                                                <th scope="col" title="(MRC+MBC) + Total VAT on MRC for Wet Segment & MBC">
                                                     Net Bill
                                                 </th>
-                                                <th
-                                                    scope="col"
-                                                    title="De-activation or Others"
-                                                >
+                                                <th scope="col" title="De-activation or Others">
                                                     Remarks
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr
-                                                v-for="(
-                                                    item, index
-                                                ) in demandNoteList"
-                                                :key="index"
-                                            >
+                                            <tr v-for="(
+                                                                    item, index
+                                                                ) in demandNoteList" :key="index">
                                                 <td scope="row">{{ index }}</td>
                                                 <td>
-                                                    <input
-                                                        type="hidden"
-                                                        :id="
-                                                            index + '_customer'
-                                                        "
-                                                        :value="
-                                                            item.customer_id
-                                                        "
-                                                    />{{ item.customer_name }}
+                                                    <input type="hidden" :id="
+                                                        index + '_customer'
+                                                    " :value="
+    item.customer_id
+" />{{ item.customer_name }}
                                                 </td>
 
                                                 <td class="dateFillSize">
-                                                    <span
-                                                        v-for="(
-                                                            circuit, cIndex
-                                                        ) in item.CablAndGroupWiseCircuits"
-                                                        :key="cIndex"
-                                                        class="badge badge-success dateFillSize"
-                                                        >{{
+                                                    <span v-for="(
+                                                                            circuit, cIndex
+                                                                        ) in item.CablAndGroupWiseCircuits" :key="cIndex"
+                                                        class="badge badge-success dateFillSize">{{
                                                             circuit.name
-                                                        }}</span
-                                                    >
+                                                        }}</span>
                                                 </td>
 
                                                 <td class="dateFillSize">
-                                                    <span
-                                                        v-for="(
-                                                            circuit, cIndex
-                                                        ) in item.cableWiseCircuits"
-                                                        :key="cIndex"
-                                                        class="badge badge-success dateFillSize"
-                                                        >{{
+                                                    <span v-for="(
+                                                                            circuit, cIndex
+                                                                        ) in item.cableWiseCircuits" :key="cIndex"
+                                                        class="badge badge-success dateFillSize">{{
                                                             circuit.name
-                                                        }}</span
-                                                    >
+                                                        }}</span>
                                                 </td>
 
                                                 <td class="dateFillSize">
-                                                    <span
-                                                        v-for="(
-                                                            circuit, cIndex
-                                                        ) in item.circuits"
-                                                        :key="cIndex"
-                                                        class="badge badge-success dateFillSize"
-                                                        >{{
+                                                    <span v-for="(
+                                                                            circuit, cIndex
+                                                                        ) in item.circuits" :key="cIndex"
+                                                        class="badge badge-success dateFillSize">{{
                                                             circuit.name
-                                                        }}</span
-                                                    >
+                                                        }}</span>
                                                 </td>
                                                 <td class="dateFillSize">
-                                                    <span
-                                                        v-for="(
-                                                            circuit, cIndex
-                                                        ) in item.cableWiseCircuits"
-                                                        :key="cIndex"
-                                                        class="badge badge-success dateFillSize"
-                                                        >{{
+                                                    <span v-for="(
+                                                                            circuit, cIndex
+                                                                        ) in item.cableWiseCircuits" :key="cIndex"
+                                                        class="badge badge-success dateFillSize">{{
                                                             circuit.approved_date
-                                                        }}</span
-                                                    >
+                                                        }}</span>
                                                 </td>
 
                                                 <td class="dateFillSize">
@@ -448,11 +287,8 @@
                                                         ).toFixed(2)
                                                     }} -->
 
-                                                     <input
-                                                        type="text"
-                                                        class="form-control inputFillSize"
-                                                        v-model="item.discount"
-                                                    />
+                                                    <input type="text" class="form-control inputFillSize"
+                                                        v-model="item.discount" />
                                                 </td>
 
                                                 <td class="dateFillSize">
@@ -465,17 +301,11 @@
                                                 </td>
 
                                                 <td>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control inputFillSize"
-                                                        v-model="item.mbc"
-                                                    />
+                                                    <input type="text" class="form-control inputFillSize"
+                                                        v-model="item.mbc" />
                                                 </td>
                                                 <td>
-                                                    <select
-                                                        class="form-control inputFillSize"
-                                                        v-model="item.add_sub"
-                                                    >
+                                                    <select class="form-control inputFillSize" v-model="item.add_sub">
                                                         <option value="1">
                                                             Add
                                                         </option>
@@ -485,11 +315,8 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control inputFillSize"
-                                                        v-model="item.adjust"
-                                                    />
+                                                    <input type="text" class="form-control inputFillSize"
+                                                        v-model="item.adjust" />
                                                 </td>
                                                 <td>
                                                     {{
@@ -516,11 +343,8 @@
                                                     }}
                                                 </td>
                                                 <td>
-                                                    <input
-                                                        type="text"
-                                                        class="form-control inputFillSize"
-                                                        v-model="item.remarks"
-                                                    />
+                                                    <input type="text" class="form-control inputFillSize"
+                                                        v-model="item.remarks" />
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -529,10 +353,7 @@
                             </div>
 
                             <div class="text-center pb-5">
-                                <button
-                                    type="submit"
-                                    class="btn btn-success float-center"
-                                >
+                                <button type="submit" class="btn btn-success float-center">
                                     SUBMIT
                                 </button>
                             </div>
@@ -647,11 +468,11 @@ export default {
             return parseFloat(item.bill);
         },
         billInfoWith10Discount(item, index) {
-            return (this.billInfo(item, index) - (this.billInfo(item, index)/100*item.discount)).toFixed(2)
+            return (this.billInfo(item, index) - (this.billInfo(item, index) / 100 * item.discount)).toFixed(2)
         },
 
         mrcMbcAndAdjustCalculation(item, index) {
-            const mrcAndMbcCount = parseFloat(item.mbc) + parseFloat(this.billInfoWith10Discount(item, index) );
+            const mrcAndMbcCount = parseFloat(item.mbc) + parseFloat(this.billInfoWith10Discount(item, index));
             let mrc = 0;
 
             if (item.add_sub == 1) {
@@ -669,15 +490,15 @@ export default {
         },
 
         mrcMbcAdjustVatCalculation(item, index) {
-            const netAmount =parseFloat(this.mrcMbcAndAdjustCalculation(item, index)) + parseFloat(this.mrcMbcAdjustWiseVatCalculation(item, index));
+            const netAmount = parseFloat(this.mrcMbcAndAdjustCalculation(item, index)) + parseFloat(this.mrcMbcAdjustWiseVatCalculation(item, index));
 
             this.rateForMbcAry[index] = item.mbc;
             this.adjustAry[index] = item.adjust;
             this.addOrSubAry[index] = item.add_sub;
-            this.discountWiseOldMrcAry[index] = this.billInfoWith10Discount(item,index);
+            this.discountWiseOldMrcAry[index] = this.billInfoWith10Discount(item, index);
             this.OldMrcAry[index] = item.bill;
             this.mrcAry[index] = this.mrcMbcAndAdjustCalculation(item, index);
-            this.vatAry[index] = this.mrcMbcAdjustWiseVatCalculation(item,index);
+            this.vatAry[index] = this.mrcMbcAdjustWiseVatCalculation(item, index);
             this.allCustomer[index] = item.customer_id;
             this.netAmountAry[index] = netAmount;
             this.remarks[index] = item.remarks;
@@ -697,7 +518,7 @@ export default {
                     this.groupZoneList = "";
                     this.subServiceList = res.data.data;
                 })
-                .catch(() => {});
+                .catch(() => { });
         },
 
         getLicenceList(id) {
@@ -710,7 +531,7 @@ export default {
                     this.groupZoneList = "";
                     this.licenceList = res.data.data;
                 })
-                .catch(() => {});
+                .catch(() => { });
         },
         getzoneList(service_id, sub_service_id) {
             // this.loading = true;
@@ -724,7 +545,7 @@ export default {
                     this.groupZoneList = "";
                     this.groupZoneList = res.data.data;
                 })
-                .catch(() => {});
+                .catch(() => { });
         },
 
         getcustomerList(
@@ -745,7 +566,7 @@ export default {
                     this.loading = false;
                     this.customerList = res.data.data;
                 })
-                .catch(() => {});
+                .catch(() => { });
         },
 
         showCustomerAndMrcInfo() {
@@ -766,7 +587,7 @@ export default {
                     this.demandNoteList = res.data.data;
                     //    this.allCircuitList = res.data.allCircuit;
                 })
-                .catch(() => {});
+                .catch(() => { });
         },
 
         onSubmit() {
@@ -831,6 +652,7 @@ table {
 tbody tr td {
     width: auto;
 }
+
 .inputFillSize {
     width: 100%;
 }
@@ -838,6 +660,7 @@ tbody tr td {
 .dateFillSize {
     width: 70px;
 }
+
 .mrcAndDiscount {
     width: 95px;
 }

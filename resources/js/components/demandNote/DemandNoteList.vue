@@ -147,7 +147,7 @@
                       <th style="text-align:center">B.H Provider</th>
                       <th style="text-align:center">D.Note ID</th>
                       <th style="text-align:center">D.Note Issue Date</th>
-                      <th style="text-align:center">Circuit Id</th>
+                      <th style="text-align:center">Circuit Designation</th>
                       <th style="text-align:center">Circuit Activation Date</th>
                       <th style="text-align:center">Status</th>
                       <th style="text-align:center">Action</th>
@@ -171,7 +171,7 @@
                       <td style="text-align:center">{{ item.backhole_port }}</td>
                       <td style="text-align:center">{{ item.id }}</td>
                       <td style="text-align:center"> {{ moment(item.created_at).format("DD-MMM-YYYY") }}</td>
-                      <td style="text-align:center">{{ item.circuit.id }}</td>
+                      <td style="text-align:center">{{ item.circuit_designation }}</td>
                       <td style="text-align:center"> {{ moment(item.approved_date).format("DD-MMM-YYYY") }}</td>
                       <!-- <td>{{ item.max }}</td> -->
                       <!-- <td>{{ item.groups.group_name }}</td>

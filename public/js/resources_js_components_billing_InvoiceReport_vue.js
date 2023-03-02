@@ -226,11 +226,11 @@ var render = function render() {
       width: "50%",
       "padding-left": "20px"
     }
-  }, [_vm._v(" To\n                                                 "), _c("br"), _vm._v("Managing Director "), _c("br"), _vm._v("\n                                                     " + _vm._s(_vm.billInfo.company) + "\n                                                    "), _c("br"), _vm._v("\n                                                     " + _vm._s(_vm.billInfo.address) + "\n                                                    "), _c("br"), _vm._v(" BIN:  " + _vm._s(_vm.billInfo.bin) + "\n                                                ")]), _vm._v(" "), _c("td", {
+  }, [_vm._v(" To\n                                                    "), _c("br"), _vm._v("Managing Director "), _c("br"), _vm._v("\n                                                    " + _vm._s(_vm.billInfo.company) + "\n                                                    "), _c("br"), _vm._v("\n                                                    " + _vm._s(_vm.billInfo.address) + "\n                                                    "), _c("br"), _vm._v(" BIN: " + _vm._s(_vm.billInfo.bin) + "\n                                                ")]), _vm._v(" "), _c("td", {
     staticStyle: {
       border: "1px solid black"
     }
-  }, [_vm._v(" Invoice No.:\n                                                    BSCCL/BWP/IIG/BILL/SUMMIT/12-13/ "), _c("br"), _vm._v(" Issue Date:\n                                                     " + _vm._s(_vm.moment(_vm.billInfo.bill_process_date).format("Do.MMMM .YYYY")) + "\n                                                    "), _c("br"), _vm._v(" Issue Bill for the Month:\n                                                     " + _vm._s(_vm.moment(_vm.billInfo.billing_month).format("MMMM.YYYY")) + "\n                                                    "), _c("br"), _vm._v(" VAT Registration No.:  " + _vm._s(_vm.billInfo.bin) + "\n                                                ")])])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(" Invoice No.:\n                                                    BSCCL/BWP/IIG/BILL/SUMMIT/12-13/ "), _c("br"), _vm._v(" Issue Date:\n                                                    " + _vm._s(_vm.moment(_vm.billInfo.bill_process_date).format("Do.MMMM .YYYY")) + "\n                                                    "), _c("br"), _vm._v(" Issue Bill for the Month:\n                                                    " + _vm._s(_vm.moment(_vm.billInfo.billing_month).format("MMMM.YYYY")) + "\n                                                    "), _c("br"), _vm._v(" VAT Registration No.: " + _vm._s(_vm.billInfo.bin) + "\n                                                ")])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "card-body"
   }, [_c("div", {
     staticClass: "row"
@@ -250,18 +250,18 @@ var render = function render() {
   }, [_c("td", [_vm._v("1")]), _vm._v(" "), _c("td", _vm._l(_vm.billInfo.connectionInformation, function (circuit, i) {
     return _c("span", {
       key: i
-    }, [_vm._v("\n                                                   " + _vm._s(circuit.name) + " * " + _vm._s(circuit.qty) + "\n                                                  "), _c("br")]);
-  }), 0), _vm._v(" "), _c("td", [_vm._v("\n                                                   " + _vm._s(_vm.moment(_vm.billInfo.billing_month).format("DD.MM.YYYY") + " To " + _vm.moment(_vm.billInfo.billing_month).add(1, "M").format("DD.MM.YYYY")) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm.old_mrc(_vm.billInfo.cableWiseBill).toFixed(2)) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm.old_mrc_after_discount(_vm.billInfo.cableWiseBill).toFixed(2)) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm.old_mrc_after_discount(_vm.billInfo.cableWiseBill).toFixed(2)) + "\n                                                ")]), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm.mbcCalculate(_vm.billInfo.cableWiseBill).toFixed(2)) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                   " + _vm._s(_vm.mbcAndold_mrc_after_discount(_vm.billInfo.cableWiseBill).toFixed(2)) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                " + _vm._s(_vm.adjustCalculate(_vm.billInfo.cableWiseBill).toFixed(2)) + "\n\n                                                ")]), _vm._v(" "), _vm.billInfo.remarks != "none" || _vm.billInfo.remarks == "0" ? _c("td", [_vm._v("  " + _vm._s(_vm.billInfo.remarks) + " ")]) : _c("td")]), _vm._v(" "), _vm._l(_vm.billInfo.adjustData, function (adjust) {
-    return _vm.billInfo.adjustData.length >= 0 ? _c("tr", [_c("td"), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjust.circuit.circuit_name + " * " + adjust.this_group_circuit) + " "), _c("br"), _vm._v(" " + _vm._s(adjust.groups.group_name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.moment(adjust.sdate).format("DD.MM.YYYY")) + " To\n                                                   " + _vm._s(_vm.moment(adjust.edate).format("DD.MM.YYYY")))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjust.rate.toFixed(2)))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjust.rate_after_discount.toFixed(2)))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjust.amount.toFixed(2)))]), _vm._v(" "), _c("td", [_vm._v("N/A")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjust.amount.toFixed(2)))]), _vm._v(" "), _c("td"), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjust.remarks))])]) : _vm._e();
+    }, [_vm._v("\n                                                        " + _vm._s(circuit.name) + " * " + _vm._s(circuit.qty) + "\n                                                        "), _c("br")]);
+  }), 0), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm.moment(_vm.billInfo.billing_month).format("DD.MM.YYYY") + " To " + _vm.moment(_vm.billInfo.billing_month).add(1, "months").format("DD.MM.YYYY")) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm._f("comma")(_vm.old_mrc(_vm.billInfo.cableWiseBill).toFixed(2))) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm._f("comma")(_vm.old_mrc_after_discount(_vm.billInfo.cableWiseBill).toFixed(2))) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm._f("comma")(_vm.old_mrc_after_discount(_vm.billInfo.cableWiseBill).toFixed(2))) + "\n                                                ")]), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm._f("comma")(_vm.mbcCalculate(_vm.billInfo.cableWiseBill).toFixed(2))) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm._f("comma")(_vm.mbcAndold_mrc_after_discount(_vm.billInfo.cableWiseBill).toFixed(2))) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm._f("comma")(_vm.adjustCalculate(_vm.billInfo.cableWiseBill).toFixed(2))) + "\n\n                                                ")]), _vm._v(" "), _vm.billInfo.remarks != "none" || _vm.billInfo.remarks == "0" ? _c("td", [_vm._v("\n                                                    " + _vm._s(_vm.billInfo.remarks) + " ")]) : _c("td")]), _vm._v(" "), _vm._l(_vm.billInfo.adjustData, function (adjust) {
+    return _vm.billInfo.adjustData.length >= 0 ? _c("tr", [_c("td"), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjust.circuit.circuit_name + " * " + adjust.this_group_circuit) + "\n                                                    "), _c("br"), _vm._v(" " + _vm._s(adjust.groups.group_name) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.moment(adjust.sdate).format("DD.MM.YYYY")) + " To\n                                                    " + _vm._s(_vm.moment(adjust.edate).format("DD.MM.YYYY")))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm._f("comma")(adjust.rate.toFixed(2))))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm._f("comma")(adjust.rate_after_discount.toFixed(2))))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm._f("comma")(adjust.amount.toFixed(2))))]), _vm._v(" "), _c("td", [_vm._v("N/A")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm._f("comma")(adjust.amount.toFixed(2))))]), _vm._v(" "), _c("td"), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjust.remarks))])]) : _vm._e();
   }), _vm._v(" "), _c("tr", {}, [_vm._m(3), _vm._v(" "), _c("td", {
     attrs: {
       colspan: "8"
     }
-  }, [_vm._v(_vm._s(_vm.mrcForRunningBillAndAdjustableBill(_vm.billInfo.cableWiseBill, _vm.billInfo.adjustData).toFixed(2)))])]), _vm._v(" "), _vm.billInfo.existingDemandNote > 0 ? _c("tr", [_vm._m(4), _vm._v(" "), _c("td", {
+  }, [_vm._v("\n                                                    " + _vm._s(_vm._f("comma")(_vm.mrcForRunningBillAndAdjustableBill(_vm.billInfo.cableWiseBill, _vm.billInfo.adjustData).toFixed(2))))])]), _vm._v(" "), _vm.billInfo.existingDemandNote > 0 ? _c("tr", [_vm._m(4), _vm._v(" "), _c("td", {
     attrs: {
       colspan: "8"
     }
-  }, [_vm._v(_vm._s(_vm.billInfo.existingDemandNote.toFixed(2)))])]) : _vm._e(), _vm._v(" "), _vm.billInfo.adjustData.length > 0 ? _c("tr", [_c("td", {
+  }, [_vm._v(_vm._s(_vm._f("comma")(_vm.billInfo.existingDemandNote.toFixed(2))) + "\n                                                ")])]) : _vm._e(), _vm._v(" "), _vm.billInfo.adjustData.length > 0 ? _c("tr", [_c("td", {
     staticStyle: {
       "text-align": "right"
     },
@@ -270,19 +270,19 @@ var render = function render() {
     }
   }, [_c("strong", {
     staticClass: "text-center"
-  }, [_vm._v("Adjustment. Of Bill " + _vm._s(_vm.billInfo.adjustData[0].adjust_month_name) + " ")])]), _vm._v(" "), _c("td", {
+  }, [_vm._v("Adjustment. Of Bill\n                                                        " + _vm._s(_vm.billInfo.adjustData[0].adjust_month_name) + " ")])]), _vm._v(" "), _c("td", {
     attrs: {
       colspan: "8"
     }
-  }, [_vm._v(" " + _vm._s(_vm.adjustNetTotalCaculation(_vm.billInfo.oldMonthNetTotal).toFixed(2)) + " ")])]) : _vm._e(), _vm._v(" "), _c("tr", [_vm._m(5), _vm._v(" "), _c("td", {
+  }, [_vm._v("\n                                                    " + _vm._s(_vm._f("comma")(_vm.adjustNetTotalCaculation(_vm.billInfo.oldMonthNetTotal).toFixed(2))) + "\n                                                ")])]) : _vm._e(), _vm._v(" "), _c("tr", [_vm._m(5), _vm._v(" "), _c("td", {
     attrs: {
       colspan: "8"
     }
-  }, [_vm._v(_vm._s(_vm.subAdjustMontBillAndDemondnote(_vm.billInfo.existingDemandNote, _vm.billInfo.oldMonthNetTotal, _vm.billInfo.cableWiseBill, _vm.billInfo.adjustData).toFixed(2)))])]), _vm._v(" "), _c("tr", [_vm._m(6), _vm._v(" "), _c("td", {
+  }, [_vm._v("\n                                                    " + _vm._s(_vm._f("comma")(_vm.subAdjustMontBillAndDemondnote(_vm.billInfo.existingDemandNote, _vm.billInfo.oldMonthNetTotal, _vm.billInfo.cableWiseBill, _vm.billInfo.adjustData).toFixed(2))))])]), _vm._v(" "), _c("tr", [_vm._m(6), _vm._v(" "), _c("td", {
     attrs: {
       colspan: ""
     }
-  }, [_vm._v(_vm._s(_vm.vatSubAndAdjustWise().toFixed(2)))]), _vm._v(" "), _c("td", {
+  }, [_vm._v(_vm._s(_vm._f("comma")(_vm.vatSubAndAdjustWise().toFixed(2))))]), _vm._v(" "), _c("td", {
     attrs: {
       colspan: ""
     }
@@ -290,17 +290,17 @@ var render = function render() {
     attrs: {
       colspan: "8"
     }
-  }, [_vm._v(_vm._s(_vm.netTotalinAllCalculate().toFixed(2)))])]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)], 2), _vm._v(" "), _c("tfoot", [_vm.netTotalinAllCalculate() > 0 ? _c("tr", [_c("td", {
+  }, [_vm._v(_vm._s(_vm._f("comma")(_vm.netTotalinAllCalculate().toFixed(2))))])]), _vm._v(" "), _vm._m(8), _vm._v(" "), _vm._m(9)], 2), _vm._v(" "), _c("tfoot", [_vm.netTotalinAllCalculate() > 0 ? _c("tr", [_c("td", {
     staticClass: "text-center",
     attrs: {
       colspan: "11"
     }
-  }, [_vm._v(" In words (BDT Taka) :\n                                                 " + _vm._s(_vm._f("toWords")(_vm.netTotalinAllCalculate())) + " . ")])]) : _vm._e(), _vm._v(" "), _c("tr", [_c("td", {
+  }, [_vm._v(" In words (BDT Taka) :\n                                                    " + _vm._s(_vm._f("toWords")(_vm.netTotalinAllCalculate())) + " . ")])]) : _vm._e(), _vm._v(" "), _c("tr", [_c("td", {
     staticClass: "text-center",
     attrs: {
       colspan: "11"
     }
-  }, [_c("strong", [_vm._v(" In respect of the bill, please issue payorder for Tk.\n                                                      " + _vm._s(_vm.netTotalinAllCalculate().toFixed(2)) + " in favour of “Bangladesh Submarine Cable\n                                                        Company Limited”.")])])])])])])])])])]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12)])])])]);
+  }, [_c("strong", [_vm._v(" In respect of the bill, please issue payorder for Tk.\n                                                        " + _vm._s(_vm._f("comma")(_vm.netTotalinAllCalculate().toFixed(2))) + " in favour of\n                                                        “Bangladesh Submarine Cable\n                                                        Company Limited”.")])])])])])])])])])]), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12)])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -526,7 +526,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.tableStyle {\n    margin: 0 auto;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.tableStyle {\n    margin: 0 auto;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

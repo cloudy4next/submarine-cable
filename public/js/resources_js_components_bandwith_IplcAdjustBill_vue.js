@@ -27,6 +27,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      finddata: {},
       loading: false,
       visibleForm: false,
       invoiceId: '',
@@ -34,6 +35,7 @@ __webpack_require__.r(__webpack_exports__);
       currentAdjustList: [],
       listData: [],
       circuitList: [],
+      companyDetail: '',
       adjustList: [{
         sdate: '',
         edate: '',
@@ -59,15 +61,26 @@ __webpack_require__.r(__webpack_exports__);
     this.visibleForm = true;
     this.moment = (moment__WEBPACK_IMPORTED_MODULE_0___default());
     this.invoiceId = this.$route.params.id;
-    // alert(this.invoiceId);
+    this.getCompanyDetails(this.$route.params.id);
+
+    // alert(this.$route.params.id);
     this.getlandingGroupList();
     this.getCurrentAdjustList(this.$route.params.id);
     this.getCircuit();
   },
   watch: {},
   methods: {
-    getMrc: function getMrc(item) {
+    getCompanyDetails: function getCompanyDetails(id) {
       var _this = this;
+      this.loading = true;
+      axios.get("/company-name/" + id).then(function (response) {
+        _this.loading = false;
+        _this.finddata = response.data.data;
+        // alert(response.data.data);
+      });
+    },
+    getMrc: function getMrc(item) {
+      var _this2 = this;
       this.loading = true;
       axios.post("/customer/wise/mrc/for/bill/adjustment", {
         circuitId: item.circuit_id,
@@ -75,9 +88,9 @@ __webpack_require__.r(__webpack_exports__);
         groupId: item.group_id,
         stationCircuit: item.this_group_circuit
       }).then(function (res) {
-        _this.loading = false;
-        _this.mrcRate = res.data.data;
-        item.rate = parseInt(_this.mrcRate);
+        _this2.loading = false;
+        _this2.mrcRate = res.data.data;
+        item.rate = parseInt(_this2.mrcRate);
       });
     },
     startDate: function startDate(item, index) {
@@ -117,25 +130,25 @@ __webpack_require__.r(__webpack_exports__);
       this.adjustList.splice(index, 1);
     },
     getlandingGroupList: function getlandingGroupList() {
-      var _this2 = this;
+      var _this3 = this;
       this.loading = true;
       axios.get("/get-landing-group").then(function (response) {
-        _this2.loading = false;
-        _this2.listData = response.data.data;
+        _this3.loading = false;
+        _this3.listData = response.data.data;
       });
     },
     getCurrentAdjustList: function getCurrentAdjustList(id) {
-      var _this3 = this;
+      var _this4 = this;
       axios.get("/get/customer/invoice-id/wise/bill/adjustment/" + id).then(function (response) {
-        _this3.loading = false;
-        _this3.currentAdjustList = response.data.data;
+        _this4.loading = false;
+        _this4.currentAdjustList = response.data.data;
       });
     },
     deleteAdjustItem: function deleteAdjustItem(id) {
-      var _this4 = this;
+      var _this5 = this;
       axios.get("/delete/iplc/bill/adjustment/" + id).then(function (response) {
-        _this4.loading = false;
-        _this4.getCurrentAdjustList(_this4.$route.params.id);
+        _this5.loading = false;
+        _this5.getCurrentAdjustList(_this5.$route.params.id);
         Toast.fire({
           icon: "success",
           title: "Adjustment Delete Successfully."
@@ -143,26 +156,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getCircuit: function getCircuit() {
-      var _this5 = this;
+      var _this6 = this;
       axios.get("/get-circuit-list").then(function (response) {
-        _this5.loading = false;
-        _this5.circuitList = response.data.data;
+        _this6.loading = false;
+        _this6.circuitList = response.data.data;
       });
     },
     onSubmit: function onSubmit() {
-      var _this6 = this;
+      var _this7 = this;
       axios.post("/customer/invoice-id/wise/bill/adjustment", {
         invoiceId: this.invoiceId,
         adjustList: this.adjustList,
         date: this.date
       }).then(function (res) {
-        _this6.loading = false;
+        _this7.loading = false;
         Toast.fire({
           icon: "success",
           title: "Successfull Adjust Customer Day wies Bill"
         });
-        _this6.getCurrentAdjustList(_this6.$route.params.id);
-        _this6.adjustList = [{
+        _this7.getCurrentAdjustList(_this7.$route.params.id);
+        _this7.adjustList = [{
           sdate: '',
           edate: '',
           amount: '',
@@ -171,7 +184,7 @@ __webpack_require__.r(__webpack_exports__);
           add_sub: '',
           diffDays: null
         }];
-        _this6.date = {
+        _this7.date = {
           sdate: null,
           edate: null,
           from: null,
@@ -182,7 +195,7 @@ __webpack_require__.r(__webpack_exports__);
           days: null
         };
       })["catch"](function () {
-        _this6.loading = false;
+        _this7.loading = false;
         Swal.fire({
           icon: "warning",
           title: "Opps Please try again !"
@@ -217,7 +230,15 @@ var render = function render() {
     staticClass: "container-fluid"
   }, [_c("div", {
     staticClass: "row mb-2"
-  }, [_vm._m(0), _vm._v(" "), _c("div", {
+  }, [_c("div", {
+    staticClass: "col-sm-6"
+  }, [_c("h6", {
+    staticClass: "pl-3"
+  }, [_c("strong", [_vm._v(" Bill Adjustment Form"), _c("br"), _vm._v(" "), _c("span", [_vm._v("Company Name:")]), _vm._v(" "), _c("span", {
+    staticClass: "text-red"
+  }, [_vm._v(_vm._s(_vm.finddata.com_name))]), _vm._v(" "), _c("br"), _vm._v("\n                            Billing\n                            Month: "), _c("span", {
+    staticClass: "text-red"
+  }, [_vm._v(_vm._s(_vm.finddata.billing_month))])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-md-6 text-right"
   }, [_c("router-link", {
     staticClass: "btn btn-success p-1 m-1",
@@ -427,13 +448,13 @@ var render = function render() {
               selected: "selected",
               disabled: ""
             }
-          }, [_vm._v("\n                                                            Select Circuit\n                                                            ")]), _vm._v(" "), _vm._l(_vm.circuitList, function (val, index) {
+          }, [_vm._v("\n                                                            Select Circuit\n                                                        ")]), _vm._v(" "), _vm._l(_vm.circuitList, function (val, index) {
             return _c("option", {
               key: index,
               domProps: {
                 value: val.id
               }
-            }, [_vm._v("\n                                                            " + _vm._s(val.circuit_name) + "\n                                                            ")]);
+            }, [_vm._v("\n                                                            " + _vm._s(val.circuit_name) + "\n                                                        ")]);
           })], 2)]), _vm._v(" "), _c("td", [_c("select", {
             directives: [{
               name: "model",
@@ -470,7 +491,7 @@ var render = function render() {
               domProps: {
                 value: item.id
               }
-            }, [_vm._v(_vm._s(item.group_name + "=" + item.subservice.sub_service_name))]) : _vm._e();
+            }, [_vm._v(_vm._s(item.group_name + "=" + item.subservice.sub_service_name) + "\n                                                        ")]) : _vm._e();
           })], 2)]), _vm._v(" "), _c("td", [_c("input", {
             directives: [{
               name: "model",
@@ -598,12 +619,12 @@ var render = function render() {
           }
         }, [_vm._v("SUBMIT")])])])])];
       }
-    }], null, false, 4025201649)
+    }], null, false, 755689320)
   })], 1) : _vm._e(), _vm._v(" "), _vm.currentAdjustList.length > 0 ? _c("div", {
     staticClass: "card-body"
   }, [_c("table", {
     staticClass: "table table-bordered table-striped"
-  }, [_vm._m(1), _vm._v(" "), _c("tbody", _vm._l(_vm.currentAdjustList, function (adjustItem, i) {
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.currentAdjustList, function (adjustItem, i) {
     return _c("tr", {
       key: i
     }, [_c("td", [_vm._v(_vm._s(i + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.moment(adjustItem.sdate).format("DD/MMM/YYYY")))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.moment(adjustItem.edate).format("DD/MMM/YYYY")))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.dif_days))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.tot_circuit))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.this_group_circuit))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.circuit.circuit_name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.groups.group_name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.rate))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.discount))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.rate_after_discount))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.add_sub))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.amount))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(adjustItem.remarks))]), _vm._v(" "), _c("td", [_c("button", {
@@ -626,18 +647,6 @@ var render = function render() {
   }), 0)])]) : _vm._e()])])])])])]);
 };
 var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "col-sm-6"
-  }, [_c("h6", {
-    staticClass: "pl-3"
-  }, [_c("strong", {
-    staticClass: "text-blue"
-  }, [_vm._v(" Bill Adjustment Form"), _c("br"), _vm._v(" "), _c("span", {
-    staticClass: "text-red"
-  }, [_vm._v("Company Name: ")]), _vm._v(" "), _c("br"), _vm._v(" Billing Month:")])])]);
-}, function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("thead", [_c("tr", [_c("th", [_vm._v("SL")]), _vm._v(" "), _c("th", {

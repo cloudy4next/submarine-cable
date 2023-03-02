@@ -99,7 +99,7 @@ class ServiceController extends Controller
 
         if($existingDemandNote != null){
             $oldMax = (new DemandNoteController)->existingData($customerId, $circuitId);
-            $max = round($max + $oldMax);  // New Demand note + Existing Demand note
+            $max =$max + $oldMax;  // New Demand note + Existing Demand note
         }
         if($circuitId == 5){ // 5 == STM 16
                 if($max >0 && $max <= 30){
