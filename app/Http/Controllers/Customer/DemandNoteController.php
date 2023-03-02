@@ -876,6 +876,7 @@ class DemandNoteController extends Controller
 
     public function getServiceSubServiceGroupZoneCustomerWiseDemandNoteInfo($request)
     {
+        // dd($request->customer_id);
         if ($request->customer_id != 0)
         {
             $data = DemandNote::where('service_id', $request->service_id)
@@ -895,6 +896,7 @@ class DemandNoteController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
         }
+        // dd($data);
         return DemandNoteResource::collection($data);
     }
 
@@ -922,8 +924,8 @@ class DemandNoteController extends Controller
 
     public function getServiceSubServiceGroupZoneCustomerWiseDemandNote(Request $request)
     {
-
         $data = $this->getServiceSubServiceGroupZoneCustomerWiseDemandNoteInfo($request);
+        // dd( $data);
 
         // $data = $data->groupBy('customer_id');
         $formatedData = [];
