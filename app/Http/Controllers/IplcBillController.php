@@ -610,7 +610,7 @@ class IplcBillController extends Controller
 
         $data = IplcBillDetails::with('customers','iplcbill.subservice','iplcbill.custype','iplcbill.services','iplcbill.groups')
                 ->where('bill_id',$request->id)->orderBy('id','DESC')->get();
-
+        // dd($data);
         return response([
             'msg' => 'success',
             'data' =>$data,
@@ -759,12 +759,12 @@ class IplcBillController extends Controller
 
     public function getIplcAdjustList($id){
         $data = BillAdjustment::with('customers','circuit','groups')->where('invoice_id',$id)->orderBy('id','ASC')->get();
+        // dd($data);
         return response([
         'msg' => 'Success',
         'data' =>$data,
         ], 200);
     }
-
 
     public function deleteIplcAdjust($id){
         $data = BillAdjustment::where('id',$id)->delete();

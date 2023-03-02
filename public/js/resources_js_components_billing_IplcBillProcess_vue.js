@@ -273,7 +273,7 @@ var render = function render() {
     staticClass: "pr-2 pb-1 mb-0"
   }, [_c("i", {
     staticClass: "fa fa-list-ul pl-2"
-  }), _vm._v(" Billing List\n            ")])])], 1), _vm._v(" "), _c("div", {
+  }), _vm._v(" Billing List\n                ")])])], 1), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
   }, [_c("div", {
     staticClass: "card card-primary"
@@ -338,14 +338,14 @@ var render = function render() {
                   domProps: {
                     value: item.id
                   }
-                }, [_vm._v("\n                                                " + _vm._s(item.sub_service_name) + "\n                                            ")]);
+                }, [_vm._v("\n                                                    " + _vm._s(item.sub_service_name) + "\n                                                ")]);
               }), _vm._v(" "), _c("option", {
                 attrs: {
                   value: "",
                   selected: "selected",
                   disabled: ""
                 }
-              }, [_vm._v("\n                                                Select Submarine\n                                            ")])], 2), _vm._v(" "), _c("span", {
+              }, [_vm._v("\n                                                    Select Submarine\n                                                ")])], 2), _vm._v(" "), _c("span", {
                 staticClass: "invalid-feedback d-block"
               }, [_vm._v(_vm._s(errors[0]))])])];
             }
@@ -363,7 +363,7 @@ var render = function render() {
               var errors = _ref3.errors;
               return [_c("div", {
                 staticClass: "form-group"
-              }, [_c("label", [_vm._v("License\n                                            "), _c("span", {
+              }, [_c("label", [_vm._v("License\n                                                "), _c("span", {
                 staticClass: "text-danger"
               }, [_vm._v("*")])]), _vm._v(" "), _c("select", {
                 directives: [{
@@ -393,13 +393,13 @@ var render = function render() {
                   selected: "selected",
                   disabled: ""
                 }
-              }, [_vm._v("\n                                                Select License\n                                            ")]), _vm._v(" "), _vm._l(_vm.licenceList, function (item, index) {
+              }, [_vm._v("\n                                                    Select License\n                                                ")]), _vm._v(" "), _vm._l(_vm.licenceList, function (item, index) {
                 return _c("option", {
                   key: index,
                   domProps: {
                     value: item.id
                   }
-                }, [_vm._v("\n                                                " + _vm._s(item.cus_type_name) + "\n                                            ")]);
+                }, [_vm._v("\n                                                    " + _vm._s(item.cus_type_name) + "\n                                                ")]);
               })], 2), _vm._v(" "), _c("span", {
                 staticClass: "invalid-feedback d-block"
               }, [_vm._v(_vm._s(errors[0]))])])];
@@ -448,13 +448,13 @@ var render = function render() {
                   selected: "selected",
                   disabled: ""
                 }
-              }, [_vm._v("\n                                                Select Zone\n                                            ")]), _vm._v(" "), _vm._l(_vm.groupZoneList, function (item, index) {
+              }, [_vm._v("\n                                                    Select Zone\n                                                ")]), _vm._v(" "), _vm._l(_vm.groupZoneList, function (item, index) {
                 return item.sub_service_id == _vm.invoice.sub_service_id ? _c("option", {
                   key: index,
                   domProps: {
                     value: item.id
                   }
-                }, [_vm._v("\n                                                " + _vm._s(item.group_name) + "\n                                                ")]) : _vm._e();
+                }, [_vm._v("\n                                                    " + _vm._s(item.group_name) + "\n                                                    ")]) : _vm._e();
               })], 2), _vm._v(" "), _c("span", {
                 staticClass: "invalid-feedback d-block"
               }, [_vm._v(_vm._s(errors[0]))])])];
@@ -473,7 +473,7 @@ var render = function render() {
               var errors = _ref5.errors;
               return [_c("div", {
                 staticClass: "form-group"
-              }, [_c("label", [_vm._v("\n                                            Customer\n                                            "), _c("span", {
+              }, [_c("label", [_vm._v("\n                                                Customer\n                                                "), _c("span", {
                 staticClass: "text-danger"
               }, [_vm._v("*")])]), _vm._v(" "), _c("select", {
                 directives: [{
@@ -503,11 +503,11 @@ var render = function render() {
                   selected: "selected",
                   disabled: ""
                 }
-              }, [_vm._v("\n                                                Select Customer\n                                            ")]), _vm._v(" "), _c("option", {
+              }, [_vm._v("\n                                                    Select Customer\n                                                ")]), _vm._v(" "), _c("option", {
                 attrs: {
                   value: "0"
                 }
-              }, [_vm._v("\n                                                All Customer\n                                            ")])]), _vm._v(" "), _c("span", {
+              }, [_vm._v("\n                                                    All Customer\n                                                ")])]), _vm._v(" "), _c("span", {
                 staticClass: "invalid-feedback d-block"
               }, [_vm._v(_vm._s(errors[0]))])])];
             }
@@ -525,7 +525,7 @@ var render = function render() {
               var errors = _ref6.errors;
               return [_c("div", {
                 staticClass: "form-group"
-              }, [_c("label", [_vm._v("\n                                            Billing Month\n                                            "), _c("span", {
+              }, [_c("label", [_vm._v("\n                                                Billing Month\n                                                "), _c("span", {
                 staticClass: "text-danger"
               }, [_vm._v("*")])]), _vm._v(" "), _c("input", {
                 directives: [{
@@ -567,7 +567,7 @@ var render = function render() {
               return _vm.showCustomerAndMrcInfo();
             }
           }
-        }, [_vm._v("\n                                Generate\n                            ")])])]), _vm._v(" "), _c("div", {
+        }, [_vm._v("\n                                        Generate\n                                    ")])])]), _vm._v(" "), _c("div", {
           staticClass: "row"
         }, [_c("div", {
           staticClass: "col-md-12"
@@ -587,77 +587,77 @@ var render = function render() {
             scope: "col",
             title: "Name of Clients"
           }
-        }, [_vm._v("\n                                                Name\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    Name\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "Circuit Capacity"
           }
-        }, [_vm._v("\n                                                This C\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    This C\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "Circuit Capacity"
           }
-        }, [_vm._v("\n                                                Circuit\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    Circuit\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "Circuit Capacity"
           }
-        }, [_vm._v("\n                                                Tot C\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    Tot C\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "Activation Date"
           }
-        }, [_vm._v("\n                                                Date\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    Date\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "Rate"
           }
-        }, [_vm._v("\n                                                Rate\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    Rate\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "Rate After Discount"
           }
-        }, [_vm._v("\n                                                Rate After Discount\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    Rate After Discount\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "MRC For Wet Segment After slab and  days count BDT (TK)"
           }
-        }, [_vm._v("\n                                                MRC\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    MRC\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "Monthly Backhaul Charge After Discount BDT (TK)"
           }
-        }, [_vm._v("\n                                                MBC\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    MBC\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "Adjust/Additional Discount"
           }
-        }, [_vm._v("\n                                                Adjust\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    Adjust\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "Add Or Subtract"
           }
-        }, [_vm._v("\n                                                Add/Sub\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    Add/Sub\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "Monthly rental MRC+MBC + Adjust"
           }
-        }, [_vm._v("\n                                                MRC + MBC + Adjust\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    MRC + MBC + Adjust\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "5% VAT on MRC for Wet Segment"
           }
-        }, [_vm._v("\n                                                5% VAT\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    5% VAT\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "(MRC+MBC) + Total VAT on MRC for Wet Segment & MBC"
           }
-        }, [_vm._v("\n                                                Net Bill\n                                            ")]), _vm._v(" "), _c("th", {
+        }, [_vm._v("\n                                                    Net Bill\n                                                ")]), _vm._v(" "), _c("th", {
           attrs: {
             scope: "col",
             title: "De-activation or Others"
           }
-        }, [_vm._v("\n                                                Remarks\n                                            ")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.demandNoteList, function (item, index) {
+        }, [_vm._v("\n                                                    Remarks\n                                                ")])])]), _vm._v(" "), _c("tbody", _vm._l(_vm.demandNoteList, function (item, index) {
           return _c("tr", {
             key: index
           }, [_c("td", {
@@ -672,7 +672,7 @@ var render = function render() {
             domProps: {
               value: item.customer_id
             }
-          }), _vm._v(_vm._s(item.customer_name) + "\n                                            ")]), _vm._v(" "), _c("td", {
+          }), _vm._v(_vm._s(item.customer_name) + "\n                                                ")]), _vm._v(" "), _c("td", {
             staticClass: "dateFillSize"
           }, _vm._l(item.CablAndGroupWiseCircuits, function (circuit, cIndex) {
             return _c("span", {
@@ -702,7 +702,7 @@ var render = function render() {
             }, [_vm._v(_vm._s(circuit.approved_date))]);
           }), 0), _vm._v(" "), _c("td", {
             staticClass: "dateFillSize"
-          }, [_vm._v("\n                                                " + _vm._s(_vm.billInfo(item, index).toFixed(2)) + "\n                                            ")]), _vm._v(" "), _c("td", {
+          }, [_vm._v("\n                                                    " + _vm._s(_vm.billInfo(item, index).toFixed(2)) + "\n                                                ")]), _vm._v(" "), _c("td", {
             staticClass: "dateFillSize"
           }, [_c("input", {
             directives: [{
@@ -726,7 +726,7 @@ var render = function render() {
             }
           })]), _vm._v(" "), _c("td", {
             staticClass: "dateFillSize"
-          }, [_vm._v("\n                                                " + _vm._s(_vm.billInfoWith10Discount(item, index)) + "\n                                            ")]), _vm._v(" "), _c("td", [_c("input", {
+          }, [_vm._v("\n                                                    " + _vm._s(_vm.billInfoWith10Discount(item, index)) + "\n                                                ")]), _vm._v(" "), _c("td", [_c("input", {
             directives: [{
               name: "model",
               rawName: "v-model",
@@ -769,11 +769,11 @@ var render = function render() {
             attrs: {
               value: "1"
             }
-          }, [_vm._v("\n                                                        Add\n                                                    ")]), _vm._v(" "), _c("option", {
+          }, [_vm._v("\n                                                            Add\n                                                        ")]), _vm._v(" "), _c("option", {
             attrs: {
               value: "2"
             }
-          }, [_vm._v("\n                                                        Sub\n                                                    ")])])]), _vm._v(" "), _c("td", [_c("input", {
+          }, [_vm._v("\n                                                            Sub\n                                                        ")])])]), _vm._v(" "), _c("td", [_c("input", {
             directives: [{
               name: "model",
               rawName: "v-model",
@@ -793,7 +793,7 @@ var render = function render() {
                 _vm.$set(item, "adjust", $event.target.value);
               }
             }
-          })]), _vm._v(" "), _c("td", [_vm._v("\n                                                " + _vm._s(_vm.mrcMbcAndAdjustCalculation(item, index)) + "\n                                            ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                " + _vm._s(_vm.mrcMbcAdjustWiseVatCalculation(item, index)) + "\n                                            ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                " + _vm._s(_vm.mrcMbcAdjustVatCalculation(item, index)) + "\n                                            ")]), _vm._v(" "), _c("td", [_c("input", {
+          })]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm.mrcMbcAndAdjustCalculation(item, index)) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm.mrcMbcAdjustWiseVatCalculation(item, index)) + "\n                                                ")]), _vm._v(" "), _c("td", [_vm._v("\n                                                    " + _vm._s(_vm.mrcMbcAdjustVatCalculation(item, index)) + "\n                                                ")]), _vm._v(" "), _c("td", [_c("input", {
             directives: [{
               name: "model",
               rawName: "v-model",
@@ -821,9 +821,9 @@ var render = function render() {
           attrs: {
             type: "submit"
           }
-        }, [_vm._v("\n                                SUBMIT\n                            ")])])])];
+        }, [_vm._v("\n                                    SUBMIT\n                                ")])])])];
       }
-    }], null, false, 2617282511)
+    }], null, false, 312793039)
   })], 1) : _vm._e()])])]);
 };
 var staticRenderFns = [function () {

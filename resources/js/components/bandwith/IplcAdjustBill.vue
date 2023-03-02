@@ -4,13 +4,26 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h6 class="pl-3">
-                        <strong class="text-blue"> Bill Adjustment Form<br>
-                        <span class="text-red">Company Name: </span> <br> Billing Month:</strong></h6>
 
+                        <h6 class="pl-3">
+                            <strong> Bill Adjustment Form<br>
+                                <span>Company Name:</span> <span class="text-red">{{ finddata.com_name
+                                }}</span>
+                                <br>
+                                Billing
+                                Month: <span class="text-red">{{ finddata.billing_month }}</span></strong>
+                        </h6>
+
+                        <!-- <p v-for="(circuit, i) in companyDetail" :key="i" class="mb-0">
+                            Current Utilization :
+                            <span v-if="circuit.is_approved == 2">
+                                {{ circuit.qty }} * {{ circuit.name }}
+                            </span>
+
+                        </p> -->
                     </div>
                     <div class="col-md-6 text-right">
-                        <router-link :to="{ name: 'CustomerList', params:{id: 1} }" class="btn btn-success p-1 m-1">
+                        <router-link :to="{ name: 'CustomerList', params: { id: 1 } }" class="btn btn-success p-1 m-1">
                             <p class="pr-2 pb-1 mb-0">
                                 <i class="fa fa-list-ul pl-2"> </i> Customer List
                             </p>
@@ -39,7 +52,8 @@
                                                     v-slot="{ errors }">
                                                     <div class="form-group">
                                                         <label>Adjustable Month</label>
-                                                        <month-picker-input @change="showDate" :no-default="true"></month-picker-input>
+                                                        <month-picker-input @change="showDate"
+                                                            :no-default="true"></month-picker-input>
                                                         <span class="invalid-feedback d-block">{{ errors[0] }}</span>
                                                     </div>
                                                 </ValidationProvider>
@@ -72,51 +86,53 @@
                                                 <tr v-for="(item, index) in adjustList" :key="index">
                                                     <td>{{ index + 1 }}</td>
                                                     <td>
-                                                        <input type="date" class="form-control" required @change="startDate(item, index)" :id="'item' + index"
+                                                        <input type="date" class="form-control" required
+                                                            @change="startDate(item, index)" :id="'item' + index"
                                                             v-model="item.sdate" />
                                                     </td>
                                                     <td>
-                                                        <input type="date" class="form-control" required @change="endDate(item, index)" :id="'item' + index"
+                                                        <input type="date" class="form-control" required
+                                                            @change="endDate(item, index)" :id="'item' + index"
                                                             v-model="item.edate" />
                                                     </td>
-                                                    <td>{{item.diffDays}}</td>
-                                                    <td> <input type="text" class="form-control" required :id="'item' + index"
-                                                            v-model="item.tot_circuit" />
+                                                    <td>{{ item.diffDays }}</td>
+                                                    <td> <input type="text" class="form-control" required
+                                                            :id="'item' + index" v-model="item.tot_circuit" />
                                                     </td>
-                                                    <td> <input type="number" class="form-control" required :id="'item' + index"
-                                                            v-model="item.this_group_circuit" />
+                                                    <td> <input type="number" class="form-control" required
+                                                            :id="'item' + index" v-model="item.this_group_circuit" />
                                                     </td>
                                                     <td>
                                                         <select class="form-control" required :id="'item' + index"
                                                             v-model="item.circuit_id">
-                                                             <option value="" selected="selected" disabled>
+                                                            <option value="" selected="selected" disabled>
                                                                 Select Circuit
-                                                                </option>
-                                                                <option
-                                                                v-for="(val, index) in circuitList"
-                                                                :key="index"
-                                                                :value="val.id"
-                                                                >
+                                                            </option>
+                                                            <option v-for="(val, index) in circuitList" :key="index"
+                                                                :value="val.id">
                                                                 {{ val.circuit_name }}
-                                                                </option>
+                                                            </option>
                                                         </select>
                                                     </td>
 
                                                     <td>
-                                                         <select class="form-control" required :id="'item' + index"
+                                                        <select class="form-control" required :id="'item' + index"
                                                             v-model="item.group_id" @change="getMrc(item)">
                                                             <option value="" disabled>Select Station</option>
-                                                            <option :value="item.id" v-for="(item, index) in listData" :key="index" v-if="item.service_id==1">{{ item.group_name+'='+ item.subservice.sub_service_name}}</option>
+                                                            <option :value="item.id" v-for="(item, index) in listData"
+                                                                :key="index" v-if="item.service_id == 1">{{
+                                                                    item.group_name + '=' + item.subservice.sub_service_name }}
+                                                            </option>
                                                         </select>
                                                     </td>
 
-                                                   <td> <input type="text" class="form-control" required :id="'item' + index"
-                                                            v-model="item.rate" />
+                                                    <td> <input type="text" class="form-control" required
+                                                            :id="'item' + index" v-model="item.rate" />
                                                     </td>
-                                                     <td> <input type="text" class="form-control" required :id="'item' + index"
-                                                            v-model="item.discount" />
+                                                    <td> <input type="text" class="form-control" required
+                                                            :id="'item' + index" v-model="item.discount" />
                                                     </td>
-                                                    <td>{{ rateAfterDiscount(item, index)}}
+                                                    <td>{{ rateAfterDiscount(item, index) }}
                                                     </td>
                                                     <td> <select class="form-control" required :id="'item' + index"
                                                             v-model="item.add_sub">
@@ -126,8 +142,8 @@
                                                     </td>
                                                     <td> {{ rateByDayWiseBill(item, index) }}</td>
                                                     <td>
-                                                        <input type="text" class="form-control" required :id="'item' + index"
-                                                            v-model="item.remarks" />
+                                                        <input type="text" class="form-control" required
+                                                            :id="'item' + index" v-model="item.remarks" />
                                                     </td>
 
                                                     <td class="btn btn-success" @click="addRow()"> <i
@@ -141,11 +157,11 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                     <div class="row pt-2">
-                                        <div class="col-md-12 text-center">
-                                        <button class="btn btn-success" type="submit">SUBMIT</button>
+                                        <div class="row pt-2">
+                                            <div class="col-md-12 text-center">
+                                                <button class="btn btn-success" type="submit">SUBMIT</button>
+                                            </div>
                                         </div>
-                                     </div>
 
 
                                     </form>
@@ -178,33 +194,26 @@
                                     <tbody>
                                         <tr v-for="(adjustItem, i) in currentAdjustList" :key="i">
                                             <td>{{ i + 1 }}</td>
-                                            <td>{{moment(adjustItem.sdate).format("DD/MMM/YYYY")}}</td>
-                                            <td>{{moment(adjustItem.edate).format("DD/MMM/YYYY")}}</td>
-                                            <td>{{adjustItem.dif_days}}</td>
-                                            <td>{{adjustItem.tot_circuit}}</td>
-                                            <td>{{adjustItem.this_group_circuit}}</td>
-                                            <td>{{adjustItem.circuit.circuit_name}}</td>
-                                                <!-- customers -->
-                                            <td>{{adjustItem.groups.group_name}}</td>
-                                            <td>{{adjustItem.rate}}</td>
-                                            <td>{{adjustItem.discount}}</td>
-                                            <td>{{adjustItem.rate_after_discount}}</td>
-                                            <td>{{adjustItem.add_sub}}</td>
-                                            <td>{{adjustItem.amount}}</td>
-                                            <td>{{adjustItem.remarks}}</td>
+                                            <td>{{ moment(adjustItem.sdate).format("DD/MMM/YYYY") }}</td>
+                                            <td>{{ moment(adjustItem.edate).format("DD/MMM/YYYY") }}</td>
+                                            <td>{{ adjustItem.dif_days }}</td>
+                                            <td>{{ adjustItem.tot_circuit }}</td>
+                                            <td>{{ adjustItem.this_group_circuit }}</td>
+                                            <td>{{ adjustItem.circuit.circuit_name }}</td>
+                                            <!-- customers -->
+                                            <td>{{ adjustItem.groups.group_name }}</td>
+                                            <td>{{ adjustItem.rate }}</td>
+                                            <td>{{ adjustItem.discount }}</td>
+                                            <td>{{ adjustItem.rate_after_discount }}</td>
+                                            <td>{{ adjustItem.add_sub }}</td>
+                                            <td>{{ adjustItem.amount }}</td>
+                                            <td>{{ adjustItem.remarks }}</td>
                                             <td>
-                                            <button
-                                            type="button"
-                                            title="Delete Adjust"
-                                            class="btn btn-danger btn-sm"
-                                            @click="deleteAdjustItem(adjustItem.id)"
-                                        >
-                                            <i
-                                                class="fa fa-trash action-btn-font m-0"
-                                                aria-hidden="true"
-                                            ></i>
-                                        </button>
-                                        </td>
+                                                <button type="button" title="Delete Adjust" class="btn btn-danger btn-sm"
+                                                    @click="deleteAdjustItem(adjustItem.id)">
+                                                    <i class="fa fa-trash action-btn-font m-0" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
 
                                         </tr>
                                     </tbody>
@@ -233,6 +242,7 @@ export default {
     },
     data() {
         return {
+            finddata: {},
             loading: false,
             visibleForm: false,
             invoiceId: '',
@@ -240,6 +250,7 @@ export default {
             currentAdjustList: [],
             listData: [],
             circuitList: [],
+            companyDetail: '',
             adjustList: [{
                 sdate: '',
                 edate: '',
@@ -247,20 +258,20 @@ export default {
                 remarks: '',
                 rate: '',
                 add_sub: '',
-			    diffDays: null,
+                diffDays: null,
 
             }],
 
             date: {
-				sdate: null,
-				edate: null,
-				from: null,
-				to: null,
-				month: null,
-				year: null,
-				monthIndex: null,
-				days: null
-			}
+                sdate: null,
+                edate: null,
+                from: null,
+                to: null,
+                month: null,
+                year: null,
+                monthIndex: null,
+                days: null
+            }
         };
     },
 
@@ -268,7 +279,9 @@ export default {
         this.visibleForm = true;
         this.moment = moment;
         this.invoiceId = this.$route.params.id;
-        // alert(this.invoiceId);
+        this.getCompanyDetails(this.$route.params.id);
+
+        // alert(this.$route.params.id);
         this.getlandingGroupList();
         this.getCurrentAdjustList(this.$route.params.id);
         this.getCircuit();
@@ -277,63 +290,71 @@ export default {
     watch: {
 
 
-  },
-    methods: {
-
-
-     getMrc(item) {
-
-      this.loading = true;
-      axios
-        .post("/customer/wise/mrc/for/bill/adjustment", {
-          circuitId: item.circuit_id,
-          max: item.tot_circuit,
-          groupId: item.group_id,
-          stationCircuit: item.this_group_circuit,
-        })
-        .then((res) => {
-          this.loading = false;
-          this.mrcRate = res.data.data;
-          item.rate = parseInt(this.mrcRate);
-
-        });
     },
-        startDate(item, index){
-            return item.diffDays =  (moment(item.edate, 'YYYY.MM.DD').diff(moment(item.sdate, 'YYYY.MM.DD'), "days"))+1;
-        },
-        endDate(item,index){
-            return item.diffDays =  (moment(item.edate, 'YYYY.MM.DD').diff(moment(item.sdate, 'YYYY.MM.DD'), "days"))+1;
+    methods: {
+        getCompanyDetails(id) {
+            this.loading = true;
+            axios.get("/company-name/" + id)
+                .then((response) => {
+                    this.loading = false;
+                    this.finddata = response.data.data;
+                    // alert(response.data.data);
+                });
         },
 
-        showDate (date) {
-			this.date = date
+        getMrc(item) {
+
+            this.loading = true;
+            axios
+                .post("/customer/wise/mrc/for/bill/adjustment", {
+                    circuitId: item.circuit_id,
+                    max: item.tot_circuit,
+                    groupId: item.group_id,
+                    stationCircuit: item.this_group_circuit,
+                })
+                .then((res) => {
+                    this.loading = false;
+                    this.mrcRate = res.data.data;
+                    item.rate = parseInt(this.mrcRate);
+
+                });
+        },
+        startDate(item, index) {
+            return item.diffDays = (moment(item.edate, 'YYYY.MM.DD').diff(moment(item.sdate, 'YYYY.MM.DD'), "days")) + 1;
+        },
+        endDate(item, index) {
+            return item.diffDays = (moment(item.edate, 'YYYY.MM.DD').diff(moment(item.sdate, 'YYYY.MM.DD'), "days")) + 1;
+        },
+
+        showDate(date) {
+            this.date = date
             var monthIndex = null;
             var year = null;
             var month = null;
 
-			year = this.date.year;
-			monthIndex = this.date.monthIndex;
-			month = this.date.month;
+            year = this.date.year;
+            monthIndex = this.date.monthIndex;
+            month = this.date.month;
 
 
             const getDays = (year, month) => new Date(year, month, 0).getDate();
             const days = getDays(year, monthIndex);
             this.date.days = days;
-		},
+        },
 
         rateAfterDiscount(item, index) {
 
-            if(item.discount !=0){
+            if (item.discount != 0) {
 
-                return item.afterDiscount = (item.rate - ((item.rate/100)*item.discount)).toFixed(2);
-            }else{
-                 return item.afterDiscount = (item.rate).toFixed(2);
+                return item.afterDiscount = (item.rate - ((item.rate / 100) * item.discount)).toFixed(2);
+            } else {
+                return item.afterDiscount = (item.rate).toFixed(2);
             }
         },
 
         rateByDayWiseBill(item, index) {
 
-           return item.amount = ((parseInt(item.afterDiscount)/this.date.days)*item.diffDays).toFixed(2);
+            return item.amount = ((parseInt(item.afterDiscount) / this.date.days) * item.diffDays).toFixed(2);
         },
 
         addRow() {
@@ -349,22 +370,22 @@ export default {
         getlandingGroupList() {
             this.loading = true;
             axios.get("/get-landing-group")
-            .then((response) => {
-                this.loading = false;
-                this.listData = response.data.data;
-            });
+                .then((response) => {
+                    this.loading = false;
+                    this.listData = response.data.data;
+                });
         },
 
         getCurrentAdjustList(id) {
-            axios.get("/get/customer/invoice-id/wise/bill/adjustment/"+id)
-            .then((response) => {
-                this.loading = false;
-                this.currentAdjustList = response.data.data;
-            });
+            axios.get("/get/customer/invoice-id/wise/bill/adjustment/" + id)
+                .then((response) => {
+                    this.loading = false;
+                    this.currentAdjustList = response.data.data;
+                });
         },
 
-        deleteAdjustItem(id){
-             axios.get("/delete/iplc/bill/adjustment/"+id)
+        deleteAdjustItem(id) {
+            axios.get("/delete/iplc/bill/adjustment/" + id)
                 .then((response) => {
                     this.loading = false;
                     this.getCurrentAdjustList(this.$route.params.id);
@@ -372,10 +393,10 @@ export default {
                         icon: "success",
                         title: "Adjustment Delete Successfully.",
                     });
-            });
+                });
         },
+        getCircuit() {
 
-         getCircuit() {
             axios.get("/get-circuit-list").then((response) => {
                 this.loading = false;
                 this.circuitList = response.data.data;
@@ -397,26 +418,26 @@ export default {
                         title: "Successfull Adjust Customer Day wies Bill",
                     });
                     this.getCurrentAdjustList(this.$route.params.id);
-                    this.adjustList =[{
-                            sdate: '',
-                            edate: '',
-                            amount: '',
-                            remarks: '',
-                            rate: '',
-                            add_sub: '',
-                            diffDays: null,
+                    this.adjustList = [{
+                        sdate: '',
+                        edate: '',
+                        amount: '',
+                        remarks: '',
+                        rate: '',
+                        add_sub: '',
+                        diffDays: null,
 
-                        }];
-                    this.date ={
-                            sdate: null,
-                            edate: null,
-                            from: null,
-                            to: null,
-                            month: null,
-                            year: null,
-                            monthIndex: null,
-                            days: null
-                        };
+                    }];
+                    this.date = {
+                        sdate: null,
+                        edate: null,
+                        from: null,
+                        to: null,
+                        month: null,
+                        year: null,
+                        monthIndex: null,
+                        days: null
+                    };
                 })
                 .catch(() => {
                     this.loading = false;

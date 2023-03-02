@@ -33,14 +33,14 @@
                                     <thead>
                                         <tr>
                                             <th>SL</th>
-                                            <th> Circuit Capacity</th>
-                                            <th> Cable</th>
-                                            <th> Designation</th>
-                                            <th>Activation Date</th>
-                                            <th>Deactivation Date</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
+                                            <th style="text-align:center"> Circuit Capacity</th>
+                                            <th style="text-align:center"> Cable</th>
+                                            <th style="text-align:center"> Designation</th>
+                                            <th style="text-align:center">Activation Date</th>
+                                            <th style="text-align:center">Deactivation Date</th>
+                                            <th style="text-align:center">Date</th>
+                                            <th style="text-align:center">Status</th>
+                                            <th style="text-align:center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -118,7 +118,7 @@ export default {
     methods: {
         format_date(value) {
             if (value) {
-                return moment(String(value)).format('DD-MM-YYYY')
+                return moment(String(value)).format('DD-MMM-YYYY')
             }
         },
         getCustomerWiseCircuit() {

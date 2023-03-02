@@ -65,3 +65,4 @@ use App\Http\Controllers\Customer\BillingController;
  Route::post("/create-invoice", [BillingController::class, 'storeInvoice'])->name('store.invoice');
 
  Route::get('/our_backup_database', [BillingController::class, 'our_backup_database'])->name('our_backup_database');
+ Route::get('/company-name/{id}', [BillingController::class, 'getCompany']);

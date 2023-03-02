@@ -110,7 +110,7 @@ var render = function render() {
           }
         }
       }
-    }, [_vm._v(" AdjustMent\n                      ")])], 1)]);
+    }, [_vm._v(" AdjustMent\n                    ")])], 1)]);
   }), 0)])])])])])])]);
 };
 var staticRenderFns = [function () {
@@ -144,7 +144,7 @@ var staticRenderFns = [function () {
   }, [_vm._v("Rate")]), _vm._v(" "), _c("th", {
     attrs: {
       scope: "col",
-      title: "Rate After Discount"
+      title: "Rate After ff"
     }
   }, [_vm._v("MRC")]), _vm._v(" "), _c("th", {
     attrs: {

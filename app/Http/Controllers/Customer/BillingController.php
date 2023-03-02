@@ -11,6 +11,7 @@ use App\Models\Configuration\Service;
 use App\Models\Customer\CustomerType;
 use App\Models\Configuration\GroupOrZone;
 use App\Http\Controllers\Configuration\ServiceController;
+use App\Models\Bill\IplcBillDetails;
 
 class BillingController extends Controller
 {
@@ -391,6 +392,21 @@ class BillingController extends Controller
             ->get();
 
         return response(['msg' => 'success', 'data' => $data]);
+    }
+
+    public function getCompany($id)
+    {
+        $companyDetail = IplcBillDetails::findOrFail($id);
+        $companyName = Customer::findOrFail($companyDetail->customer_id);
+        $data = [
+            'com_name' => $companyName->com_name,
+            'billing_month' => $companyDetail->billing_month,
+        ];
+        return response([
+            'msg' => 'success',
+            'data' =>$data,
+        ]);
+
     }
 
     public function storeInvoice(Request $request)

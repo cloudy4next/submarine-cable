@@ -147,6 +147,11 @@ class DemandNote extends Model
         }
         return $cData;
     }
+    public function getCompanyName($id)
+    {
+            $company= Customer::findOrfail($id)->first();
+            return $company->com_name;
+    }
 
     public function getCablAndGroupWiseCircuits($customerId, $subServiceId, $groupId)
     {
