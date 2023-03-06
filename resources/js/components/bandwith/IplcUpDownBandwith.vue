@@ -29,7 +29,7 @@
                                 <i class="fa fa-spinner fa-spin"></i>
                             </div>
                             <div class="card-body">
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped table-responsive testDataTable">
                                     <thead>
                                         <tr>
                                             <th>SL</th>
@@ -115,6 +115,19 @@ export default {
         this.moment = moment;
         this.getCustomerWiseCircuit();
     },
+
+    mounted() {
+
+        setTimeout(() => {
+        $(document).ready(function () {
+            $('.testDataTable').DataTable({
+            searching: true,
+            ordering: true
+            });
+        });
+        }, 2000);
+    },
+
     methods: {
         format_date(value) {
             if (value) {
@@ -166,5 +179,29 @@ export default {
     margin-left: 14%;
     margin-bottom: 0px;
     margin-top: 7px;
+}
+.table_wrapper {
+  display: block;
+  overflow-x: auto;
+  overflow: scroll;
+  white-space: nowrap;
+}
+
+table {
+
+  width: auto;
+  overflow-x: auto;
+  overflow: scroll;
+  white-space: nowrap;
+  display: -webkit-box;
+  word-break: break-word
+}
+
+th {
+  height: 90px;
+}
+
+th {
+  height: 30px;
 }
 </style>

@@ -28,16 +28,15 @@ class DemandNoteResource extends JsonResource
             "circuit_id" => $this->circuit_id,
             'circuits' => $this->getCircuits($this->customer_id),
             'checkPrevMonthDemandNoteActiveInactive'=>$this->checkPrevMonthDemandNoteInActiveInactive($this->customer_id),
-            'cableWiseCircuits' => $this->getCablWiseCircuits($this->customer_id, $this->sub_service_id),
+            'cableWiseCircuits' => $this->getCablWiseCircuits($this->customer_id, $this->sub_service_id, $this->group_id),
             'CablAndGroupWiseCircuits' =>$this->getCablAndGroupWiseCircuits($this->customer_id,$this->sub_service_id,$this->group_id),
             'bill' => $this->getCircuitsWiseBill($this->customer_id,$this->sub_service_id,$this->group_id,$this->service_id,$this->circuit_id,$this->service_id),
-
-            // "circuit_name" => $this->circuit->circuit_name,
-            // "remarks" => $this->remarks,
-            // "approved_date" => $this->approved_date,
-            // "charge" => $this->charge,
-            // "discount" => $this->discount,
-            // "mrc" => $this->mrc,
+            "circuit_name" => $this->circuit->circuit_name,
+            "remarks" => $this->remarks,
+            "approved_date" => $this->approved_date,
+            "charge" => $this->charge,
+            "discount" => $this->discount,
+            "mrc" => $this->mrc,
         ];
     }
 }

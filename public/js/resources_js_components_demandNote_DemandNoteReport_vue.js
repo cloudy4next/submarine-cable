@@ -293,11 +293,11 @@ var render = function render() {
     }
   }, [_c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("For Office Use Only")]), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("p", {
+  }, [_vm._v("For Office Use Only")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                          ID No : DN(" + _vm._s(_vm.cableType) + ")/" + _vm._s(_vm.customerType) + "/" + _vm._s(_vm.circuitType) + "/000" + _vm._s(_vm.iplcTotalDemandNote) + "\n                        ")]) : _vm._e()]), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                          ID No : DN(" + _vm._s(_vm.cableType) + ")/" + _vm._s(_vm.customerType) + "/" + _vm._s(_vm.circuitType) + "/000" + _vm._s(_vm.iplcTotalDemandNote) + "\n                        ")])]), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("Commitment Period : N/A")]), _vm._v(" "), _c("p", {
+  }, [_vm._v(">Commitment Period : N/A")]) : _vm._e(), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
   }, [_vm._v("\n                        Discount on Wet Segment MRC : " + _vm._s(_vm.finddata.discount + " %") + "\n                      ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"

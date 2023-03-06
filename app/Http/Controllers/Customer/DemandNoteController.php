@@ -29,6 +29,11 @@ class DemandNoteController extends Controller
             ->get();
     }
 
+    public function destroy(Request $request)
+    {
+        return DemandNote::where('id', $request->id)->delete();
+
+    }
     public function customerIdWiseTotalBandwidthCalculation($customerId)
     {
         $total = DemandNote::where('customer_id', $customerId)->where('approval_status', 2)
@@ -876,7 +881,8 @@ class DemandNoteController extends Controller
 
     public function getServiceSubServiceGroupZoneCustomerWiseDemandNoteInfo($request)
     {
-        // dd($request->customer_id);
+        // dd($request->grp_or_zone_id);
+
         if ($request->customer_id != 0)
         {
             $data = DemandNote::where('service_id', $request->service_id)
@@ -1110,6 +1116,7 @@ class DemandNoteController extends Controller
         return response(['msg' => 'success', 'data' => $formatedData,]);
 
     }
+
 
     public function getconnectionInformation($customerId,$sub_service_id){
         $customerCircuits =DemandNote::with('circuit')

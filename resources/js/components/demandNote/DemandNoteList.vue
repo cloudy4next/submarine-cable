@@ -200,7 +200,9 @@
                           props: true,
                           params: { id: item.id },
                         }" title="View Details" class="btn btn-success btn-sm">View DN</router-link>
-
+                        <button v-if="item.approval_status != 2" type="button" title="Delete Demand Note" class="btn btn-danger btn-sm" @click="deleteItem(item)">
+                                                <i class="fa fa-trash action-btn-font m-0" aria-hidden="true"></i>
+                                            </button>
                         <router-link v-if="item.approval_status == 1" class="btn btn-primary btn-sm" data-toggle="modal"
                           data-target="#approveNRC" :to="{
                             name: 'DemandNoteStatus',
@@ -249,6 +251,7 @@ export default {
   },
 
   mounted() {
+
     setTimeout(() => {
       $(document).ready(function () {
         $('.testDataTable').DataTable({
@@ -260,6 +263,32 @@ export default {
   },
 
   methods: {
+
+      deleteItem(item) {
+        Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios
+                    .post("/delete-demand-note", {
+                        id: item.id
+                    })
+                    .then((response) => {
+                      this.getdemandNoteList();
+                        Swal.fire(
+                            "Deleted!",
+                            "Demand Note has been deleted.",
+                            "success"
+                        );
+                    });
+            }
+        });
+    },
     getdemandNoteList() {
       this.loading = true;
       axios.get("/get-demand-note/" + this.$route.params.id).then((response) => {

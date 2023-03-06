@@ -30,7 +30,7 @@
                                 <i class="fa fa-spinner fa-spin"></i>
                             </div>
                             <div class="card-body">
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped table-responsive testDataTable">
                                     <thead>
                                         <tr>
                                             <th style="text-align:center">SL</th>
@@ -137,6 +137,19 @@ export default {
     created() {
         this.getCustomerList();
     },
+
+        mounted() {
+
+        setTimeout(() => {
+        $(document).ready(function () {
+            $('.testDataTable').DataTable({
+            searching: true,
+            ordering: true
+            });
+        });
+        }, 2000);
+    },
+
     methods: {
         edit(item) {
             this.editItem = item;

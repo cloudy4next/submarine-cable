@@ -165,7 +165,8 @@
                             Activation Date :{{ moment(finddata.approved_date).format("DD.MM.YYYY") }}
                           </p> -->
                           <p class="mb-0">For Office Use Only</p>
-                          <p class="mb-0" v-if="finddata.service_id == 1">
+                          <p class="mb-0">
+                          <!-- v-if="finddata.service_id == 1"> -->
                             ID No : DN({{ cableType }})/{{ customerType }}/{{
                               circuitType
                             }}/000{{ iplcTotalDemandNote }}
@@ -182,7 +183,7 @@
                         <br>
                         <br>
 
-                        <p class="mb-0">Commitment Period : N/A</p>
+                        <p class="mb-0" v-if="finddata.service_id == 1">>Commitment Period : N/A</p>
                         <p class="mb-0">
                           Discount on Wet Segment MRC : {{ finddata.discount + " %" }}
                         </p>

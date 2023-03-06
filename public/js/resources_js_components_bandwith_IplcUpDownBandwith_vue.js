@@ -13,6 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -27,6 +28,16 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.moment = (moment__WEBPACK_IMPORTED_MODULE_0___default());
     this.getCustomerWiseCircuit();
+  },
+  mounted: function mounted() {
+    setTimeout(function () {
+      $(document).ready(function () {
+        $('.testDataTable').DataTable({
+          searching: true,
+          ordering: true
+        });
+      });
+    }, 2000);
   },
   methods: {
     format_date: function format_date(value) {
@@ -140,7 +151,7 @@ var render = function render() {
   })]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "card-body"
   }, [_c("table", {
-    staticClass: "table table-bordered table-striped"
+    staticClass: "table table-bordered table-striped table-responsive testDataTable"
   }, [_vm._m(0), _vm._v(" "), _c("tbody", [_vm.listData.length == 0 ? _c("tr", {
     staticClass: "text-center"
   }, [_c("span", [_vm._v("Data Not Found")])]) : _vm._e(), _vm._v(" "), _vm._l(_vm.listData, function (item, index) {
@@ -283,7 +294,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bulk-tag[data-v-351f482f] {\n    margin-left: 14%;\n    margin-bottom: 0px;\n    margin-top: 7px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bulk-tag[data-v-351f482f] {\n    margin-left: 14%;\n    margin-bottom: 0px;\n    margin-top: 7px;\n}\n.table_wrapper[data-v-351f482f] {\n  display: block;\n  overflow-x: auto;\n  overflow: scroll;\n  white-space: nowrap;\n}\ntable[data-v-351f482f] {\n\n  width: auto;\n  overflow-x: auto;\n  overflow: scroll;\n  white-space: nowrap;\n  display: -webkit-box;\n  word-break: break-word\n}\nth[data-v-351f482f] {\n  height: 90px;\n}\nth[data-v-351f482f] {\n  height: 30px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

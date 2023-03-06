@@ -53,7 +53,7 @@ class DemandNote extends Model
     {
         return $this->belongsTo(CircuitCategory::class , 'circuit_id');
     }
-    
+
     public function circuit_categories()
     {
         return $this->belongsTo(CircuitCategory::class );
@@ -122,15 +122,23 @@ class DemandNote extends Model
         return $fDate = $this->where('customer_id', $id)->first('approved_date');
     }
 
-    public function getCablWiseCircuits($customerId, $subServiceId)
+    public function getCablWiseCircuits($customerId, $subServiceId, $groupId)
     {
         $customerCircuits = $this->where('approval_status', 2)
-            ->where('customer_id', $customerId)->where('sub_service_id', $subServiceId)->get();
+            ->where('customer_id', $customerId)->where('group_id', $groupId)->where('sub_service_id', $subServiceId)->get();
         $cData = [];
         foreach ($customerCircuits as $key => $c)
         {
             $cData[] = ['name' => $c
-                ->circuit->circuit_name, 'id' => $c->circuit_id, 'remarks' => $c->remarks, 'approved_date' => $c->approved_date, 'charge' => $c->charge, 'max' => $c->max, 'discount' => $c->discount, 'mrc' => $c->mrc, ];
+                ->circuit->circuit_name,
+                'id' => $c->circuit_id,
+                'remarks' => $c->remarks,
+                'approved_date' => $c->approved_date,
+                'charge' => $c->charge,
+                'max' => $c->max,
+                'discount' => $c->discount,
+                'mrc' => $c->mrc,
+            'group_id' => $c->group_id,];
         }
         return $cData;
     }
@@ -155,9 +163,10 @@ class DemandNote extends Model
 
     public function getCablAndGroupWiseCircuits($customerId, $subServiceId, $groupId)
     {
+        // print_r($groupId);
         $customerCircuits = $this->where('approval_status', 2)
             ->where('customer_id', $customerId)->where('group_id', $groupId)->where('sub_service_id', $subServiceId)->get();
-
+      //->where('group_id', $groupId) if not same group id then what happend?
         $cData = [];
         foreach ($customerCircuits as $key => $c)
         {
@@ -167,8 +176,10 @@ class DemandNote extends Model
              'circuit_designation' => $c->circuit_designation,
              'approved_date' => $c->approved_date,
              'charge' => $c->charge, 'max' => $c->max,
-             'discount' => $c->discount, 'mrc' => $c->mrc, ];
+             'discount' => $c->discount, 'mrc' => $c->mrc,
+            'group_id' => $c->group_id,];
         }
+        // dd($customerCircuits);
         return $cData;
     }
 
@@ -180,14 +191,14 @@ class DemandNote extends Model
 
     public function getCircuitsWiseBill($customerId, $subServiceId, $group_id, $service_id, $circuit_id)
     {
-
+        // dd( $groupId);
         $billingConObj = new BillingController();
         $allCircuitData = $this->getCircuits($customerId);
-        $cableWiseCircuitData = $this->getCablWiseCircuits($customerId, $subServiceId);
+        $cableWiseCircuitData = $this->getCablWiseCircuits($customerId, $subServiceId, $group_id);
         $CablAndGroupWiseCircuits = $this->getCablAndGroupWiseCircuits($customerId, $subServiceId, $group_id);
+        // dd($cableWiseCircuitData);
         $max = $this->customerIdWiseTotalBandwidthCalculation($customerId);
         $maxManipulate = $this->customerIdWiseTotalBandwidthCalculation($customerId);
-
         $price = 0;
         $price100g = 0;
         $price10g = 0;
@@ -236,7 +247,7 @@ class DemandNote extends Model
         $cableAndGroupWiseCountCircuit11 = 0;
         $cableAndGroupWiseCountCircuit12 = 0;
         $cableAndGroupWiseCountCircuit13 = 0;
-
+        // dd($cableWiseCircuitData);
         if ($service_id == 1)
         {
 
@@ -422,31 +433,35 @@ class DemandNote extends Model
                 { //100 g
                     $countCircuit7++;
                     $price100g += $billingConObj->mrcCalculate($max, $cId, $group_id, $countCircuit7);
+                    // dd($price100g );
                 }
             }
 
 
             $priceOfMrcCircuit = 0;
-
+            // dd($cableAndGroupWiseCountCircuit5);
               $maxMult = ($cableAndGroupWiseCountCircuit6 * 10) + $cableAndGroupWiseCountCircuit5 * 2.5;
-
-            if ($price10g !=0 || $priceStm16 !=0)
+            // dd($maxManipulate);
+            if ($price10g != 0 || $priceStm16 != 0)
             {
                 $priceOfMrcCircuit = (($price10g + $priceStm16) / $maxManipulate )*$maxMult;
 
             }
 
+            // dd($priceOfMrcCircuit);
             if($cableAndGroupWiseCountCircuit7 != 0){
-                $priceOfMrcCircuit+=$price100g;
+                // dd($priceOfMrcCircuit);
+                $priceOfMrcCircuit += $price100g;
             }
 
 
             $nonMrcPrice = $price4 + $price3 + $price2 + $price1 + $price10 + $price11 + $price12 + $price13;
-
-            return $priceOfMrcCircuit+$nonMrcPrice;
+            // dd($priceOfMrcCircuit + $nonMrcPrice) ;
+            return $priceOfMrcCircuit + $nonMrcPrice;
         }
         else
         {
+
             return $totalPrice = $billingConObj->iptransitMrcCalculate($max, $circuit_id, $group_id);
         }
     }
