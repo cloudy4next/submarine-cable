@@ -37,7 +37,6 @@ class DemandNoteAuthController extends Controller
 
         return response([
             'message' => 'success',
-            'fieldName' => $nameConvension,
             'count' => $demand_data->count(),
             'data' => $demand_notes,
 

@@ -45,3 +45,4 @@ use Illuminate\Support\Facades\Route;
  'customerIdAndPopWiseTotalCalculation'])->name('customer-wise-total-bandwidth');
  Route::get("/customer/wise/first-activation-date/{id}", [DemandNoteController::class,
  'customerIdWiseFirstActivationDate'])->name('customer-wise-first-activation-date');
+ Route::post('/delete-demand-note', [DemandNoteController::class, 'destroy']);

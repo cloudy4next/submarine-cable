@@ -55,7 +55,7 @@ class LandingstationController extends Controller
             $model = LandingStation::find($request->id);
             $model->update($request->all());
         } else {
-            $model = LandingStation::create($request->all());
+            $model = LandingStation::updateOrCreate($request->all());
         }
 
         return response()->json([

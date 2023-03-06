@@ -335,7 +335,7 @@ class ServiceController extends Controller
                 'charge' => $request->charge
             ]);
         } else {
-            TariffCapacity::create([
+            TariffCapacity::updateOrCreate([
                 'sub_service_id' => $request->sub_service_id,
                 'capacity_name' => $request->capacity_name,
                 'charge' => $request->charge
@@ -361,7 +361,7 @@ class ServiceController extends Controller
                     ]);
                 }
             } else {
-                $model = Service::create($request->all());
+                $model = Service::updateOrCreate($request->all());
             }
             // $model->create_sub_service()->delete();
             // $model->create_sub_service()->createMany($request->sub_service);
@@ -412,14 +412,14 @@ class ServiceController extends Controller
 
                     foreach ($request->sub_service as $value) {
                         // return $value;
-                        $sub_model = SubService::create([
+                        $sub_model = SubService::updateOrCreate([
                             'service_id' => $request->id,
                             'sub_service_name' => $value['sub_service_name'],
                         ]);
                         // return $sub_model;
 
                         foreach ($value['capacity'] as $key => $item) {
-                            $tarifId = TariffCapacity::create([
+                            $tarifId = TariffCapacity::updateOrCreate([
                                 'sub_service_id' => $sub_model->id,
                                 'capacity_name' => $item['capacity_name'],
                                 'circuit_id' => $item['circuit_id'],
@@ -428,7 +428,7 @@ class ServiceController extends Controller
                             // return $tarifId;
 
                             foreach ($item['zone'] as $key => $grpAndCharge) {
-                                GroupOrZone::create([
+                                GroupOrZone::updateOrCreate([
                                     'sub_service_id'=> $sub_model->id,
                                     'capacity_id'=> $tarifId->id,
                                     'circuit_id'=> $tarifId->circuit_id,
@@ -496,7 +496,7 @@ class ServiceController extends Controller
                         // dd( $request->all());
 
                         foreach ($request->subService['capacity'] as $key => $item) {
-                            $tarifId = TariffCapacity::create([
+                            $tarifId = TariffCapacity::updateOrCreate([
                                 'sub_service_id'=> $request->subServiceId,
                                 'capacity_name'=> $item['capacity_name'],
                                 'instl_charge'=> $item['instl_charge'],
@@ -505,7 +505,7 @@ class ServiceController extends Controller
                             ]);
 
                             foreach($item['zone'] as $key => $grpAndCharge){
-                                GroupOrZone::create([
+                                GroupOrZone::updateOrCreate([
                                     'sub_service_id'=> $request->subServiceId,
                                     'capacity_id'=> $tarifId->id,
                                     'charge'=> 0,

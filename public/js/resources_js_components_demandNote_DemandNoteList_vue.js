@@ -50,12 +50,32 @@ __webpack_require__.r(__webpack_exports__);
     }, 2000);
   },
   methods: {
-    getdemandNoteList: function getdemandNoteList() {
+    deleteItem: function deleteItem(item) {
       var _this = this;
+      Swal.fire({
+        title: "Are you sure?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          axios.post("/delete-demand-note", {
+            id: item.id
+          }).then(function (response) {
+            _this.getdemandNoteList();
+            Swal.fire("Deleted!", "Demand Note has been deleted.", "success");
+          });
+        }
+      });
+    },
+    getdemandNoteList: function getdemandNoteList() {
+      var _this2 = this;
       this.loading = true;
       axios.get("/get-demand-note/" + this.$route.params.id).then(function (response) {
-        _this.loading = false;
-        _this.listData = response.data.data;
+        _this2.loading = false;
+        _this2.listData = response.data.data;
       });
     },
     approval: function approval() {
@@ -69,29 +89,29 @@ __webpack_require__.r(__webpack_exports__);
       this.approveDemandNote();
     },
     approveDemandNote: function approveDemandNote() {
-      var _this2 = this;
+      var _this3 = this;
       this.loading = true;
       this.approve.id = this.$route.params.demandId;
       //   let id = this.$route.params.id
       axios.post("/demandnote-active", this.approve).then(function (res) {
-        _this2.loading = false;
+        _this3.loading = false;
         Toast.fire({
           icon: "success",
           title: "Commercial Activation  updated."
         });
-        _this2.$emit("executeMethod");
+        _this3.$emit("executeMethod");
         $("#approveNRC").modal("hide");
-        _this2.getdemandNoteList();
-        _this2.$router.push({
+        _this3.getdemandNoteList();
+        _this3.$router.push({
           name: "DemandNoteList",
           // name: 'AddDemandNote'
           params: {
-            servName: _this2.$route.params.servName,
-            id: _this2.$route.params.id
+            servName: _this3.$route.params.servName,
+            id: _this3.$route.params.id
           }
         });
       })["catch"](function () {
-        _this2.loading = false;
+        _this3.loading = false;
         Swal.fire({
           icon: "warning",
           title: "wrong creidentials!"
@@ -102,9 +122,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     filterSearch: function filterSearch() {
-      var _this3 = this;
+      var _this4 = this;
       return this.listData.filter(function (item) {
-        return item.customers.com_name.match(_this3.searchData);
+        return item.customers.com_name.match(_this4.searchData);
       });
     }
   }
@@ -415,7 +435,23 @@ var render = function render() {
         },
         title: "View Details"
       }
-    }, [_vm._v("View DN")]), _vm._v(" "), item.approval_status == 1 ? _c("router-link", {
+    }, [_vm._v("View DN")]), _vm._v(" "), item.approval_status != 2 ? _c("button", {
+      staticClass: "btn btn-danger btn-sm",
+      attrs: {
+        type: "button",
+        title: "Delete Demand Note"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.deleteItem(item);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fa fa-trash action-btn-font m-0",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    })]) : _vm._e(), _vm._v(" "), item.approval_status == 1 ? _c("router-link", {
       staticClass: "btn btn-primary btn-sm",
       attrs: {
         "data-toggle": "modal",

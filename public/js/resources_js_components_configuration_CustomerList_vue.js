@@ -137,6 +137,16 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.getCustomerList();
   },
+  mounted: function mounted() {
+    setTimeout(function () {
+      $(document).ready(function () {
+        $('.testDataTable').DataTable({
+          searching: true,
+          ordering: true
+        });
+      });
+    }, 2000);
+  },
   methods: {
     edit: function edit(item) {
       this.editItem = item;
@@ -573,7 +583,7 @@ var render = function render() {
   })]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "card-body"
   }, [_c("table", {
-    staticClass: "table table-bordered table-striped"
+    staticClass: "table table-bordered table-striped table-responsive testDataTable"
   }, [_vm._m(1), _vm._v(" "), _c("tbody", [_vm.filterSearch.length == 0 ? _c("tr", {
     staticClass: "text-center"
   }, [_c("td", {

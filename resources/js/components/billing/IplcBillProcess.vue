@@ -109,7 +109,7 @@
                                                 <option value="0">
                                                     All Customer
                                                 </option>
-                                                <!-- <option
+                                                <option
                                                     v-for="(
                                                         item, index
                                                     ) in customerList"
@@ -120,7 +120,7 @@
                                                         item[0].customers
                                                             .com_name
                                                     }}
-                                                </option> -->
+                                                </option>
                                             </select>
                                             <span class="invalid-feedback d-block">{{ errors[0] }}</span>
                                         </div>
@@ -223,31 +223,21 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(
-                                                                    item, index
-                                                                ) in demandNoteList" :key="index">
+                                            <tr v-for="(item, index) in demandNoteList" :key="index">
                                                 <td scope="row">{{ index }}</td>
                                                 <td>
-                                                    <input type="hidden" :id="
-                                                        index + '_customer'
-                                                    " :value="
-    item.customer_id
-" />{{ item.customer_name }}
+                                                    {{ item.customer_name }}
                                                 </td>
 
                                                 <td class="dateFillSize">
-                                                    <span v-for="(
-                                                                            circuit, cIndex
-                                                                        ) in item.CablAndGroupWiseCircuits" :key="cIndex"
+                                                    <span v-for="(circuit, cIndex) in item.CablAndGroupWiseCircuits" :key="cIndex"
                                                         class="badge badge-success dateFillSize">{{
                                                             circuit.name
                                                         }}</span>
                                                 </td>
 
                                                 <td class="dateFillSize">
-                                                    <span v-for="(
-                                                                            circuit, cIndex
-                                                                        ) in item.cableWiseCircuits" :key="cIndex"
+                                                    <span v-for="(circuit, cIndex) in item.cableWiseCircuits" :key="cIndex"
                                                         class="badge badge-success dateFillSize">{{
                                                             circuit.name
                                                         }}</span>
@@ -429,6 +419,7 @@ export default {
         this.visibleForm = true;
         this.service_id = this.$route.params.id;
         this.getSubServiceList();
+        // this.getcustomerList();
         // alert(this.$route.params.id);
     },
     watch: {
@@ -578,8 +569,8 @@ export default {
                         service_id: this.invoice.service_id,
                         sub_service_id: this.invoice.sub_service_id,
                         grp_or_zone_id: this.invoice.grp_or_zone_id,
-                        // customer_id: this.invoice.customer_id,
-                        customer_id: 0,
+                        customer_id: this.invoice.customer_id,
+                        // customer_id: 0,
                     }
                 )
                 .then((res) => {

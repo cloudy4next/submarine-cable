@@ -160,7 +160,7 @@ class BillingController extends Controller
         { // 100 g
             if ($max < 200)
             {
-                return $price = $this->calculate(100, $circuitId, $grp_or_zone);
+                return $price = $this->calculate(200, $circuitId, $grp_or_zone);
             }
             elseif ($max >= 200 && $max < 300)
             {
