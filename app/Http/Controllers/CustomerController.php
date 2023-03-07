@@ -447,7 +447,7 @@ class CustomerController extends Controller
     }
 
     public function getLicense(Request $request){
-      //  return $request->toArray();
+    //    dd($request->all());
         $data =CustomerType::where('service_id',$request->service_id)->orderBy('id','desc')->get();
 
         return response([

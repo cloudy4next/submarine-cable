@@ -83,9 +83,9 @@
                       <select class="form-control" style="width: 100%" v-model="invoice.customer_id">
                         <option value="" selected="selected" disabled> Select Customer </option>
                         <option value="0">All Customer</option>
-                        <!-- <option v-for="(item, index) in customerList" :key="index" :value="item[0].customer_id">
+                        <option v-for="(item, index) in customerList" :key="index" :value="item[0].customer_id">
                           {{ item[0].customers.com_name }}
-                        </option> -->
+                        </option>
                       </select>
                       <span class="invalid-feedback d-block">{{ errors[0]
 

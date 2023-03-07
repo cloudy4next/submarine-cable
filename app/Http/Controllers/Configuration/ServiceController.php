@@ -172,27 +172,27 @@ class ServiceController extends Controller
                 if($max < 200){
                     $max = 200;
                 }elseif($max >=200 && $max < 300){
-                    $max = 200;
-                }elseif($max >=300 && $max < 400){
                     $max = 300;
-                }elseif($max >=400 && $max < 500){
+                }elseif($max >=300 && $max < 400){
                     $max = 400;
-                }elseif($max >=500 && $max < 600){
+                }elseif($max >=400 && $max < 500){
                     $max = 500;
-                }elseif($max >=600 && $max < 700){
+                }elseif($max >=500 && $max < 600){
                     $max = 600;
-                }elseif($max >=700 && $max < 800){
+                }elseif($max >=600 && $max < 700){
                     $max = 700;
-                }elseif($max >=800 && $max < 900){
+                }elseif($max >=700 && $max < 800){
                     $max = 800;
-                }elseif($max >=900 && $max < 1000){
+                }elseif($max >=800 && $max < 900){
                     $max = 900;
-                }
-                elseif($max >=1000 && $max < 1100){
+                }elseif($max >=900 && $max < 1000){
                     $max = 1000;
                 }
+                elseif($max >=1000 && $max < 1100){
+                    $max = 1100;
+                }
                 else{
-                     $max = 1100;
+                     $max = 1200;
                 }
             $model = $this->circuitWiseCapacity($subServiceId, $circuitId, $max);
         }elseif($circuitId == 8 || $circuitId == 9){    //ip transit isp or iig

@@ -531,6 +531,7 @@ export default {
     },
 
     qtyCalculation() {
+
       if (this.iplcVal != 1) {
         this.demand.mrc = this.demand.qty * this.demand.charge;
         this.demand.deposit = this.demand.mrc * 1.05;
@@ -568,6 +569,12 @@ export default {
       //   this.demand.mrc = this.demand.qty * this.demand.charge;
       //   this.demand.deposit = this.demand.mrc * 1.05;
       // }
+        axios
+        .get("/customer/group/pop/wise/total-bandwidth/" + this.demand.customer_id + '/' + e.target.value)
+        .then((res) => {
+          this.loading = false;
+          this.popWiseTotalBandwidth = res.data.data;
+        });
       if (this.iplcVal == 1) {
         this.demand.qty = 1;
         axios.post("/mrc/calculate", this.demand).then((res) => {
@@ -579,12 +586,7 @@ export default {
           this.demand.deposit = this.demand.mrc * 1.05;
         });
       }
-      axios
-        .get("/customer/group/pop/wise/total-bandwidth/" + this.demand.customer_id + '/' + e.target.value)
-        .then((res) => {
-          this.loading = false;
-          this.popWiseTotalBandwidth = res.data.data;
-        });
+
       this.countryList = "";
       this.groupIdWiseGetCountry(e.target.value);
     },

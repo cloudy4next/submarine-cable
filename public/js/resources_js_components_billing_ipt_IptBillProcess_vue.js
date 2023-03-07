@@ -487,7 +487,14 @@ var render = function render() {
                 attrs: {
                   value: "0"
                 }
-              }, [_vm._v("All Customer")])]), _vm._v(" "), _c("span", {
+              }, [_vm._v("All Customer")]), _vm._v(" "), _vm._l(_vm.customerList, function (item, index) {
+                return _c("option", {
+                  key: index,
+                  domProps: {
+                    value: item[0].customer_id
+                  }
+                }, [_vm._v("\n                        " + _vm._s(item[0].customers.com_name) + "\n                      ")]);
+              })], 2), _vm._v(" "), _c("span", {
                 staticClass: "invalid-feedback d-block"
               }, [_vm._v(_vm._s(errors[0]))])])];
             }
@@ -785,7 +792,7 @@ var render = function render() {
           }
         }, [_vm._v(" SUBMIT ")])])])];
       }
-    }], null, false, 931356058)
+    }], null, false, 1037114698)
   })], 1) : _vm._e()])])]);
 };
 var staticRenderFns = [function () {

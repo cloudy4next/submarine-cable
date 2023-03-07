@@ -206,6 +206,10 @@ __webpack_require__.r(__webpack_exports__);
       //   this.demand.mrc = this.demand.qty * this.demand.charge;
       //   this.demand.deposit = this.demand.mrc * 1.05;
       // }
+      axios.get("/customer/group/pop/wise/total-bandwidth/" + this.demand.customer_id + '/' + e.target.value).then(function (res) {
+        _this8.loading = false;
+        _this8.popWiseTotalBandwidth = res.data.data;
+      });
       if (this.iplcVal == 1) {
         this.demand.qty = 1;
         axios.post("/mrc/calculate", this.demand).then(function (res) {
@@ -217,10 +221,6 @@ __webpack_require__.r(__webpack_exports__);
           _this8.demand.deposit = _this8.demand.mrc * 1.05;
         });
       }
-      axios.get("/customer/group/pop/wise/total-bandwidth/" + this.demand.customer_id + '/' + e.target.value).then(function (res) {
-        _this8.loading = false;
-        _this8.popWiseTotalBandwidth = res.data.data;
-      });
       this.countryList = "";
       this.groupIdWiseGetCountry(e.target.value);
     },
