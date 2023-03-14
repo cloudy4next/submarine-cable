@@ -152,9 +152,11 @@ class DemandNoteAuthController extends Controller
 
             $data[] = [
                 'customer_name' => $value->customers->com_name,
+                'billing_month' => $value->billing_month,
                 'billed_for' =>$popWiseTotal,
                 'rate' => $value->old_mrc,
-                'mrc_after_discount' =>$mrc_after_discount ,
+                'rate_after_discount' => $value->old_mrc_after_discount,
+                'mrc' =>$mrc_after_discount ,
                 'vat' => $vat,
                 'net_bill' => $net_bill,
 
