@@ -83,9 +83,9 @@
                       <select class="form-control" style="width: 100%" v-model="invoice.customer_id">
                         <option value="" selected="selected" disabled> Select Customer </option>
                         <option value="0">All Customer</option>
-                        <!-- <option v-for="(item, index) in customerList" :key="index" :value="item[0].customer_id">
+                        <option v-for="(item, index) in customerList" :key="index" :value="item[0].customer_id">
                           {{ item[0].customers.com_name }}
-                        </option> -->
+                        </option>
                       </select>
                       <span class="invalid-feedback d-block">{{ errors[0]
 
@@ -469,8 +469,8 @@ export default {
                     service_id: this.invoice.service_id,
                     sub_service_id: this.invoice.sub_service_id,
                     grp_or_zone_id: this.invoice.grp_or_zone_id,
-                    // customer_id: this.invoice.customer_id,
-                    customer_id: 0,
+                    customer_id: this.invoice.customer_id,
+                    // customer_id: 0,
                 })
                 .then((res) => {
                     this.loading = false;

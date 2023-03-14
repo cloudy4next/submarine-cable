@@ -301,10 +301,6 @@ class DemandNoteController extends Controller
     {
         // $val = GroupOrZone::where('max', $max)->where('circuit_id', $circuitId)->where('grp_or_zone', $grp_or_zone)->first();
 
-        if($circuitId == 7)
-        {
-           $max =200;
-        }
         $val = GroupOrZone::where('max', $max)->where('circuit_id', $circuitId)->where('grp_or_zone', $grp_or_zone)->first();
 
         // return $max;
@@ -497,45 +493,49 @@ class DemandNoteController extends Controller
 
             if ($max < 200)
             {
-                $price = $this->calculate(100, $circuitId, $grp_or_zone);
+                $price = $this->calculate(200, $circuitId, $grp_or_zone);
 
             }
             elseif ($max >= 200 && $max < 300)
             {
-                $price = $this->calculate(200, $circuitId, $grp_or_zone);
+
+                $price = $this->calculate(300, $circuitId, $grp_or_zone);
+                                // dd($price);
+
             }
             elseif ($max >= 300 && $max < 400)
             {
+
                 // dd($max);
-                $price = $this->calculate(300, $circuitId, $grp_or_zone);
+                $price = $this->calculate(400, $circuitId, $grp_or_zone);
             }
             elseif ($max >= 400 && $max < 500)
             {
-                $price = $this->calculate(400, $circuitId, $grp_or_zone);
+                $price = $this->calculate(500, $circuitId, $grp_or_zone);
             }
             elseif ($max >= 500 && $max < 600)
             {
-                $price = $this->calculate(500, $circuitId, $grp_or_zone);
+                $price = $this->calculate(600, $circuitId, $grp_or_zone);
             }
             elseif ($max >=600  && $max < 700)
             {
-                $price = $this->calculate(600, $circuitId, $grp_or_zone);
+                $price = $this->calculate(700, $circuitId, $grp_or_zone);
             }
             elseif ($max >=700  && $max < 800)
             {
-                $price = $this->calculate(700, $circuitId, $grp_or_zone);
+                $price = $this->calculate(800, $circuitId, $grp_or_zone);
             }
             elseif ($max >=800  && $max < 900)
             {
-                $price = $this->calculate(800, $circuitId, $grp_or_zone);
+                $price = $this->calculate(900, $circuitId, $grp_or_zone);
             }
             elseif ($max >=900  && $max < 1000)
             {
-                $price = $this->calculate(900, $circuitId, $grp_or_zone);
+                $price = $this->calculate(1000, $circuitId, $grp_or_zone);
             }
             else
             {
-                $price = $this->calculate(1000, $circuitId, $grp_or_zone);
+                $price = $this->calculate(1100, $circuitId, $grp_or_zone);
             }
         }
         else
@@ -553,6 +553,7 @@ class DemandNoteController extends Controller
             // return (int)$price;
 
         }
+
         return response(['msg' => 'Success', 'dataMrc' => $price]);
 
     }

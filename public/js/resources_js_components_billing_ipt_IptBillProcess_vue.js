@@ -168,8 +168,8 @@ __webpack_require__.r(__webpack_exports__);
         service_id: this.invoice.service_id,
         sub_service_id: this.invoice.sub_service_id,
         grp_or_zone_id: this.invoice.grp_or_zone_id,
-        // customer_id: this.invoice.customer_id,
-        customer_id: 0
+        customer_id: this.invoice.customer_id
+        // customer_id: 0,
       }).then(function (res) {
         _this5.loading = false;
         _this5.demandNoteList = res.data.data;
@@ -487,7 +487,14 @@ var render = function render() {
                 attrs: {
                   value: "0"
                 }
-              }, [_vm._v("All Customer")])]), _vm._v(" "), _c("span", {
+              }, [_vm._v("All Customer")]), _vm._v(" "), _vm._l(_vm.customerList, function (item, index) {
+                return _c("option", {
+                  key: index,
+                  domProps: {
+                    value: item[0].customer_id
+                  }
+                }, [_vm._v("\n                        " + _vm._s(item[0].customers.com_name) + "\n                      ")]);
+              })], 2), _vm._v(" "), _c("span", {
                 staticClass: "invalid-feedback d-block"
               }, [_vm._v(_vm._s(errors[0]))])])];
             }
@@ -785,7 +792,7 @@ var render = function render() {
           }
         }, [_vm._v(" SUBMIT ")])])])];
       }
-    }], null, false, 931356058)
+    }], null, false, 1037114698)
   })], 1) : _vm._e()])])]);
 };
 var staticRenderFns = [function () {
