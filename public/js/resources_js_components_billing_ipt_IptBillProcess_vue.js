@@ -168,8 +168,8 @@ __webpack_require__.r(__webpack_exports__);
         service_id: this.invoice.service_id,
         sub_service_id: this.invoice.sub_service_id,
         grp_or_zone_id: this.invoice.grp_or_zone_id,
-        // customer_id: this.invoice.customer_id,
-        customer_id: 0
+        customer_id: this.invoice.customer_id
+        // customer_id: 0,
       }).then(function (res) {
         _this5.loading = false;
         _this5.demandNoteList = res.data.data;
