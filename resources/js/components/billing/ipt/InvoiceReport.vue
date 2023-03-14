@@ -123,7 +123,7 @@
                                                         <!-- <td>
                                                         {{mbcCalculate(billInfo.cableWiseBill) }}
                                                     </td> -->
-
+                                                    </td>
                                                     <td>
                                                         {{ (billInfo.adjust).toFixed(2) }}
                                                     </td>

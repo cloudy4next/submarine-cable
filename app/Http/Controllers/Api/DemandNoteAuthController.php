@@ -43,6 +43,7 @@ class DemandNoteAuthController extends Controller
         ],200);
     }
 
+
     public function fieldName() : array
     {
         return [
@@ -137,12 +138,63 @@ class DemandNoteAuthController extends Controller
 
     public function invoice()
     {
+        $data = [];
         $invoiceList = IplcBillDetails::with('customers','iplcbill.subservice'
             ,'iplcbill.custype','iplcbill.services','iplcbill.groups')->where('invoice_status',1)->orderBy('id','DESC')->get();
 
-        $response = ["message" => "Services Invoice Details", "result" => $invoiceList];
+        foreach ($invoiceList as $value) {
 
-        return response($response, 422);
+            $popWiseTotal =$this->customerIdAndCableWiseTotalBandwidthCalculation($value->customer_id,$value->service_id,$value->sub_service_id,$value->iplcbill->grp_zone_id);
+            $mrc_after_discount =$this->popWiseRateAndBandwidthMultiply($value->old_mrc_after_discount, $popWiseTotal, $value->mbc);
+            $vat =($mrc_after_discount * 0.05);
+            $net_bill = $mrc_after_discount +  $vat;
+
+
+            $data[] = [
+                'customer_name' => $value->customers->com_name,
+                'billed_for' =>$popWiseTotal,
+                'rate' => $value->old_mrc,
+                'mrc_after_discount' =>$mrc_after_discount ,
+                'vat' => $vat,
+                'net_bill' => $net_bill,
+
+            ];
+        }
+        $response = ["message" => "Services Invoice Details","count"=>$invoiceList->count(),"data" =>$data];
+
+        return response($response, 200);
 
     }
+    public function popWiseRateAndBandwidthMultiply(float $old_mrc_after_discount, float $popWiseTotal, float $mbc) : float
+    {
+
+        return ($mbc !=0) ? ($old_mrc_after_discount  *  $popWiseTotal) + $mbc : $old_mrc_after_discount * $popWiseTotal;
+
+    }
+
+      public function customerIdAndCableWiseTotalBandwidthCalculation($customerId, $serviceId, $subServiceId, $groupId)
+      {
+
+         if ($serviceId == 1)
+         {
+            $var = $subServiceId;
+            $colName = 'sub_service_id';
+            return $data = DemandNote::where('customer_id', $customerId)->where('approval_status', 2)
+            ->where($colName, $var)->sum('max');
+         }
+         else
+         {
+            $colName = 'group_id';
+            $var = $groupId;
+
+            $total = DemandNote::where('customer_id', $customerId)->where($colName, $var)->where('approval_status',
+                2)->sum('max');
+            $data = DemandNote::where('customer_id', $customerId)->where($colName, $var)->where('approval_status',
+                2)->sum('downgrade');
+
+            return $total - $data;
+         }
+
+        }
+
 }
