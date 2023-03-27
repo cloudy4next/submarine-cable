@@ -87,6 +87,7 @@
                                                 <tr style="border: 1px solid black">
                                                     <th>SL</th>
                                                     <th>Connection Information</th>
+                                                    <th>Actiavtion Date</th>
                                                     <th>Billing Period</th>
                                                     <th>Billed for (Mbps)</th>
                                                     <th>Rate (BDT)</th>
@@ -101,15 +102,21 @@
                                                     <td>1</td>
                                                     <td> Total Bandwith {{ billInfo.totalBandwith }} Mbps<br>
                                                         pop Wise Bandwith {{ billInfo.popWiseTotal }} Mbps <br>
-                                                        <span v-for="(circuit, i) in billInfo.connectionInformation"
+
+                                                    </td>
+                                                    <td>
+                                                            <span v-for="(circuit, i) in billInfo.connectionInformation"
                                                             :key="i">
                                                             <!-- {{circuit.name}} -->
+                                                            {{ circuit.initial_date.approved_date }}
                                                             <br>
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        {{ moment(billInfo.billing_month).format("DD.MM.YYYY") + " To " +
-                                                            moment(billInfo.billing_month).add(1, "M").format("DD.MM.YYYY") }}
+                                                        {{ moment(billInfo.billing_month).format("[1].MM.YYYY") + " To " +
+                                                         moment(billInfo.billing_month ,'YYYY-MM-DD h:m').endOf('month').format('DD.MM.YYYY')
+                                                         }}
+
                                                     </td>
                                                     <td>
                                                         {{ billInfo.popWiseTotal }} Mbps

@@ -74,6 +74,7 @@ class IplcBillDetails extends Model
     }
 
     public function getconnectionInformation($customerId,$sub_service_id){
+
         $customerCircuits =DemandNote::with('circuit')
         ->where('approval_status', 2)
         ->where('customer_id',$customerId)
@@ -88,12 +89,18 @@ class IplcBillDetails extends Model
         $data[] = [
             'name' => $c->circuit->circuit_name,
             'id' => $c->circuit_id,
-            'qty' =>DemandNote::where('circuit_id',$c->circuit_id)
+            'qty' => DemandNote::where('circuit_id',$c->circuit_id)
                             ->where('approval_status',2)
                             ->where('sub_service_id',$sub_service_id)
                             ->where('customer_id',$customerId)->count(),
+
+            'initial_date' => DemandNote::where('circuit_id',$c->circuit_id)
+                            ->where('approval_status',2)
+                            ->where('sub_service_id',$sub_service_id)
+                            ->where('customer_id',$customerId)->first('approved_date'),
          ];
         }
+        // dd($data);
         return $data;
 
 
