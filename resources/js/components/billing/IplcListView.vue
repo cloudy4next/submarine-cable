@@ -52,9 +52,8 @@
           <div class="row">
             <div class="col-md-12">
               <table
-                class="table table-striped table-bordered table-hover w-100"
-                style="min-width: 100%"
-              >
+                class="table testDataTable table-striped table-bordered table-hover w-100"
+                style="min-width: 100%">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">SL</th>

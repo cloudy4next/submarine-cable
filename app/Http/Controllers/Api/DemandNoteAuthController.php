@@ -69,7 +69,9 @@ class DemandNoteAuthController extends Controller
         $calculation = $this->demandNoteCalculation($demand);
 
         return [
-                'noteFor'       => $demand->services->service,
+                'DemandNoteType'       => $demand->services->service,
+                'IdNo'           =>  $calculation['IdNo'],
+                'issueDate'      =>$demand->created_at->format('d-m-Y'),
                 'submarineCable'     => $demand->subservice->sub_service_name,
                 'companyName'   => $demand->customers->com_name,
                 'phone'         => $demand->customers->phone,
@@ -124,6 +126,15 @@ class DemandNoteAuthController extends Controller
         $seqDeposit = $afterDiscount * 1.05 ;
         $totalPayAmount = $subAmount + ($afterDiscount * 1.05);
 
+
+        $iplcTotalDemandNote = DemandNote::where('service_id',$demand->service_id)->count();
+        $customerType = $demand->customers->custype->cus_type_name;
+
+        $cableType = $demand->sub_service_id == 105 ? 5 : 4;
+        $circuitType = $demand->service_id == 1 ? $demand->circuit->circuit_name : '(N/A)';
+
+        $NoteID = 'DN(' . $cableType . ')/' .  $customerType . '/' . $circuitType . '/000' . $iplcTotalDemandNote;
+
         return [
         'installation_charge'           => $installation_charge,
         'registration_charge'           => $registration_charge,
@@ -133,6 +144,7 @@ class DemandNoteAuthController extends Controller
         'subAmount'                     =>$subAmount,
         'seqDeposit'                    =>$seqDeposit,
         'totalPayAmount'                =>$totalPayAmount,
+        'IdNo'                          => $NoteID,
     ];
     }
 

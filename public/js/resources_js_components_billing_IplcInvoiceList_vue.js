@@ -13,6 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["item"],
@@ -31,6 +32,16 @@ __webpack_require__.r(__webpack_exports__);
     this.getInvoiceList(this.$route.params.id);
   },
   watch: {},
+  mounted: function mounted() {
+    setTimeout(function () {
+      $(document).ready(function () {
+        $('.iplcInvoiceTable').DataTable({
+          searching: true,
+          ordering: true
+        });
+      });
+    }, 2000);
+  },
   methods: {
     // permissionforInvoiceGanarete(id) {
     //     // alert(id)
@@ -108,7 +119,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "col-md-12"
   }, [_c("table", {
-    staticClass: "table table-striped table-bordered table-hover w-100 testDataTable",
+    staticClass: "table table-striped table-bordered table-hover w-100 iplcInvoiceTable",
     staticStyle: {
       "min-width": "100%"
     }

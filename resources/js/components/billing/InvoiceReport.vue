@@ -110,9 +110,12 @@
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        {{ moment(billInfo.billing_month).format("DD.MM.YYYY") + " To " +
+                                                        <!-- {{ moment(billInfo.billing_month).format("DD.MM.YYYY") + " To " +
                                                             moment(billInfo.billing_month).add(1, "months").format("DD.MM.YYYY")
-                                                        }}
+                                                        }} -->
+                                                    {{ moment(billInfo.billing_month).format("[1].MM.YYYY") + " To " +
+                                                         moment(billInfo.billing_month ,'YYYY-MM-DD h:m').endOf('month').format('DD.MM.YYYY')
+                                                         }}
                                                     </td>
                                                     <td>
                                                         {{ old_mrc(billInfo.cableWiseBill).toFixed(2) | comma }}
