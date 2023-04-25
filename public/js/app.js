@@ -10678,7 +10678,7 @@ module.exports = function (cssWithMappingToString) {
 /***/ (function(module, exports) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.6.3
+ * jQuery JavaScript Library v3.6.4
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -10688,7 +10688,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2022-12-20T21:28Z
+ * Date: 2023-03-08T15:28Z
  */
 ( function( global, factory ) {
 
@@ -10830,7 +10830,7 @@ function toType( obj ) {
 
 
 var
-	version = "3.6.3",
+	version = "3.6.4",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -11201,14 +11201,14 @@ function isArrayLike( obj ) {
 }
 var Sizzle =
 /*!
- * Sizzle CSS Selector Engine v2.3.9
+ * Sizzle CSS Selector Engine v2.3.10
  * https://sizzlejs.com/
  *
  * Copyright JS Foundation and other contributors
  * Released under the MIT license
  * https://js.foundation/
  *
- * Date: 2022-12-19
+ * Date: 2023-02-14
  */
 ( function( window ) {
 var i,
@@ -11312,7 +11312,7 @@ var i,
 		whitespace + "+$", "g" ),
 
 	rcomma = new RegExp( "^" + whitespace + "*," + whitespace + "*" ),
-	rcombinators = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace +
+	rleadingCombinator = new RegExp( "^" + whitespace + "*([>+~]|" + whitespace + ")" + whitespace +
 		"*" ),
 	rdescend = new RegExp( whitespace + "|>" ),
 
@@ -11529,7 +11529,7 @@ function Sizzle( selector, context, results, seed ) {
 				// as such selectors are not recognized by querySelectorAll.
 				// Thanks to Andrew Dupont for this technique.
 				if ( nodeType === 1 &&
-					( rdescend.test( selector ) || rcombinators.test( selector ) ) ) {
+					( rdescend.test( selector ) || rleadingCombinator.test( selector ) ) ) {
 
 					// Expand context for sibling selectors
 					newContext = rsibling.test( selector ) && testContext( context.parentNode ) ||
@@ -11558,27 +11558,6 @@ function Sizzle( selector, context, results, seed ) {
 				}
 
 				try {
-
-					// `qSA` may not throw for unrecognized parts using forgiving parsing:
-					// https://drafts.csswg.org/selectors/#forgiving-selector
-					// like the `:has()` pseudo-class:
-					// https://drafts.csswg.org/selectors/#relational
-					// `CSS.supports` is still expected to return `false` then:
-					// https://drafts.csswg.org/css-conditional-4/#typedef-supports-selector-fn
-					// https://drafts.csswg.org/css-conditional-4/#dfn-support-selector
-					if ( support.cssSupportsSelector &&
-
-						// eslint-disable-next-line no-undef
-						!CSS.supports( "selector(:is(" + newSelector + "))" ) ) {
-
-						// Support: IE 11+
-						// Throw to get to the same code path as an error directly in qSA.
-						// Note: once we only support browser supporting
-						// `CSS.supports('selector(...)')`, we can most likely drop
-						// the `try-catch`. IE doesn't implement the API.
-						throw new Error();
-					}
-
 					push.apply( results,
 						newContext.querySelectorAll( newSelector )
 					);
@@ -11874,29 +11853,22 @@ setDocument = Sizzle.setDocument = function( node ) {
 			!el.querySelectorAll( ":scope fieldset div" ).length;
 	} );
 
-	// Support: Chrome 105+, Firefox 104+, Safari 15.4+
-	// Make sure forgiving mode is not used in `CSS.supports( "selector(...)" )`.
-	//
-	// `:is()` uses a forgiving selector list as an argument and is widely
-	// implemented, so it's a good one to test against.
-	support.cssSupportsSelector = assert( function() {
-		/* eslint-disable no-undef */
-
-		return CSS.supports( "selector(*)" ) &&
-
-			// Support: Firefox 78-81 only
-			// In old Firefox, `:is()` didn't use forgiving parsing. In that case,
-			// fail this test as there's no selector to test against that.
-			// `CSS.supports` uses unforgiving parsing
-			document.querySelectorAll( ":is(:jqfake)" ) &&
-
-			// `*` is needed as Safari & newer Chrome implemented something in between
-			// for `:has()` - it throws in `qSA` if it only contains an unsupported
-			// argument but multiple ones, one of which is supported, are fine.
-			// We want to play safe in case `:is()` gets the same treatment.
-			!CSS.supports( "selector(:is(*,:jqfake))" );
-
-		/* eslint-enable */
+	// Support: Chrome 105 - 110+, Safari 15.4 - 16.3+
+	// Make sure the the `:has()` argument is parsed unforgivingly.
+	// We include `*` in the test to detect buggy implementations that are
+	// _selectively_ forgiving (specifically when the list includes at least
+	// one valid selector).
+	// Note that we treat complete lack of support for `:has()` as if it were
+	// spec-compliant support, which is fine because use of `:has()` in such
+	// environments will fail in the qSA path and fall back to jQuery traversal
+	// anyway.
+	support.cssHas = assert( function() {
+		try {
+			document.querySelector( ":has(*,:jqfake)" );
+			return false;
+		} catch ( e ) {
+			return true;
+		}
 	} );
 
 	/* Attributes
@@ -12165,14 +12137,14 @@ setDocument = Sizzle.setDocument = function( node ) {
 		} );
 	}
 
-	if ( !support.cssSupportsSelector ) {
+	if ( !support.cssHas ) {
 
-		// Support: Chrome 105+, Safari 15.4+
-		// `:has()` uses a forgiving selector list as an argument so our regular
-		// `try-catch` mechanism fails to catch `:has()` with arguments not supported
-		// natively like `:has(:contains("Foo"))`. Where supported & spec-compliant,
-		// we now use `CSS.supports("selector(:is(SELECTOR_TO_BE_TESTED))")`, but
-		// outside that we mark `:has` as buggy.
+		// Support: Chrome 105 - 110+, Safari 15.4 - 16.3+
+		// Our regular `try-catch` mechanism fails to detect natively-unsupported
+		// pseudo-classes inside `:has()` (such as `:has(:contains("Foo"))`)
+		// in browsers that parse the `:has()` argument as a forgiving selector list.
+		// https://drafts.csswg.org/selectors/#relational now requires the argument
+		// to be parsed unforgivingly, but browsers have not yet fully adjusted.
 		rbuggyQSA.push( ":has" );
 	}
 
@@ -13085,7 +13057,7 @@ tokenize = Sizzle.tokenize = function( selector, parseOnly ) {
 		matched = false;
 
 		// Combinators
-		if ( ( match = rcombinators.exec( soFar ) ) ) {
+		if ( ( match = rleadingCombinator.exec( soFar ) ) ) {
 			matched = match.shift();
 			tokens.push( {
 				value: matched,
@@ -46270,8 +46242,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /**
-  * vee-validate v3.4.14
-  * (c) 2021 Abdelrahman Awad
+  * vee-validate v3.4.15
+  * (c) 2023 Abdelrahman Awad
   * @license MIT
   */
 
@@ -47401,7 +47373,7 @@ function getInputEventName(vnode, model) {
     // Is a component.
     if (vnode.componentOptions) {
         var event_1 = (findModelConfig(vnode) || { event: 'input' }).event;
-        return event_1;
+        return event_1 || 'input';
     }
     // Lazy Models typically use change event
     if ((_a = model === null || model === void 0 ? void 0 : model.modifiers) === null || _a === void 0 ? void 0 : _a.lazy) {
@@ -48301,7 +48273,7 @@ function withValidation(component, mapProps) {
     return hoc;
 }
 
-var version = '3.4.14';
+var version = '3.4.15';
 
 
 
@@ -48332,8 +48304,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /**
-  * vee-validate v3.4.14
-  * (c) 2021 Abdelrahman Awad
+  * vee-validate v3.4.15
+  * (c) 2023 Abdelrahman Awad
   * @license MIT
   */
 
@@ -50225,7 +50197,7 @@ function getInputEventName(vnode, model) {
     // Is a component.
     if (vnode.componentOptions) {
         var event_1 = (findModelConfig(vnode) || { event: 'input' }).event;
-        return event_1;
+        return event_1 || 'input';
     }
     // Lazy Models typically use change event
     if ((_a = model === null || model === void 0 ? void 0 : model.modifiers) === null || _a === void 0 ? void 0 : _a.lazy) {
@@ -51125,7 +51097,7 @@ function withValidation(component, mapProps) {
     return hoc;
 }
 
-var version = '3.4.14';
+var version = '3.4.15';
 // Install all rules.
 var RulesAsList = Object.keys(Rules).map(function (key) { return ({ schema: Rules[key], name: key }); });
 RulesAsList.forEach(function (_a) {
@@ -51261,11 +51233,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __nested_webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = dateTimeFormatter;
-/* harmony export (immutable) */ __webpack_exports__["a"] = isEqualDateStr;
+/* harmony export (immutable) */ __nested_webpack_exports__["b"] = dateTimeFormatter;
+/* harmony export (immutable) */ __nested_webpack_exports__["a"] = isEqualDateStr;
 function dateTimeFormatter(date, format) {
   // 时间格式化辅助函数 date:毫秒数 format:'yyyy-MM-dd hh:mm:ss'
   if (!date || date == "") {
@@ -51380,10 +51352,10 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __nested_webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
+/* harmony default export */ __nested_webpack_exports__["a"] = ({
   en: {
     dayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -51544,10 +51516,10 @@ module.exports = function(originalModule) {
 
 /***/ }),
 /* 5 */
-/***/ (function(module, __webpack_exports__, __nested_webpack_require_11281__) {
+/***/ (function(module, __nested_webpack_exports__, __nested_webpack_require_11281__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+Object.defineProperty(__nested_webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__i18n_js__ = __nested_webpack_require_11281__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tools_js__ = __nested_webpack_require_11281__(0);
 //
@@ -51560,7 +51532,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __nested_webpack_exports__["default"] = ({
   data: function data() {
     return {
       i18n: __WEBPACK_IMPORTED_MODULE_0__i18n_js__["a" /* default */]
@@ -51588,10 +51560,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 6 */
-/***/ (function(module, __webpack_exports__, __nested_webpack_require_12162__) {
+/***/ (function(module, __nested_webpack_exports__, __nested_webpack_require_12162__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+Object.defineProperty(__nested_webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__i18n_js__ = __nested_webpack_require_12162__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tools_js__ = __nested_webpack_require_12162__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__cal_event_item_vue__ = __nested_webpack_require_12162__(11);
@@ -51615,7 +51587,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __nested_webpack_exports__["default"] = ({
   name: 'cal-events',
   data: function data() {
     return {
@@ -51671,10 +51643,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 7 */
-/***/ (function(module, __webpack_exports__, __nested_webpack_require_14666__) {
+/***/ (function(module, __nested_webpack_exports__, __nested_webpack_require_14666__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+Object.defineProperty(__nested_webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__i18n_js__ = __nested_webpack_require_14666__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tools_js__ = __nested_webpack_require_14666__(0);
 //
@@ -51721,7 +51693,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 var inBrowser = typeof window !== 'undefined';
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __nested_webpack_exports__["default"] = ({
   name: 'cal-panel',
   data: function data() {
     return {
@@ -51817,10 +51789,10 @@ var inBrowser = typeof window !== 'undefined';
 
 /***/ }),
 /* 8 */
-/***/ (function(module, __webpack_exports__, __nested_webpack_require_18203__) {
+/***/ (function(module, __nested_webpack_exports__, __nested_webpack_require_18203__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+Object.defineProperty(__nested_webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tools_js__ = __nested_webpack_require_18203__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_cal_events_vue__ = __nested_webpack_require_18203__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_cal_events_vue___default = __nested_webpack_require_18203__.n(__WEBPACK_IMPORTED_MODULE_1__components_cal_events_vue__);
@@ -51851,7 +51823,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 var inBrowser = typeof window !== 'undefined';
-/* harmony default export */ __webpack_exports__["default"] = ({
+/* harmony default export */ __nested_webpack_exports__["default"] = ({
   name: 'vue-event-calendar',
   components: {
     'cal-events': __WEBPACK_IMPORTED_MODULE_1__components_cal_events_vue___default.a,
@@ -51974,10 +51946,10 @@ var inBrowser = typeof window !== 'undefined';
 
 /***/ }),
 /* 9 */
-/***/ (function(module, __webpack_exports__, __nested_webpack_require_22499__) {
+/***/ (function(module, __nested_webpack_exports__, __nested_webpack_require_22499__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+Object.defineProperty(__nested_webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_event_calendar_vue__ = __nested_webpack_require_22499__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__vue_event_calendar_vue___default = __nested_webpack_require_22499__.n(__WEBPACK_IMPORTED_MODULE_0__vue_event_calendar_vue__);
 
@@ -52068,12 +52040,12 @@ function install(Vue) {
   Vue.prototype.$EventCalendar = Calendar;
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (install);
+/* harmony default export */ __nested_webpack_exports__["default"] = (install);
 
 if ((  false ? 0 : _typeof(module)) === 'object' && module.exports) {
   module.exports.install = install;
 }
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __nested_webpack_require_22499__(4)(module)))
+/* WEBPACK VAR INJECTION */}.call(__nested_webpack_exports__, __nested_webpack_require_22499__(4)(module)))
 
 /***/ }),
 /* 10 */
@@ -71103,7 +71075,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * DataTables integration for Bootstrap 4. This requires Bootstrap 4 and
  * DataTables 1.10 or newer.
@@ -71270,19 +71241,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/*! DataTables 1.13.3
+/*! DataTables 1.13.4
  * ©2008-2023 SpryMedia Ltd - datatables.net/license
  */
 
 
 
 // DataTables code uses $ internally, but we want to be able to
-// reassign $ with the `use` method below, so it is a regular var.
+// reassign $ with the `use` method, so it is a regular var.
 let $ = jquery__WEBPACK_IMPORTED_MODULE_0__;
 
 
 var DataTable = function ( selector, options )
 {
+	// Check if called with a window or jQuery object for DOM less applications
+	// This is for backwards compatibility
+	if (DataTable.factory(selector, options)) {
+		return DataTable;
+	}
+
 	// When creating with `new`, create a new DataTable, returning the API instance
 	if (this instanceof DataTable) {
 		return $(selector).DataTable(options);
@@ -72387,6 +72364,7 @@ var DataTable = function ( selector, options )
 							type:   sort !== null   ? i+'.@data-'+sort   : undefined,
 							filter: filter !== null ? i+'.@data-'+filter : undefined
 						};
+						col._isArrayHost = true;
 		
 						_fnColumnOptions( oSettings, i );
 					}
@@ -73575,7 +73553,7 @@ function _fnColumnOptions( oSettings, iCol, oOptions )
 
 	// Indicate if DataTables should read DOM data as an object or array
 	// Used in _fnGetRowElements
-	if ( typeof mDataSrc !== 'number' ) {
+	if ( typeof mDataSrc !== 'number' && ! oCol._isArrayHost ) {
 		oSettings._rowReadObject = true;
 	}
 
@@ -80579,6 +80557,48 @@ _api_register( 'state.save()', function () {
 
 
 /**
+ * Set the jQuery or window object to be used by DataTables
+ *
+ * @param {*} module Library / container object
+ * @param {string} type Library or container type `lib` or `win`.
+ */
+DataTable.use = function (module, type) {
+	if (type === 'lib' || module.fn) {
+		$ = module;
+	}
+	else if (type == 'win' || module.document) {
+		window = module;
+		document = module.document;
+	}
+}
+
+/**
+ * CommonJS factory function pass through. This will check if the arguments
+ * given are a window object or a jQuery object. If so they are set
+ * accordingly.
+ * @param {*} root Window
+ * @param {*} jq jQUery
+ * @returns {boolean} Indicator
+ */
+DataTable.factory = function (root, jq) {
+	var is = false;
+
+	// Test if the first parameter is a window object
+	if (root && root.document) {
+		window = root;
+		document = root.document;
+	}
+
+	// Test if the second parameter is a jQuery object
+	if (jq && jq.fn && jq.fn.jquery) {
+		$ = jq;
+		is = true;
+	}
+
+	return is;
+}
+
+/**
  * Provide a common method for plug-ins to check the version of DataTables being
  * used, in order to ensure compatibility.
  *
@@ -80919,7 +80939,7 @@ _api_register( 'i18n()', function ( token, def, plural ) {
  *  @type string
  *  @default Version number
  */
-DataTable.version = "1.13.3";
+DataTable.version = "1.13.4";
 
 /**
  * Private data store, containing all of the settings objects that are
@@ -86848,15 +86868,6 @@ $.each( DataTable, function ( prop, val ) {
 	$.fn.DataTable[ prop ] = val;
 } );
 
-DataTable.use = function (module, type) {
-	if (type === 'lib' || module.fn) {
-		$ = module;
-	}
-	else if (type == 'win' || module.document) {
-		window = module;
-	}
-}
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DataTable);
 
 
@@ -87049,7 +87060,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 				script.parentNode && script.parentNode.removeChild(script);
 /******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
 /******/ 				if(prev) return prev(event);
-/******/ 			};
+/******/ 			}
 /******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
 /******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
 /******/ 			script.onload = onScriptComplete.bind(null, script.onload);
