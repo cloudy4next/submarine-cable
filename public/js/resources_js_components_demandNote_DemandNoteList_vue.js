@@ -377,7 +377,11 @@ var render = function render() {
       staticStyle: {
         "text-align": "center"
       }
-    }, [_vm._v(_vm._s(item.subservice.sub_service_name))]), _vm._v(" "), _c("td"), _vm._v(" "), item.service_id == 7 ? _c("td", {
+    }, [_vm._v(_vm._s(item.subservice.sub_service_name))]), _vm._v(" "), _c("td", {
+      staticStyle: {
+        "text-align": "center"
+      }
+    }, [_vm._v(_vm._s(item.groups.group_name))]), _vm._v(" "), item.service_id == 7 ? _c("td", {
       staticStyle: {
         "text-align": "center"
       }

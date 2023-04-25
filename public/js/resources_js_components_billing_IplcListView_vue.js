@@ -222,7 +222,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "col-md-12"
   }, [_c("table", {
-    staticClass: "table table-striped table-bordered table-hover w-100",
+    staticClass: "table testDataTable table-striped table-bordered table-hover w-100",
     staticStyle: {
       "min-width": "100%"
     }

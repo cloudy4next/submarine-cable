@@ -20,9 +20,8 @@
           <div class="row">
             <div class="col-md-12">
               <table
-                class="table table-striped table-bordered table-hover w-100 testDataTable"
-                style="min-width: 100%"
-              >
+                class="table table-striped table-bordered table-hover w-100 ipiInvoiceTable"
+                style="min-width: 100%">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">SL</th>
@@ -51,7 +50,6 @@
                     <td scope="col">{{ bill.vat }}</td>
                     <td scope="col">{{ bill.net_total }}</td>
                     <td>
-
                       <router-link
                         v-if="bill.invoice_ganarete == 0"
                         :to="{
@@ -69,23 +67,10 @@
                           bg-primary
                           text-white
                         "
-                        >Invoice Generate</router-link
-                      >
+                        >
+                        Invoice Generate</router-link>
+                    </td>
 
-                      <!-- <button v-if="bill.invoice_ganarete==0"
-                                                        title="Permission for Invoice Ganarete"
-                                                        class="list-group-item d-inline btn btn-sm bg-primary text-white"
-                                                        @click="permissionforInvoiceGanarete(bill.id)">Invoice Ganarete</button> -->
-                    </td>
-                    <td>
-                       <!-- <td>
-                        <router-link class="btn btn-success" :to="{
-                              name: 'IPLCCustomerBillAdjust',
-                              params: { id: item.id }
-                            }"> AdjustMent
-                        </router-link>
-                      </td> -->
-                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -120,18 +105,18 @@ export default {
     this.getInvoiceList(this.$route.params.id);
   },
 
-  mounted(){
+  watch: {},
+
+mounted(){
     setTimeout(() => {
       $(document).ready(function () {
-        $('.testDataTable').DataTable({
+        $('.ipiInvoiceTable').DataTable({
           searching: true,
           ordering:  true
         });
     });
     }, 2000);
   },
-
-  watch: {},
 
   methods: {
     // permissionforInvoiceGanarete(id) {

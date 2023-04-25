@@ -32,17 +32,17 @@ __webpack_require__.r(__webpack_exports__);
     this.visibleForm = true;
     this.getInvoiceList(this.$route.params.id);
   },
+  watch: {},
   mounted: function mounted() {
     setTimeout(function () {
       $(document).ready(function () {
-        $('.testDataTable').DataTable({
+        $('.ipiInvoiceTable').DataTable({
           searching: true,
           ordering: true
         });
       });
     }, 2000);
   },
-  watch: {},
   methods: {
     // permissionforInvoiceGanarete(id) {
     //     // alert(id)
@@ -120,7 +120,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "col-md-12"
   }, [_c("table", {
-    staticClass: "table table-striped table-bordered table-hover w-100 testDataTable",
+    staticClass: "table table-striped table-bordered table-hover w-100 ipiInvoiceTable",
     staticStyle: {
       "min-width": "100%"
     }
@@ -177,7 +177,7 @@ var render = function render() {
         target: "_blank",
         title: "Permission for Invoice Ganarete"
       }
-    }, [_vm._v("Invoice Generate")]) : _vm._e()], 1), _vm._v(" "), _c("td")]);
+    }, [_vm._v("\n                      Invoice Generate")]) : _vm._e()], 1)]);
   }), 0)])])])]) : _vm._e()])])]);
 };
 var staticRenderFns = [function () {
