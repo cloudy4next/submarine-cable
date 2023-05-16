@@ -130,6 +130,26 @@ class CustomerController extends Controller
         }
     }
 
+    public function customerPasswordChange(Request $request)
+    {
+
+        $findCustomer = $this->findCustomer($request->id);
+        // dd($findCustomer->name);
+
+        Customer::where('id', $findCustomer->id)->update([
+            'name' => $request['name'] ?? $findCustomer->name,
+            'com_name' => $request['com_name'] ?? $findCustomer->com_name,
+            'address' => $request['address'] ?? $findCustomer->address,
+            'bin_vat_etc' => $request['bin_vat_etc'] ?? $findCustomer->bin_vat_etc,
+            'tin' => $request['tin'] ?? $findCustomer->tin,
+            'customer_type_id' => $request['customer_type_id'] ?? $findCustomer->customer_type_id,
+            'email' => $request['email'] ?? $findCustomer->email,
+            'phone' => $request['phone'] ?? $findCustomer->phone,
+        ]);
+
+
+        return response(['msg' => 'Successfully Created New Customer Information',], 200);
+    }
 
     public function customerIdWiseCircuit(Request $request)
     {

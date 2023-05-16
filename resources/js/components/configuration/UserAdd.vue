@@ -12,9 +12,10 @@
                     If you add single user data
                     <a @click="visibleAction" href="javascript:void(0)">Click Here</a>
                 </p>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="reloadPage">
                     <span aria-hidden="true">&times;</span>
                 </button>
+
             </div>
             <div class="modal-body">
                 <div class="card card-primary">
@@ -110,6 +111,16 @@
                                             </div>
                                         </ValidationProvider>
                                     </div>
+
+                                    <div class="col-md-6" v-if="editpasswordShow == 0">
+                                            <ValidationProvider name="Password" rules="required|min:8|max:8" v-slot="{ errors }">
+                                                <div class="form-group">
+                                                    <label for="password">Edit Password</label>
+                                                    <input type="password" v-model="admin.password" class="form-control" id="password" autocomplete="off" />
+                                                    <span class="invalid-feedback d-block">{{ errors[0] }}</span>
+                                                </div>
+                                            </ValidationProvider>
+                                    </div>
                                 </div>
 
                                 <div class="text-right">
@@ -140,6 +151,7 @@ export default {
             loading: false,
             visibleForm: false,
             passwordShow: 0,
+            editpasswordShow: 1,
             admin: {
                 name: "",
                 id: "",
@@ -159,6 +171,9 @@ export default {
         this.getValue();
     },
     methods: {
+            reloadPage() {
+            window.location.reload();
+        },
         getValue() {
             if (this.user) {
                 this.admin.id = this.user.id;
@@ -168,12 +183,14 @@ export default {
                 this.admin.roles = this.user.roles;
                 this.admin.address = this.user.address;
                 this.passwordShow = 1;
+                this.editpasswordShow = 0;
                 this.admin.designation = this.user.designation;
 
             }
         },
         visibleAction() {
             this.visibleForm = !this.visibleForm;
+
         },
         onSubmit() {
             this.loading = true;
@@ -187,6 +204,7 @@ export default {
                     });
                     this.$emit("executeMethod");
                     $("#user-add-modal").modal("hide");
+                    window.location.reload();
                 })
                 .catch(() => {
                     this.loading = false;
@@ -195,6 +213,8 @@ export default {
                         title: "wrong creidentials!",
                     });
                     $("#user-add-modal").modal("hide");
+                    window.location.reload();
+
                 });
         },
         getRole() {
