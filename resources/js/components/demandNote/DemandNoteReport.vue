@@ -240,7 +240,7 @@
                         Monthly Recurring Charge (MRC) for Wet Segment
                         <!-- {{ finddata.capacity.capacity_name }} -->
                       </td>
-                      <td class="text-right">{{ finddata.mrc.toFixed(2) | comma }}</td>
+                      <td class="text-right">{{ MrcFloat().toFixed(2) | comma }}</td>
                       <td class="text-center">
                         <!-- On the slab of {{ finddata.capacity.capacity_name }} -->
                         <input type="text" class="form-control">
@@ -321,8 +321,7 @@
                       <td style="text-align:center">9</td>
                       <td>Subtotal Amount</td>
                       <td class="text-right">
-                        <span> {{ (RegistrationCharge() + InstallationCharge() + Vatno5() +
-                          totalAfterDiscount).toFixed(2) | comma
+                        <span> {{  SubTotal().toFixed(2) | comma
                         }}
                         </span>
                       </td>
@@ -335,7 +334,7 @@
                       <td>Security Deposit</td>
                       <td class="text-right">
                         <!-- {{ finddata.deposit.toFixed(2) }} -->
-                        {{ (totalAfterDiscount * 1.05).toFixed(2) | comma }}
+                        {{ SeqDeposit().toFixed(2) | comma }}
                       </td>
                       <td style="text-align:center">(5)*1.05</td>
                       <!-- <td class="text-center">{{mrcVatDeposit +' BDT '}}</td> -->
@@ -350,8 +349,7 @@
                       <td class="text-right">
                         <!-- {{ mrcVatDepositWithReg.toFixed(2) }} -->
                         <!-- {{ (totalAfterDiscount*1.05) + mrcVatInstallationReg()+ RegistrationCharge() + InstallationCharge()}} -->
-                        {{ (RegistrationCharge() + InstallationCharge() + Vatno5() +
-                          totalAfterDiscount + (totalAfterDiscount * 1.05)).toFixed(2) | comma }}
+                        {{ TotalPayAmount().toFixed(2) | comma }}
                       </td>
                       <td style="text-align:center">(9+10)</td>
                     </tr>
@@ -363,7 +361,7 @@
           </div>
           <div class="col-md-10 offset-1 mb-2">
             <p>
-              In words (Taka) : {{ totalPayable() | toWords }}.
+              In words (Taka) : {{ TotalPayAmount() | toWords }}.
             </p>
           </div>
           <div class="col-md-6 text-center" style="padding-top: 25px" v-if="manager[0]">
@@ -380,7 +378,7 @@
           <div class="col-md-12 text-left pl-4 pb-3" v-if="finddata.service_id == 1">
             <p class="mb-0"> <b>Note :</b> <strong>
                 Please issue payorder in favour of "Bangladesh Submarine Cable Company Limited" with an amount of Tk. {{
-                  totalPayable().toFixed(2) | comma }}
+                  TotalPayAmount().toFixed(2) | comma }}
               </strong> </p>
             <p class="mb-0 pl-5"> <strong>
                 VAT amount may be changed according to the opinion of the VAT authority
@@ -481,6 +479,18 @@ export default {
       }
     },
 
+      MrcFloat(){
+        return parseFloat(this.finddata.mrc_ws);
+      },
+      SubTotal() {
+            return parseFloat(this.finddata.sub_total);
+      },
+        SeqDeposit() {
+                return parseFloat(this.finddata.seq_deposit);
+        },
+     TotalPayAmount() {
+            return parseFloat(this.finddata.total_pay_amount);
+        },
 
     InstallationCharge() {
       if (this.finddata.service_id == 1) {
@@ -490,7 +500,9 @@ export default {
       }
     },
     Vatno5() {
-      return (this.RegistrationCharge() + this.InstallationCharge() + this.totalAfterDiscount) * .05;
+    //   return (this.RegistrationCharge() + this.InstallationCharge() + this.totalAfterDiscount) * .05;
+                return parseFloat(this.finddata.vat);
+
     },
     mrcVatInstallationReg() {
       return this.totalAfterDiscount + this.vatAmount;
@@ -564,10 +576,8 @@ export default {
       }
     },
 
-    totalAfterDiscount() {
-      return (
-        this.finddata.mrc - (this.finddata.mrc * this.finddata.discount) / 100
-      );
+      totalAfterDiscount() {
+            return parseFloat(this.finddata.mrc_ws_ad);
     },
     vat() {
       return this.finddata.zonelist.vat;
@@ -576,7 +586,9 @@ export default {
       return (this.totalAfterDiscount * this.vat) / 100;
     },
     mrcAfterVat() {
-      return this.totalAfterDiscount + this.vatAmount;
+        // return this.totalAfterDiscount + this.vatAmount;
+        return parseFloat(this.finddata.vat_mrc);
+
     },
     mrcVatDeposit() {
       // return this.mrcAfterVat + this.finddata.deposit;

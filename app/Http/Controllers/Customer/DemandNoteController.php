@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Customer;
 
 use App\Models\User;
@@ -14,6 +15,7 @@ use App\Http\Resources\DemandNoteReportResource;
 use App\Http\Resources\TotalRevenueReportResource;
 use App\Http\Resources\ColocationDemandNoteResource;
 use App\Http\Controllers\Configuration\ServiceController;
+use App\Http\Controllers\Api\DemandNoteAuthController;
 use App\Models\CircuitCategory;
 use Datetime;
 use Illuminate\Support\Carbon;
@@ -24,15 +26,16 @@ class DemandNoteController extends Controller
     // customer id wise demand note
     public function customerIdWiseDemandNote($customer_id)
     {
-        return $data = DemandNote::with(['groups', 'circuit', 'subservice', 'customers'])->where('customer_id',
-        $customer_id)->orderBy('id', 'desc')
+        return $data = DemandNote::with(['groups', 'circuit', 'subservice', 'customers'])->where(
+            'customer_id',
+            $customer_id
+        )->orderBy('id', 'desc')
             ->get();
     }
 
     public function destroy(Request $request)
     {
         return DemandNote::where('id', $request->id)->delete();
-
     }
     public function customerIdWiseTotalBandwidthCalculation($customerId)
     {
@@ -45,11 +48,15 @@ class DemandNoteController extends Controller
 
     public function customerIdAndPopWiseWiseTotalBandwidthCalculation($customerId, $groupId)
     {
-        $total = DemandNote::where('customer_id', $customerId)->where('group_id', $groupId)->where('approval_status',
-        2)
+        $total = DemandNote::where('customer_id', $customerId)->where('group_id', $groupId)->where(
+            'approval_status',
+            2
+        )
             ->sum('max');
-        $data = DemandNote::where('customer_id', $customerId)->where('group_id', $groupId)->where('approval_status',
-        2)
+        $data = DemandNote::where('customer_id', $customerId)->where('group_id', $groupId)->where(
+            'approval_status',
+            2
+        )
             ->sum('downgrade');
         return $total - $data;
     }
@@ -61,14 +68,11 @@ class DemandNoteController extends Controller
 
     public function getServiceSubServiceGroupZoneWiseCustomerInfo($serviceId, $subServiceId, $lincenceId, $groupId)
     {
-        if ($serviceId == 1)
-        {
+        if ($serviceId == 1) {
             return $data = DemandNote::with('customers')->where('service_id', $serviceId)->where('sub_service_id', $subServiceId)->where('group_id', $groupId)->where('approval_status', 2)
                 ->orderBy('id', 'desc')
                 ->get();
-        }
-        else
-        {
+        } else {
             return $data = DemandNote::with('customers')->where('service_id', $serviceId)->where('sub_service_id', $subServiceId)->where('circuit_id', $lincenceId)->where('group_id', $groupId)->where('approval_status', 2)
                 ->orderBy('id', 'desc')
                 ->get();
@@ -81,7 +85,6 @@ class DemandNoteController extends Controller
         return $data = ColocationDemandNote::with('customers')->where('service_id', $serviceId)->where('group_id', $groupId)->where('approval_status', 2)
             ->orderBy('id', 'desc')
             ->get();
-
     }
 
     public function existingCustomer($customerId, $serviceId)
@@ -100,13 +103,13 @@ class DemandNoteController extends Controller
     public function existingColocationCustomer($customerId, $serviceId)
     {
         return $existingCustomer = ColocationDemandNote::where('customer_id', $customerId)
-                ->where('service_id',$serviceId)->where('approval_status', '<', 3) ->first();
+            ->where('service_id', $serviceId)->where('approval_status', '<', 3)->first();
     }
 
     public function countColocationCustomerDemandNote($customerId, $serviceId)
     {
-        return $countCustomerDemandNote = ColocationDemandNote::where('customer_id', $customerId)->where('service_id',$serviceId)
-                ->where('approval_status', '<', 3)->count();
+        return $countCustomerDemandNote = ColocationDemandNote::where('customer_id', $customerId)->where('service_id', $serviceId)
+            ->where('approval_status', '<', 3)->count();
     }
 
     public function countdemandNote(Request $request)
@@ -123,7 +126,8 @@ class DemandNoteController extends Controller
         $data = DemandNote::with('services', 'ports', 'customers.custype', 'subservice', 'circuit', 'groups', 'capacity', 'zonelist.groups')->where('service_id', $id)->orderBy('id', 'desc')
             ->get();
 
-        return response(['msg' => 'success', 'data' => $data
+        return response([
+            'msg' => 'success', 'data' => $data
 
         ]);
     }
@@ -134,7 +138,8 @@ class DemandNoteController extends Controller
         $data = ColocationDemandNote::with('services', 'customers.custype', 'subservice', 'circuit', 'capacity', 'zonelist.groups', 'groups')->where('service_id', $id)->orderBy('id', 'desc')
             ->get();
 
-        return response(['msg' => 'success', 'data' => $data
+        return response([
+            'msg' => 'success', 'data' => $data
 
         ]);
     }
@@ -149,58 +154,57 @@ class DemandNoteController extends Controller
         $totalBand = $this->customerIdWiseTotalBandwidthCalculation($data->customer_id);
 
         $manager = $data->service_id;
-        if($data->service_id ==1){
+        if ($data->service_id == 1) {
 
-            $manager = User::where('sign_iplc_demandnote' ,1)->where('sign_status',1)->get();
-        }else{
-            $manager = User::where('sign_ipt_demandnote' ,1)->where('sign_status',1)->get();
+            $manager = User::where('sign_iplc_demandnote', 1)->where('sign_status', 1)->get();
+        } else {
+            $manager = User::where('sign_ipt_demandnote', 1)->where('sign_status', 1)->get();
         }
 
 
 
-         $customerCircuits = DemandNote::with('circuit')
-         ->where('approval_status', 2)
-         ->where('customer_id',$data->customer_id)
-         ->select( 'circuit_id')
-         ->groupBy('circuit_id')
-         ->get();
+        $customerCircuits = DemandNote::with('circuit')
+            ->where('approval_status', 2)
+            ->where('customer_id', $data->customer_id)
+            ->select('circuit_id')
+            ->groupBy('circuit_id')
+            ->get();
 
 
         $second_last_circuit = DemandNote::with('circuit')
-                    ->where('approval_status',2)
-                    ->where('customer_id',$data->customer_id)
-                    ->orderBy('created_at', 'desc')
-                    ->skip(1)->take(1)
-                    ->get();
+            ->where('approval_status', 2)
+            ->where('customer_id', $data->customer_id)
+            ->orderBy('created_at', 'desc')
+            ->skip(1)->take(1)
+            ->get();
 
 
-         $connectionData = [];
-         foreach ($customerCircuits as $key => $c)
-         {
-            $is_approved = DemandNote::where('circuit_id',$c->circuit_id)
-                    ->where('approval_status',2)
-                    ->where('customer_id',$data->customer_id)
-                    ->first();
+        $connectionData = [];
+        foreach ($customerCircuits as $key => $c) {
+            $is_approved = DemandNote::where('circuit_id', $c->circuit_id)
+                ->where('approval_status', 2)
+                ->where('customer_id', $data->customer_id)
+                ->first();
 
             // oldMax= $this->existingData($data->customer_id,$c->circuit_id);
             // dd($oldMax);
             $connectionData[] = [
                 'name' => $c->circuit->circuit_name,
                 'id' => $c->circuit_id,
-                'qty' =>DemandNote::where('circuit_id',$c->circuit_id)
+                'qty' => DemandNote::where('circuit_id', $c->circuit_id)
                     // ->where('approval_status',2)
-                    ->where('customer_id',$data->customer_id)
-                    ->whereDate('approved_date' ,'<=',Carbon::today()->toDateString())
+                    ->where('customer_id', $data->customer_id)
+                    ->whereDate('approved_date', '<=', Carbon::today()->toDateString())
                     ->count(),
-                'prcessing_qty' => DemandNote::where('circuit_id',$c->circuit_id)
+                'prcessing_qty' => DemandNote::where('circuit_id', $c->circuit_id)
                     // ->where('approval_status',2)
-                    ->where('customer_id',$data->customer_id)
-                    ->whereDate('approved_date' ,'>',Carbon::today()->toDateString())
+                    ->where('customer_id', $data->customer_id)
+                    ->whereDate('approved_date', '>', Carbon::today()->toDateString())
                     ->count(),
                 'is_approved' => $is_approved->approval_status,
 
             ];
-         }
+        }
 
         return response([
             'msg' => 'success',
@@ -208,7 +212,7 @@ class DemandNoteController extends Controller
             'totalBand' => $totalBand,
             'manager' => $manager,
             'connectionData' => $connectionData,
-            'second_last_circuit' =>$oldMax,
+            'second_last_circuit' => $oldMax,
 
         ]);
     }
@@ -219,31 +223,29 @@ class DemandNoteController extends Controller
             ->first();
 
 
-         $manager = $data->service_id;
-         if($data->service_id ==13){
+        $manager = $data->service_id;
+        if ($data->service_id == 13) {
 
-            $manager = User::where('sign_iplc_demandnote' ,1)->where('sign_status',1)->get();
-         }else{
-            $manager = User::where('sign_ipt_demandnote' ,1)->where('sign_status',1)->get();
-         }
-        return response(['msg' => 'success',
-         'data' => $data,
-         'manager' => $manager,
+            $manager = User::where('sign_iplc_demandnote', 1)->where('sign_status', 1)->get();
+        } else {
+            $manager = User::where('sign_ipt_demandnote', 1)->where('sign_status', 1)->get();
+        }
+        return response([
+            'msg' => 'success',
+            'data' => $data,
+            'manager' => $manager,
 
         ]);
     }
 
     public function existingData($customerId, $circuitId)
     {
-        if ($circuitId == 6 || $circuitId == 7 || $circuitId == 5)
-        {
+        if ($circuitId == 6 || $circuitId == 7 || $circuitId == 5) {
             return $existingDemandNote = DemandNote::where('customer_id', $customerId)->where('circuit_id', '>=', 5)
                 ->where('circuit_id', '<=', 7)
                 ->where('approval_status', '<', 3)
                 ->sum('max');
-        }
-        else
-        {
+        } else {
             return $existingData = DemandNote::where('customer_id', $customerId)->where('circuit_id', $circuitId)->where('approval_status', '<', 3)
                 ->sum('max');
         }
@@ -251,15 +253,12 @@ class DemandNoteController extends Controller
 
     public function colocationExistingData($customerId, $circuitId)
     {
-        if ($circuitId == 6 || $circuitId == 7)
-        {
+        if ($circuitId == 6 || $circuitId == 7) {
             return $existingDemandNote = ColocationDemandNote::where('customer_id', $customerId)->where('circuit_id', '>', 5)
                 ->where('circuit_id', '<=', 7)
                 ->where('approval_status', '<', 3)
                 ->sum('max');
-        }
-        else
-        {
+        } else {
             return $existingData = ColocationDemandNote::where('customer_id', $customerId)->where('circuit_id', $circuitId)->where('approval_status', '<', 3)
                 ->sum('max');
         }
@@ -267,15 +266,12 @@ class DemandNoteController extends Controller
 
     public function colocationExistingDemandNoteCheck($customerId, $circuitId)
     {
-        if ($circuitId == 6 || $circuitId == 7)
-        {
+        if ($circuitId == 6 || $circuitId == 7) {
             return $existingDemandNote = ColocationDemandNote::where('customer_id', $customerId)->where('circuit_id', '>', 5)
                 ->where('circuit_id', '<=', 7)
                 ->where('approval_status', '<', 3)
                 ->first();
-        }
-        else
-        {
+        } else {
             return $existingDemandNote = ColocationDemandNote::where('customer_id', $customerId)->where('circuit_id', $circuitId)->where('approval_status', '<', 3)
                 ->first();
         }
@@ -283,15 +279,12 @@ class DemandNoteController extends Controller
 
     public function existingDemandNoteCheck($customerId, $circuitId)
     {
-        if ($circuitId == 6 || $circuitId == 7 || $circuitId == 5)
-        {
+        if ($circuitId == 6 || $circuitId == 7 || $circuitId == 5) {
             return $existingDemandNote = DemandNote::where('customer_id', $customerId)->where('circuit_id', '>=', 5)
                 ->where('circuit_id', '<=', 7)
                 ->where('approval_status', '<', 3)
                 ->first();
-        }
-        else
-        {
+        } else {
             return $existingDemandNote = DemandNote::where('customer_id', $customerId)->where('circuit_id', $circuitId)->where('approval_status', '<', 3)
                 ->first();
         }
@@ -305,12 +298,9 @@ class DemandNoteController extends Controller
 
         // return $max;
         // dd($val);
-        if (is_null($val))
-        {
+        if (is_null($val)) {
             $price = 0;
-        }
-        else
-        {
+        } else {
             $price = intval($val->charge);
         }
         return (int)$price;
@@ -341,73 +331,44 @@ class DemandNoteController extends Controller
 
         $price = 0;
 
-        if ($existingDemandNote != '')
-        {
+        if ($existingDemandNote != '') {
             $oldMax = $this->existingData($customerId, $circuitId);
             $max += $oldMax; // New Demand note + Existing Demand note
 
         }
-        if ($circuitId == 5)
-        { //stm 16
-            if ($max > 0 && $max <= 30)
-            {
+        if ($circuitId == 5) { //stm 16
+            if ($max > 0 && $max <= 30) {
                 $price = $this->calculate(30, $circuitId, $grp_or_zone);
-            }
-            elseif ($max > 30 && $max <= 50)
-            {
+            } elseif ($max > 30 && $max <= 50) {
                 $price = $this->calculate(50, $circuitId, $grp_or_zone);
-            }
-            elseif ($max > 50 && $max <= 100)
-            {
+            } elseif ($max > 50 && $max <= 100) {
                 $price = $this->calculate(100, $circuitId, $grp_or_zone);
-            }
-            elseif ($max > 100 && $max <= 150)
-            {
+            } elseif ($max > 100 && $max <= 150) {
                 $price = $this->calculate(150, $circuitId, $grp_or_zone);
-            }
-            elseif ($max > 150 && $max <= 200)
-            {
+            } elseif ($max > 150 && $max <= 200) {
                 $price = $this->calculate(200, $circuitId, $grp_or_zone);
-            }
-            else
-            {
+            } else {
                 $price = $this->calculate(220, $circuitId, $grp_or_zone);
             }
-
-        }
-        elseif ($circuitId == 6)
-        { //
+        } elseif ($circuitId == 6) { //
             // dd("im here");
             $maxPer10g = $max / 10;
-            if ($max > 0 && $max <= 10)
-            {
+            if ($max > 0 && $max <= 10) {
                 $price = $this->calculate(10, $circuitId, $grp_or_zone);
-            }
-            elseif ($max > 10 && $max <= 20)
-            {
+            } elseif ($max > 10 && $max <= 20) {
                 $price = $this->calculate(20, $circuitId, $grp_or_zone);
-            }
-            elseif ($max > 20 && $max <= 30)
-            {
+            } elseif ($max > 20 && $max <= 30) {
                 $price = $this->calculate(30, $circuitId, $grp_or_zone);
-            }
-            elseif ($max > 30 && $max <= 50)
-            {
+            } elseif ($max > 30 && $max <= 50) {
                 $price = $this->calculate(50, $circuitId, $grp_or_zone);
-
-            }
-            elseif ($max > 50 && $max <= 100)
-            {
+            } elseif ($max > 50 && $max <= 100) {
                 $maxCalculat = $maxPer10g - 5;
                 $val5 = $this->calculate(50, $circuitId, $grp_or_zone);
                 $val10 = $this->calculate(100, $circuitId, $grp_or_zone);
 
                 $price = ($val5 * 5) + ($val10 * $maxCalculat);
                 $price /= $maxPer10g;
-
-            }
-            elseif ($max > 100 && $max <= 150)
-            {
+            } elseif ($max > 100 && $max <= 150) {
                 $maxCalculat = $maxPer10g - 10;
                 $val5 = $this->calculate(50, $circuitId, $grp_or_zone);
                 $val10 = $this->calculate(100, $circuitId, $grp_or_zone);
@@ -415,10 +376,7 @@ class DemandNoteController extends Controller
 
                 $price = ($val5 * 5) + ($val10 * 5) + ($val15 * $maxCalculat);
                 $price /= $maxPer10g;
-
-            }
-            elseif ($max > 150 && $max <= 200)
-            {
+            } elseif ($max > 150 && $max <= 200) {
                 $maxCalculat = $maxPer10g - 15;
                 $val5 = $this->calculate(50, $circuitId, $grp_or_zone);
                 $val10 = $this->calculate(100, $circuitId, $grp_or_zone);
@@ -427,10 +385,7 @@ class DemandNoteController extends Controller
 
                 $price = ($val5 * 5) + ($val10 * 5) + ($val15 * 5) + ($val20 * $maxCalculat);
                 $price /= $maxPer10g;
-
-            }
-            elseif ($max > 200 && $max <= 250)
-            {
+            } elseif ($max > 200 && $max <= 250) {
                 $maxCalculat = $maxPer10g - 20;
                 $val5 = $this->calculate(50, $circuitId, $grp_or_zone);
                 $val10 = $this->calculate(100, $circuitId, $grp_or_zone);
@@ -440,10 +395,7 @@ class DemandNoteController extends Controller
 
                 $price = ($val5 * 5) + ($val10 * 5) + ($val15 * 5) + ($val20 * 5) + ($val25 * $maxCalculat);
                 $price /= $maxPer10g;
-
-            }
-            elseif ($max > 250 && $max <= 300)
-            {
+            } elseif ($max > 250 && $max <= 300) {
                 $maxCalculat = $maxPer10g - 25;
                 $val5 = $this->calculate(50, $circuitId, $grp_or_zone);
                 $val10 = $this->calculate(100, $circuitId, $grp_or_zone);
@@ -454,10 +406,7 @@ class DemandNoteController extends Controller
 
                 $price = ($val5 * 5) + ($val10 * 5) + ($val15 * 5) + ($val20 * 5) + ($val25 * 5) + ($val30 * $maxCalculat);
                 $price /= $maxPer10g;
-
-            }
-            elseif ($max > 300 && $max <= 350)
-            {
+            } elseif ($max > 300 && $max <= 350) {
                 $maxCalculat = $maxPer10g - 30;
                 $val5 = $this->calculate(50, $circuitId, $grp_or_zone);
                 $val10 = $this->calculate(100, $circuitId, $grp_or_zone);
@@ -469,10 +418,7 @@ class DemandNoteController extends Controller
 
                 $price = ($val5 * 5) + ($val10 * 5) + ($val15 * 5) + ($val20 * 5) + ($val25 * 5) + ($val30 * 5) + ($val35 * $maxCalculat);
                 $price /= $maxPer10g;
-
-            }
-            else
-            {
+            } else {
                 $maxCalculat = $maxPer10g - 35;
                 $val5 = $this->calculate(50, $circuitId, $grp_or_zone);
                 $val10 = $this->calculate(100, $circuitId, $grp_or_zone);
@@ -486,68 +432,40 @@ class DemandNoteController extends Controller
                 $price = ($val5 * 5) + ($val10 * 5) + ($val15 * 5) + ($val20 * 5) + ($val25 * 5) + ($val30 * 5) + ($val35 * 5) + ($val40 * $maxCalculat);
                 $price /= $maxPer10g;
             }
+        } elseif ($circuitId == 7) { // 100 g
 
-        }
-        elseif ($circuitId == 7)
-        { // 100 g
-
-            if ($max < 200)
-            {
+            if ($max < 200) {
                 $price = $this->calculate(200, $circuitId, $grp_or_zone);
-
-            }
-            elseif ($max >= 200 && $max < 300)
-            {
+            } elseif ($max >= 200 && $max < 300) {
 
                 $price = $this->calculate(300, $circuitId, $grp_or_zone);
-                                // dd($price);
+                // dd($price);
 
-            }
-            elseif ($max >= 300 && $max < 400)
-            {
+            } elseif ($max >= 300 && $max < 400) {
 
                 // dd($max);
                 $price = $this->calculate(400, $circuitId, $grp_or_zone);
-            }
-            elseif ($max >= 400 && $max < 500)
-            {
+            } elseif ($max >= 400 && $max < 500) {
                 $price = $this->calculate(500, $circuitId, $grp_or_zone);
-            }
-            elseif ($max >= 500 && $max < 600)
-            {
+            } elseif ($max >= 500 && $max < 600) {
                 $price = $this->calculate(600, $circuitId, $grp_or_zone);
-            }
-            elseif ($max >=600  && $max < 700)
-            {
+            } elseif ($max >= 600  && $max < 700) {
                 $price = $this->calculate(700, $circuitId, $grp_or_zone);
-            }
-            elseif ($max >=700  && $max < 800)
-            {
+            } elseif ($max >= 700  && $max < 800) {
                 $price = $this->calculate(800, $circuitId, $grp_or_zone);
-            }
-            elseif ($max >=800  && $max < 900)
-            {
+            } elseif ($max >= 800  && $max < 900) {
                 $price = $this->calculate(900, $circuitId, $grp_or_zone);
-            }
-            elseif ($max >=900  && $max < 1000)
-            {
+            } elseif ($max >= 900  && $max < 1000) {
                 $price = $this->calculate(1000, $circuitId, $grp_or_zone);
-            }
-            else
-            {
+            } else {
                 $price = $this->calculate(1100, $circuitId, $grp_or_zone);
             }
-        }
-        else
-        {
+        } else {
             $val = GroupOrZone::where('max', $max)->where('circuit_id', $circuitId)->where('grp_or_zone', $grp_or_zone)->first();
 
-            if (is_null($val))
-            {
+            if (is_null($val)) {
                 $price = 0;
-            }
-            else
-            {
+            } else {
                 $price = intval($val->charge);
             }
             // return (int)$price;
@@ -555,7 +473,6 @@ class DemandNoteController extends Controller
         }
 
         return response(['msg' => 'Success', 'dataMrc' => $price]);
-
     }
 
     // MRC for Colocation demand note
@@ -566,10 +483,10 @@ class DemandNoteController extends Controller
         $circuitId = $request->circuit_id;
         $max = $request->max;
 
-        if($circuitId == 6){
-        $max = 10;
-        }elseif($circuitId == 7){
-        $max = 100;
+        if ($circuitId == 6) {
+            $max = 10;
+        } elseif ($circuitId == 7) {
+            $max = 100;
         } // jodi circuit wise max calculate na hoy
 
 
@@ -581,96 +498,71 @@ class DemandNoteController extends Controller
 
         $price = 0;
 
-        if ($existingDemandNote != '')
-        {
+        if ($existingDemandNote != '') {
             $oldMax = $this->colocationExistingData($customerId, $circuitId);
             $max += $oldMax; // New Demand note + Existing Demand note
 
         }
 
-        if ($circuitId == 6)
-        { //
+        if ($circuitId == 6) { //
             $maxPer10g = $max / 10;
-            if ($max > 0 && $max <= 10)
-            {
+            if ($max > 0 && $max <= 10) {
                 $price = $this->calculate(10, $circuitId, $grp_or_zone);
-            }
-            elseif ($max > 10 && $max <= 20)
-            {
+            } elseif ($max > 10 && $max <= 20) {
                 $priceOld = $this->calculate(10, $circuitId, $grp_or_zone);
                 $priceNew = $this->calculate(20, $circuitId, $grp_or_zone);
                 $price = $priceNew - $priceOld;
-            }
-            elseif ($max > 20 && $max <= 30)
-            {
+            } elseif ($max > 20 && $max <= 30) {
                 $priceOld = $this->calculate(20, $circuitId, $grp_or_zone);
                 $priceNew = $this->calculate(30, $circuitId, $grp_or_zone);
                 $price = $priceNew - $priceOld;
-            }
-            elseif ($max > 30 && $max <= 40)
-            {
+            } elseif ($max > 30 && $max <= 40) {
                 $priceOld = $this->calculate(30, $circuitId, $grp_or_zone);
                 $priceNew = $this->calculate(40, $circuitId, $grp_or_zone);
                 $price = $priceNew - $priceOld;
-
-            }elseif ($max > 40 && $max <= 50) {
-               $priceOld = $this->calculate(40, $circuitId, $grp_or_zone);
-               $priceNew = $this->calculate(50, $circuitId, $grp_or_zone);
-               $price = $priceNew - $priceOld;
-            }elseif ($max > 50 && $max <= 60) {
+            } elseif ($max > 40 && $max <= 50) {
+                $priceOld = $this->calculate(40, $circuitId, $grp_or_zone);
+                $priceNew = $this->calculate(50, $circuitId, $grp_or_zone);
+                $price = $priceNew - $priceOld;
+            } elseif ($max > 50 && $max <= 60) {
                 $priceOld = $this->calculate(50, $circuitId, $grp_or_zone);
                 $priceNew = $this->calculate(60, $circuitId, $grp_or_zone);
                 $price = $priceNew - $priceOld;
-            }elseif ($max > 60 && $max <= 70) {
+            } elseif ($max > 60 && $max <= 70) {
                 $priceOld = $this->calculate(60, $circuitId, $grp_or_zone);
                 $priceNew = $this->calculate(70, $circuitId, $grp_or_zone);
                 $price = $priceNew - $priceOld;
-            }elseif ($max > 70 && $max <= 80) {
+            } elseif ($max > 70 && $max <= 80) {
                 $priceOld = $this->calculate(70, $circuitId, $grp_or_zone);
                 $priceNew = $this->calculate(80, $circuitId, $grp_or_zone);
                 $price = $priceNew - $priceOld;
-            }elseif ($max > 80 && $max <= 90) {
-               $priceOld = $this->calculate(80, $circuitId, $grp_or_zone);
-               $priceNew = $this->calculate(90, $circuitId, $grp_or_zone);
-               $price = $priceNew - $priceOld;
-
-            }elseif ($max > 90 && $max <= 100) {
+            } elseif ($max > 80 && $max <= 90) {
+                $priceOld = $this->calculate(80, $circuitId, $grp_or_zone);
+                $priceNew = $this->calculate(90, $circuitId, $grp_or_zone);
+                $price = $priceNew - $priceOld;
+            } elseif ($max > 90 && $max <= 100) {
                 $priceOld = $this->calculate(90, $circuitId, $grp_or_zone);
                 $priceNew = $this->calculate(100, $circuitId, $grp_or_zone);
                 $price = $priceNew - $priceOld;
-
-            }elseif ($max > 100 && $max <= 200) {
+            } elseif ($max > 100 && $max <= 200) {
                 $price = $this->calculate(200, $circuitId, $grp_or_zone);
-
-            }elseif ($max > 200 && $max <= 300) {
+            } elseif ($max > 200 && $max <= 300) {
                 $price = $this->calculate(300, $circuitId, $grp_or_zone);
-
-            }else{
+            } else {
                 $price = $this->calculate(400, $circuitId, $grp_or_zone);
             }
-
-        }
-        elseif ($circuitId == 7)
-        { // 100 g
-            if ($max < 300)
-            {
+        } elseif ($circuitId == 7) { // 100 g
+            if ($max < 300) {
                 $price = $this->calculate(300, $circuitId, $grp_or_zone);
-            }
-            else
-            {
+            } else {
                 $price = $this->calculate(400, $circuitId, $grp_or_zone);
             }
-        }
-        else
-        {
+        } else {
             $val = GroupOrZone::where('circuit_id', $circuitId)->where('grp_or_zone', $grp_or_zone)->first();
 
-            if (is_null($val))
-            {
+            if (is_null($val)) {
                 $price = 0;
-            }
-            else
-            {
+            } else {
                 $price = intval($val->charge);
             }
             // return (int)$price;
@@ -678,23 +570,20 @@ class DemandNoteController extends Controller
         }
 
         return response(['msg' => 'Success', 'dataMrc' => $price]);
-
     }
 
     public function createDemandNote(Request $request)
     {
-        //    return $request->all();
+        // dd($request->all());
         $count_demand_note = 1;
         $existCustomer = $this->existingCustomer($request->customer_id, $request->service_id);
 
-        if ($existCustomer)
-        {
+        if ($existCustomer) {
             $coutnDemandNote = $this->countCustomerDemandNote($request->customer_id, $request->service_id);
             $count_demand_note += $coutnDemandNote;
         }
 
-        if ($request->service_id == 7)
-        {
+        if ($request->service_id == 7) {
             $request->max = $request->qty;
         }
         // if ($request->circuit_id == 7)
@@ -703,51 +592,60 @@ class DemandNoteController extends Controller
         // }
         $groupZoneInfo = (new ServiceController)->idWiseGroupZoneInfo($request->grp_or_zone);
         $groupId = $groupZoneInfo->grp_or_zone;
-        try
-        {
-            // DemandNote::create($request->all());
-            $data = new DemandNote();
-            $data->count_demand_note = $count_demand_note;
-            $data->customer_id = $request->customer_id;
-            $data->service_id = $request->service_id;
-            $data->sub_service_id = $request->sub_service_id;
-            $data->capacity_id = $request->capacity_id;
-            $data->grp_or_zone = $request->grp_or_zone;
-            $data->charge = $request->charge;
-            $data->circuit_id = $request->circuit_id;
-            $data->discount = $request->discount;
-            $data->qty = $request->qty;
-            $data->group_id = $groupId;
-            $data->mrc = $request->mrc;
-            $data->max = $request->max;
-            $data->country = $request->country;
-            $data->port = $request->port;
-            $data->portqty = $request->portqty;
-            $data->specialDiscount = $request->specialDiscount;
-            $data->deposit = $request->deposit;
-            $data->add_sub = $request->byCalculate;
-            $data->remarks = $request->remarks;
-            $data->save();
+        // DemandNote::create($request->all());
 
-            return response(['msg' => 'Success', 'redirect' => route('find.demand.note')
-            ], 200);
-        }
-        catch(\Exception $e)
-        {
-            echo $e->getMessage();
-        }
+        $data = new DemandNote();
+        $data->count_demand_note = $count_demand_note;
+        $data->customer_id = $request->customer_id;
+        $data->service_id = $request->service_id;
+        $data->sub_service_id = $request->sub_service_id;
+        $data->capacity_id = $request->capacity_id;
+        $data->grp_or_zone = $request->grp_or_zone;
+        $data->charge = $request->charge;
+        $data->circuit_id = $request->circuit_id;
+        $data->discount = $request->discount;
+        $data->qty = $request->qty;
+        $data->group_id = $groupId;
+        $data->mrc = $request->mrc;
+        $data->max = $request->max;
+        $data->country = $request->country;
+        $data->port = $request->port;
+        $data->portqty = $request->portqty;
+        $data->specialDiscount = $request->specialDiscount;
+        $data->deposit = $request->deposit;
+        $data->add_sub = $request->byCalculate;
+        $data->remarks = $request->remarks;
+        $data->save();
+
+        $demand_note_calculation = (new DemandNoteAuthController)->demand_note_collection($data);
+
+        $collection = DemandNote::find($data->id);
+        $collection->reg_charge = $demand_note_calculation['regCharge'];
+        $collection->ins_charge = $demand_note_calculation['installation'];
+        $collection->mrc_ws  = $demand_note_calculation['mrcWS'];
+        $collection->mrc_ws_ad = $demand_note_calculation['mscWSAD'];
+        $collection->total_mrc = $demand_note_calculation['totalMrc'];
+        $collection->vat = $demand_note_calculation['vat'];
+        $collection->vat_mrc = $demand_note_calculation['vatWMrc'];
+        $collection->sub_total = $demand_note_calculation['subAmount'];
+        $collection->seq_deposit = $demand_note_calculation['seqDeposit'];
+        $collection->total_pay_amount = $demand_note_calculation['totalPayAmount'];
+        $collection->update();
+
+        return response([
+            'msg' => 'Success', 'redirect' => route('find.demand.note')
+        ], 200);
     }
 
     public function createCoLocationDemandNote(Request $request)
     {
 
-        if ($request->circuit_id == 14)
-        {
+        if ($request->circuit_id == 14) {
             $request->capacity_id = 0;
             $request->max = 0;
             $request->sub_service_id = 0;
             $groupId = $request->grp_or_zone;
-        }else{
+        } else {
             $groupZoneInfo = (new ServiceController)->idWiseGroupZoneInfo($request->grp_or_zone);
             $groupId = $groupZoneInfo->grp_or_zone;
         }
@@ -755,25 +653,21 @@ class DemandNoteController extends Controller
         $count_demand_note = 1;
         $existCustomer = $this->existingColocationCustomer($request->customer_id, $request->service_id);
 
-        if ($existCustomer)
-        {
+        if ($existCustomer) {
             $coutnDemandNote = $this->countColocationCustomerDemandNote($request->customer_id, $request->service_id);
             $count_demand_note += $coutnDemandNote;
         }
 
 
-         if ($request->circuit_id == 7)
-         {
+        if ($request->circuit_id == 7) {
             $request->max = 100;
-         }
+        }
 
-         if ($request->circuit_id == 6)
-         {
+        if ($request->circuit_id == 6) {
             $request->max = 10;
-         }
+        }
 
-        try
-        {
+        try {
             $data = new ColocationDemandNote();
             $data->count_demand_note = $count_demand_note;
             $data->customer_id = $request->customer_id;
@@ -798,20 +692,18 @@ class DemandNoteController extends Controller
             $data->remarks = $request->remarks;
             $data->save();
 
-            return response(['msg' => 'Success'
+            return response([
+                'msg' => 'Success'
 
             ], 200);
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
     }
 
     public function demandNoteActivation(Request $request)
     {
-        try
-        {
+        try {
             $activation = DemandNote::find($request->id);
             $activation->approved_date = $request->approved_date;
             $activation->circuit_designation = $request->circuit_designation;
@@ -820,22 +712,18 @@ class DemandNoteController extends Controller
             // $activation->remarks = $request->remarks;
             $activation->save();
 
-            return response(['msg' => 'Success'
+            return response([
+                'msg' => 'Success'
 
             ], 200);
-
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
-
     }
 
     public function colocationDemandNoteActivation(Request $request)
     {
-        try
-        {
+        try {
 
             $activation = ColocationDemandNote::find($request->id);
             $activation->approved_date = $request->approved_date;
@@ -845,16 +733,13 @@ class DemandNoteController extends Controller
             $activation->remarks = $request->remarks;
             $activation->save();
 
-            return response(['msg' => 'Success'
+            return response([
+                'msg' => 'Success'
 
             ], 200);
-
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
-
     }
 
     public function getInvoiceCustomer(Request $request)
@@ -865,8 +750,7 @@ class DemandNoteController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
-        return response(['msg' => 'success', 'data' => $data, ]);
-
+        return response(['msg' => 'success', 'data' => $data,]);
     }
 
     public function getServiceSubServiceGroupZoneWiseCustomer(Request $request)
@@ -876,16 +760,14 @@ class DemandNoteController extends Controller
 
         $data = $data->groupBy('customer_id');
 
-        return response(['msg' => 'success', 'data' => $data, ]);
-
+        return response(['msg' => 'success', 'data' => $data,]);
     }
 
     public function getServiceSubServiceGroupZoneCustomerWiseDemandNoteInfo($request)
     {
         // dd($request->grp_or_zone_id);
 
-        if ($request->customer_id != 0)
-        {
+        if ($request->customer_id != 0) {
             $data = DemandNote::where('service_id', $request->service_id)
                 ->where('sub_service_id', $request->sub_service_id)
                 ->where('customer_id', $request->customer_id)
@@ -893,9 +775,7 @@ class DemandNoteController extends Controller
                 ->where('approval_status', 2)
                 ->orderBy('id', 'desc')
                 ->get();
-        }
-        else
-        {
+        } else {
             $data = DemandNote::where('service_id', $request->service_id)
                 ->where('sub_service_id', $request->sub_service_id)
                 ->where('group_id', $request->grp_or_zone_id)
@@ -909,17 +789,14 @@ class DemandNoteController extends Controller
 
     public function getServiceGroupZoneCustomerWiseColocationDemandNoteInfo($request)
     {
-        if ($request->customer_id != 0)
-        {
+        if ($request->customer_id != 0) {
             $data = ColocationDemandNote::where('service_id', $request->service_id)
                 ->where('customer_id', $request->customer_id)
                 ->where('group_id', $request->grp_or_zone_id)
                 ->where('approval_status', 2)
                 ->orderBy('id', 'desc')
                 ->get();
-        }
-        else
-        {
+        } else {
             $data = ColocationDemandNote::where('service_id', $request->service_id)
                 ->where('group_id', $request->grp_or_zone_id)
                 ->where('approval_status', 2)
@@ -936,20 +813,17 @@ class DemandNoteController extends Controller
 
         // $data = $data->groupBy('customer_id');
         $formatedData = [];
-        foreach ($data as $key => $d)
-        {
+        foreach ($data as $key => $d) {
             $formatedData[$d->customer_id] = $d;
         }
 
-        return response(['msg' => 'success', 'data' => $formatedData, ]);
-
+        return response(['msg' => 'success', 'data' => $formatedData,]);
     }
 
     // Demand note Report comon function
     public function getServiceSubServiceGroupZoneCustomerWiseDemandNotereportList($request)
     {
-        if ($request->customer_id != 0)
-        {
+        if ($request->customer_id != 0) {
             $data = DemandNote::where('service_id', $request->service_id)
                 ->where('sub_service_id', $request->sub_service_id)
                 ->where('customer_id', $request->customer_id)
@@ -957,9 +831,7 @@ class DemandNoteController extends Controller
                 ->where('approval_status', 2)
                 ->orderBy('id', 'desc')
                 ->get();
-        }
-        else
-        {
+        } else {
             $data = DemandNote::where('service_id', $request->service_id)
                 ->where('sub_service_id', $request->sub_service_id)
                 ->where('group_id', $request->grp_or_zone_id)
@@ -973,17 +845,17 @@ class DemandNoteController extends Controller
 
     public function monthWiseTotalRevenueReportComonMethod($request)
     {
-        $a= DB::table('demand_notes')
-        ->select(DB::raw('service_id'));
+        $a = DB::table('demand_notes')
+            ->select(DB::raw('service_id'));
 
-       $b = DB::table('colocation_demand_notes')
-        ->select(DB::raw('service_id'))
+        $b = DB::table('colocation_demand_notes')
+            ->select(DB::raw('service_id'))
 
             //$a = DemandNote::where('approval_status', 2);
 
             //$b = ColocationDemandNote::where('approval_status', 2)
-                ->unionAll($a)
-                ->get();
+            ->unionAll($a)
+            ->get();
 
         return TotalRevenueReportResource::collection($b);
     }
@@ -997,13 +869,11 @@ class DemandNoteController extends Controller
 
         // $data = $data->groupBy('customer_id');
         $formatedData = [];
-        foreach ($data as $key => $d)
-        {
+        foreach ($data as $key => $d) {
             $formatedData[$d->customer_id] = $d;
         }
 
-        return response(['msg' => 'success', 'data' => $formatedData, ]);
-
+        return response(['msg' => 'success', 'data' => $formatedData,]);
     }
 
 
@@ -1020,8 +890,7 @@ class DemandNoteController extends Controller
         //     $formatedData[$d->customer_id] = $d;
         // }
 
-        return response(['msg' => 'success', 'data' => $data, ]);
-
+        return response(['msg' => 'success', 'data' => $data,]);
     }
 
 
@@ -1031,7 +900,6 @@ class DemandNoteController extends Controller
         $data = $this->customerIdWiseDemandNote($request->customer_id);
 
         return response(['msg' => 'success', 'data' => $data], 200);
-
     }
 
     public function customerIdWiseTotalCalculation($id)
@@ -1039,10 +907,10 @@ class DemandNoteController extends Controller
 
         $data = $this->customerIdWiseTotalBandwidthCalculation($id);
 
-        return response(['data' => $data, ], 200);
+        return response(['data' => $data,], 200);
     }
 
-    public function customerIdAndPopWiseTotalCalculation($id,$groupZoneId)
+    public function customerIdAndPopWiseTotalCalculation($id, $groupZoneId)
     {
         // dd($groupZoneId);
         $groupZoneInfo = (new ServiceController)->idWiseGroupZoneInfo($groupZoneId);
@@ -1050,7 +918,7 @@ class DemandNoteController extends Controller
         // dd($groupId);
         $data = $this->customerIdAndPopWiseWiseTotalBandwidthCalculation($id, $groupId);
         // dd($data);
-        return response(['data' => $data, ], 200);
+        return response(['data' => $data,], 200);
     }
 
     public function customerIdWiseFirstActivationDate($id)
@@ -1071,33 +939,32 @@ class DemandNoteController extends Controller
 
         $data = $data->groupBy('customer_id');
 
-        return response(['msg' => 'success', 'data' => $data, ]);
-
+        return response(['msg' => 'success', 'data' => $data,]);
     }
 
     // colocation power
 
     public function getServiceAndGroupZoneWiseIplcColocationPowerCustomerInfo($serviceId, $groupId)
     {
-    // return ColocationDemandNote::all();
-    return $data = ColocationDemandNote::with('customers')
-    ->where('service_id', $serviceId)->where('group_id',$groupId)
-    ->where('approval_status', 2)
-    ->orderBy('id', 'desc')
-    ->get();
-
+        // return ColocationDemandNote::all();
+        return $data = ColocationDemandNote::with('customers')
+            ->where('service_id', $serviceId)->where('group_id', $groupId)
+            ->where('approval_status', 2)
+            ->orderBy('id', 'desc')
+            ->get();
     }
 
-     public function getServiceGroupZoneWiseColocationPowerCustomer(Request $request)
-     {
-     $data = $this->getServiceAndGroupZoneWiseIplcColocationPowerCustomerInfo($request->service_id,
-     $request->grp_or_zone_id);
+    public function getServiceGroupZoneWiseColocationPowerCustomer(Request $request)
+    {
+        $data = $this->getServiceAndGroupZoneWiseIplcColocationPowerCustomerInfo(
+            $request->service_id,
+            $request->grp_or_zone_id
+        );
 
-     $data = $data->groupBy('customer_id');
+        $data = $data->groupBy('customer_id');
 
-     return response(['msg' => 'success', 'data' => $data, ]);
-
-     }
+        return response(['msg' => 'success', 'data' => $data,]);
+    }
 
 
 
@@ -1109,40 +976,35 @@ class DemandNoteController extends Controller
         $data = $this->getServiceGroupZoneCustomerWiseColocationDemandNoteInfo($request);
 
         $formatedData = [];
-        foreach ($data as $key => $d)
-        {
+        foreach ($data as $key => $d) {
             $formatedData[$d->customer_id] = $d;
         }
 
         return response(['msg' => 'success', 'data' => $formatedData,]);
-
     }
 
 
-    public function getconnectionInformation($customerId,$sub_service_id){
-        $customerCircuits =DemandNote::with('circuit')
-        ->where('approval_status', 2)
-        ->where('customer_id',$customerId)
-        ->where('sub_service_id',$sub_service_id)
-        ->select( 'circuit_id')
-        ->groupBy('circuit_id')
-        ->get();
+    public function getconnectionInformation($customerId, $sub_service_id)
+    {
+        $customerCircuits = DemandNote::with('circuit')
+            ->where('approval_status', 2)
+            ->where('customer_id', $customerId)
+            ->where('sub_service_id', $sub_service_id)
+            ->select('circuit_id')
+            ->groupBy('circuit_id')
+            ->get();
 
         $data = [];
-        foreach ($customerCircuits as $key => $c)
-        {
+        foreach ($customerCircuits as $key => $c) {
             $data[] = [
                 'name' => $c->circuit->circuit_name,
                 'id' => $c->circuit_id,
-                'qty' =>DemandNote::where('circuit_id',$c->circuit_id)
-                ->where('approval_status',2)
-                ->where('sub_service_id',$sub_service_id)
-                ->where('customer_id',$customerId)->count(),
+                'qty' => DemandNote::where('circuit_id', $c->circuit_id)
+                    ->where('approval_status', 2)
+                    ->where('sub_service_id', $sub_service_id)
+                    ->where('customer_id', $customerId)->count(),
             ];
         }
         return response(['msg' => 'success', 'data' => $data]);
-
-
     }
-
 }

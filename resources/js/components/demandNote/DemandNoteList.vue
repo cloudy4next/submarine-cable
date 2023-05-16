@@ -162,7 +162,7 @@
                       <td style="text-align:center">{{ item.customers.com_name }}</td>
                       <td style="text-align:center">{{ item.customers.custype.cus_type_name }}</td>
                       <td style="text-align:center">{{ item.subservice.sub_service_name }}</td>
-                      <td></td>
+                      <td style="text-align:center">{{ item.groups.group_name  }}</td>
                       <td v-if="item.service_id == 7" style="text-align:center">N/A</td>
                       <td style="text-align:center">{{ item.capacity.capacity_name }}</td>
                       <td v-if="item.service_id == 1" style="text-align:center">

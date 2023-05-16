@@ -2,10 +2,10 @@
   <div class="content-wrapper">
     <div class="modal-header">
       <h4 class="text-center" style="color: blue"><b>Invoice List ( IPLC )</b></h4>
+
       <router-link
         :to="{ name: 'IplcBillingList', params: { id: this.$route.params.id } }"
-        class="btn btn-success p-1 m-1"
-      >
+        class="btn btn-success p-1 m-1">
          <p class="pr-2 pb-1 mb-0"><i class="fa fa-list-ul  pl-2"> </i> Billing List</p>
       </router-link>
     </div>
@@ -19,9 +19,8 @@
           <div class="row">
             <div class="col-md-12">
               <table
-                class="table table-striped table-bordered table-hover w-100 testDataTable"
-                style="min-width: 100%"
-              >
+                class="table table-striped table-bordered table-hover w-100 iplcInvoiceTable"
+                style="min-width: 100%">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">SL</th>
@@ -102,6 +101,17 @@ export default {
     this.getInvoiceList(this.$route.params.id);
   },
   watch: {},
+
+mounted(){
+    setTimeout(() => {
+      $(document).ready(function () {
+        $('.iplcInvoiceTable').DataTable({
+          searching: true,
+          ordering:  true
+        });
+    });
+    }, 2000);
+  },
 
   methods: {
     // permissionforInvoiceGanarete(id) {
