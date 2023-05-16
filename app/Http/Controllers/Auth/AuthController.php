@@ -29,61 +29,62 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
-        // return $request->toArray();
-
-        //    $request->validate([
-        //         'name' => 'required',
-        //         'email' => 'required|unique:users,email',
-        //         'phone' => 'required',
-        //         'password' => 'required',
-        //         'address' => 'required',
-        //         'role' => 'required',
-        //         'designation' => 'required',
-
-        //     ]);
-
-        // dd('ok');
 
         if ($request->id) {
             $user = User::find($request->id);
-            $user->name =$request->name;
-            $user->email =$request->email;
-            $user->address =$request->address;
-            $user->designation =$request->designation;
-            $user->phone =$request->phone;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->address = $request->address;
+            $user->designation = $request->designation;
+            $user->phone = $request->phone;
             $user->update();
-            DB::table('model_has_roles')->where('model_id',$request->id)->delete();
+            DB::table('model_has_roles')->where('model_id', $request->id)->delete();
             $user->assignRole($request->input('roles'));
         } else {
             $user = User::create($request->all());
             $user->assignRole($request->input('roles'));
-
         }
         return response()->json([
             'message' => 'success'
         ], 200);
     }
 
+    public function resetPass(Request $request)
+    {
 
-    public function signImgInfoUpdate(Request $request){
+        $user = Auth::user();
+
+        if (Hash::check($request->password, $user->password)) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return response()->json([
+                'message' => 'success'
+            ], 200);
+        }
+    }
+
+
+    public function signImgInfoUpdate(Request $request)
+    {
         return $request->all();
         // return $request->imageTest;
 
 
 
-         if($request->hasFile('imageTest')){
+        if ($request->hasFile('imageTest')) {
             // return 'ookk';
-            $image=$request->file('imageTest');
+            $image = $request->file('imageTest');
             return $image;
-            $imageName='user_'.'_'.time().'.'.$image->getClientOriginalExtension();
-            Image::make($image)->resize(250,250)->save(base_path('public/uploads/users/'.$imageName));
+            $imageName = 'user_' . '_' . time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(250, 250)->save(base_path('public/uploads/users/' . $imageName));
 
-        //  User::where('id',$insert)->update([
-        //     'photo'=>$imageName,
-        //     'updated_at'=>Carbon::now()->toDateTimeString(),
-        //     ]);
-         }
-         return 'nnoo';
+            //  User::where('id',$insert)->update([
+            //     'photo'=>$imageName,
+            //     'updated_at'=>Carbon::now()->toDateTimeString(),
+            //     ]);
+        }
+        return 'nnoo';
 
 
 
@@ -120,12 +121,14 @@ class AuthController extends Controller
     public function signInfoUpdate(Request $request)
     {
 
-        if($request->iplcSignDemandNote == 1 || $request->iptSignDemandNote == 1 ||
-            $request->iplcSignInvoice == 1 ||$request->iptSignInvoice == 1 ||
-            $request->iplcSignReport == 1 || $request->iptSignReport == 1){
+        if (
+            $request->iplcSignDemandNote == 1 || $request->iptSignDemandNote == 1 ||
+            $request->iplcSignInvoice == 1 || $request->iptSignInvoice == 1 ||
+            $request->iplcSignReport == 1 || $request->iptSignReport == 1
+        ) {
             $sign_status = 1;
-        }else{
-           $sign_status = 0;
+        } else {
+            $sign_status = 0;
         }
 
         // if($request->iplcSign == 1){
@@ -154,7 +157,7 @@ class AuthController extends Controller
 
 
         return response()->json([
-           'message' => 'success'
+            'message' => 'success'
         ], 200);
     }
 
@@ -175,7 +178,7 @@ class AuthController extends Controller
 
 
         return response()->json([
-           'message' => 'success'
+            'message' => 'success'
         ], 200);
     }
 
@@ -192,7 +195,7 @@ class AuthController extends Controller
 
 
         return response()->json([
-           'message' => 'success'
+            'message' => 'success'
         ], 200);
     }
 
@@ -209,7 +212,7 @@ class AuthController extends Controller
         } else {
             return response()->json([
                 'msg' => "Cridential not match!"
-            ], 500);
+            ], 404);
         };
     }
 
@@ -243,17 +246,17 @@ class AuthController extends Controller
     }
 
 
-    public function getallroles(){
+    public function getallroles()
+    {
 
-        $data =Role::orderBy('id','desc')->get();
+        $data = Role::orderBy('id', 'desc')->get();
         return response([
             'msg' => 'success',
             'data' => $data
         ]);
     }
 
-    public function getroleName(){
-
-
+    public function getroleName()
+    {
     }
 }

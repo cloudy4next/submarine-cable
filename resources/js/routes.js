@@ -5,6 +5,7 @@ const UserList = () => import("./components/configuration/UserList.vue");
 const SignList = () => import("./components/sign/SignList.vue");
 const MailTo = () => import("./components/mail/MailList.vue");
 const Event = () => import("./components/event/Event.vue");
+const Profile = () => import("./components/Profile.vue");
 const SignAdd = () => import("./components/sign/SignAdd.vue");
 const Logout = () => import("./components/configuration/Logout.vue");
 const CustomerList = () => import("./components/configuration/CustomerList.vue");
@@ -81,6 +82,7 @@ const IptransitList = () => import("./components/configuration/IptransitList.vue
 const ColocationList = () => import("./components/configuration/ColocationList.vue");
 const ColocationIplcList = () => import("./components/configuration/ColocationIplcList.vue");
 
+
 // const IplcRevgReport = () => import("./components/configuration/IplcList.vue");
 
 
@@ -92,6 +94,12 @@ export default [
         path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
+    },
+        {
+        path: "/profile",
+        name: "Profile",
+        component: Profile,
+
     },
     {
         path: "/logout",

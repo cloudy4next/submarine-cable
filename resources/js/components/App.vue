@@ -72,8 +72,9 @@
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <div class="dropdown-divider"></div>
-          <a href="/logout"  class="dropdown-item dropdown-footer">Logout</a>
 
+            <router-link :to="{ name: 'Profile' }" class="dropdown-item dropdown-footer">Profile</router-link>
+            <a href="/logout"  class="dropdown-item dropdown-footer">Logout</a>
         </div>
       </li>
 
@@ -344,6 +345,7 @@
             </li>
 
 
+
             <li class="nav-item">
               <a href="/database-bekup" class="nav-link">
                  <i class="fa fa-database" aria-hidden="true"></i>
@@ -542,7 +544,11 @@
 </template>
 
 <script>
+import Profile from "./Profile.vue";
 export default {
+    components: {
+        Profile,
+    },
   data() {
     return {
       loading: false,
@@ -555,7 +561,11 @@ export default {
     this.getAuthuserName();
   },
 
-  methods: {
+    methods: {
+        showModal() {
+        this.visibleModal = true;
+        $("#user-add-modal").modal("show");
+        },
     getServiceList() {
       this.loading = true;
       axios.get("/service-list").then((response) => {
