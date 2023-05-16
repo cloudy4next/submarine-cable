@@ -131,7 +131,7 @@ export default {
                 name: "",
                 email: "",
                 phone: "",
-                resetpassword: "",
+                password: "",
             },
             roleList: [],
         };
@@ -160,7 +160,7 @@ export default {
                     this.loading = false;
                     Toast.fire({
                         icon: "success",
-                        title: "User upload Successfully.",
+                        title: "Password Changed Successfully.",
                     });
                 })
                 .catch(() => {

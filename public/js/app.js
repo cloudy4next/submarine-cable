@@ -2143,7 +2143,7 @@ __webpack_require__.r(__webpack_exports__);
         name: "",
         email: "",
         phone: "",
-        resetpassword: ""
+        password: ""
       },
       roleList: []
     };
@@ -2167,7 +2167,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.loading = false;
         Toast.fire({
           icon: "success",
-          title: "User upload Successfully."
+          title: "Password Changed Successfully."
         });
       })["catch"](function () {
         _this2.loading = false;

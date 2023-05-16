@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Event;
-use Illuminate\Support\Arr;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
+    use AuthenticatesUsers;
+
     public function index()
     {
         return view('pages.registration');
@@ -41,7 +44,15 @@ class AuthController extends Controller
             DB::table('model_has_roles')->where('model_id', $request->id)->delete();
             $user->assignRole($request->input('roles'));
         } else {
-            $user = User::create($request->all());
+            // $user = User::create($request->all());
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'designation' => $request->designation,
+                'password' => Hash::make($request->password),
+            ]);
             $user->assignRole($request->input('roles'));
         }
         return response()->json([
@@ -54,14 +65,13 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        if (Hash::check($request->password, $user->password)) {
-            $user->password = Hash::make($request->password);
-            $user->save();
+        // Update the password
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-            return response()->json([
-                'message' => 'success'
-            ], 200);
-        }
+        return response()->json([
+            'message' => 'success'
+        ], 200);
     }
 
 
@@ -202,10 +212,19 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        if (Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password
-        ])) {
+
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            // if (Auth::attempt([
+            //     'email' => $request->email,
+            //     'password' => $request->password
+            // ])) {
             return response()->json([
                 'msg' => "success"
             ], 200);
@@ -237,6 +256,7 @@ class AuthController extends Controller
 
         Auth::logout();
 
+        Session::flush();
         return redirect('/login');
 
         $request->session()->invalidate();

@@ -12,7 +12,7 @@
                     If you add single user data
                     <a @click="visibleAction" href="javascript:void(0)">Click Here</a>
                 </p>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="reloadPage">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                     <span aria-hidden="true">&times;</span>
                 </button>
 
@@ -103,7 +103,7 @@
                                     </div>
 
                                     <div class="col-md-6" v-if="passwordShow==0">
-                                        <ValidationProvider name="Password" rules="required|min:8|max:8" v-slot="{ errors }">
+                                        <ValidationProvider name="Password" rules="required|min:8" v-slot="{ errors }">
                                             <div class="form-group">
                                                 <label for="password">Password</label>
                                                 <input type="password" v-model="admin.password" class="form-control" id="password" autocomplete="off" />
@@ -172,7 +172,7 @@ export default {
     },
     methods: {
             reloadPage() {
-            window.location.reload();
+            // window.location.reload();
         },
         getValue() {
             if (this.user) {
@@ -204,7 +204,7 @@ export default {
                     });
                     this.$emit("executeMethod");
                     $("#user-add-modal").modal("hide");
-                    window.location.reload();
+                    // window.location.reload();
                 })
                 .catch(() => {
                     this.loading = false;
@@ -213,7 +213,7 @@ export default {
                         title: "wrong creidentials!",
                     });
                     $("#user-add-modal").modal("hide");
-                    window.location.reload();
+                    // window.location.reload();
 
                 });
         },

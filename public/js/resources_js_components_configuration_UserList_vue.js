@@ -68,7 +68,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     reloadPage: function reloadPage() {
-      window.location.reload();
+      // window.location.reload();
     },
     getValue: function getValue() {
       if (this.user) {
@@ -97,7 +97,7 @@ __webpack_require__.r(__webpack_exports__);
         });
         _this.$emit("executeMethod");
         $("#user-add-modal").modal("hide");
-        window.location.reload();
+        // window.location.reload();
       })["catch"](function () {
         _this.loading = false;
         Swal.fire({
@@ -105,7 +105,7 @@ __webpack_require__.r(__webpack_exports__);
           title: "wrong creidentials!"
         });
         $("#user-add-modal").modal("hide");
-        window.location.reload();
+        // window.location.reload();
       });
     },
     getRole: function getRole() {
@@ -296,21 +296,7 @@ var render = function render() {
     on: {
       click: _vm.visibleAction
     }
-  }, [_vm._v("Click Here")])]) : _vm._e(), _vm._v(" "), _c("button", {
-    staticClass: "close",
-    attrs: {
-      type: "button",
-      "data-dismiss": "modal",
-      "aria-label": "Close"
-    },
-    on: {
-      click: _vm.reloadPage
-    }
-  }, [_c("span", {
-    attrs: {
-      "aria-hidden": "true"
-    }
-  }, [_vm._v("×")])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Click Here")])]) : _vm._e(), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
   }, [_c("div", {
     staticClass: "card card-primary"
@@ -619,7 +605,7 @@ var render = function render() {
         }, [_c("ValidationProvider", {
           attrs: {
             name: "Password",
-            rules: "required|min:8|max:8"
+            rules: "required|min:8"
           },
           scopedSlots: _vm._u([{
             key: "default",
@@ -711,10 +697,25 @@ var render = function render() {
           }
         }, [_vm._v("\n                                        Submit\n                                    ")])])])];
       }
-    }], null, false, 4246472261)
+    }], null, false, 375124719)
   })], 1) : _vm._e(), _vm._v(" "), !_vm.visibleForm ? _c("import-user") : _vm._e()], 1)])])])]);
 };
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("button", {
+    staticClass: "close",
+    attrs: {
+      type: "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_c("span", {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])]);
+}];
 render._withStripped = true;
 
 
