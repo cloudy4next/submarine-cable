@@ -356,7 +356,67 @@ var render = function render() {
     }
   }, [_vm._v("\n                            Reject\n                          ")])])])])])])]), _vm._v(" "), _c("table", {
     staticClass: "table table-bordered table-striped table-responsive testDataTable"
-  }, [_vm._m(1), _vm._v(" "), _c("tbody", [_vm.filterSearch.length == 0 ? _c("tr", {
+  }, [_c("thead", [_c("tr", [_c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("SL")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Company Name")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Type")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Submarine Cable")]), _vm._v(" "), this.$route.params.id == 1 ? _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Foreign Drop Point")]) : _vm._e(), _vm._v(" "), this.$route.params.id == 7 ? _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("POP")]) : _vm._e(), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Circuit Capacity")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Circuit Level")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("B.H Provider")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("D.Note ID")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("D.Note Issue Date")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Circuit Designation")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Circuit Activation Date")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Status")]), _vm._v(" "), _c("th", {
+    staticStyle: {
+      "text-align": "center"
+    }
+  }, [_vm._v("Action")])])]), _vm._v(" "), _c("tbody", [_vm.filterSearch.length == 0 ? _c("tr", {
     staticClass: "text-center"
   }, [_c("span", [_vm._v("Data Not Found")])]) : _vm._e(), _vm._v(" "), _vm._l(_vm.filterSearch, function (item, index) {
     return item.migrate_status != 1 ? _c("tr", {
@@ -485,8 +545,7 @@ var staticRenderFns = [function () {
   }, [_c("select", [_c("option", {
     attrs: {
       value: "",
-      selected: "selected",
-      disabled: ""
+      selected: "selected"
     }
   }, [_vm._v("\n                      Select Cable\n                    ")])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-md-3"
@@ -495,18 +554,16 @@ var staticRenderFns = [function () {
   }, [_c("select", [_c("option", {
     attrs: {
       value: "",
-      selected: "selected",
-      disabled: ""
+      selected: "selected"
     }
-  }, [_vm._v("\n                      Select Licence\n                    ")])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                      Customer Type\n                    ")])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-md-3"
   }, [_c("div", {
     staticClass: "form-group"
   }, [_c("select", [_c("option", {
     attrs: {
       value: "",
-      selected: "selected",
-      disabled: ""
+      selected: "selected"
     }
   }, [_vm._v("\n                      Select Circuit\n                    ")])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-md-3"
@@ -515,70 +572,9 @@ var staticRenderFns = [function () {
   }, [_c("select", [_c("option", {
     attrs: {
       value: "",
-      selected: "selected",
-      disabled: ""
+      selected: "selected"
     }
   }, [_vm._v("\n                      Select Group/Zone\n                    ")])])])])])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("SL")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("Company Name")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("Type")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("Submarine Cable")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("Foreign Drop Point")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("Circuit Capacity")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("Circuit Level")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("B.H Provider")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("D.Note ID")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("D.Note Issue Date")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("Circuit Designation")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("Circuit Activation Date")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("Status")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("Action")])])]);
 }];
 render._withStripped = true;
 

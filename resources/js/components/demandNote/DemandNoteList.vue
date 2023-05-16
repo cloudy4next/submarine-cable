@@ -17,7 +17,7 @@
                   <div class="form-group">
                     <!-- <label >Submarine Cable</label> -->
                     <select>
-                      <option value="" selected="selected" disabled>
+                      <option value="" selected="selected" >
                         Select Cable
                       </option>
                     </select>
@@ -27,8 +27,8 @@
                   <div class="form-group">
                     <!-- <label >Licence</label> -->
                     <select>
-                      <option value="" selected="selected" disabled>
-                        Select Licence
+                      <option value="" selected="selected" >
+                        Customer Type
                       </option>
                     </select>
                   </div>
@@ -37,7 +37,7 @@
                   <div class="form-group">
                     <!-- <label >Circuit</label> -->
                     <select>
-                      <option value="" selected="selected" disabled>
+                      <option value="" selected="selected" >
                         Select Circuit
                       </option>
                     </select>
@@ -47,7 +47,7 @@
                   <div class="form-group">
                     <!-- <label >Group/Zone</label> -->
                     <select>
-                      <option value="" selected="selected" disabled>
+                      <option value="" selected="selected" >
                         Select Group/Zone
                       </option>
                     </select>
@@ -141,7 +141,8 @@
                       <th style="text-align:center">Company Name</th>
                       <th style="text-align:center">Type</th>
                       <th style="text-align:center">Submarine Cable</th>
-                      <th style="text-align:center">Foreign Drop Point</th>
+                      <th v-if="this.$route.params.id == 1" style="text-align:center">Foreign Drop Point</th>
+                      <th v-if="this.$route.params.id == 7" style="text-align:center">POP</th>
                       <th style="text-align:center">Circuit Capacity</th>
                       <th style="text-align:center">Circuit Level</th>
                       <th style="text-align:center">B.H Provider</th>

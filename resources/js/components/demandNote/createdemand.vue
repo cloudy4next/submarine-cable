@@ -295,16 +295,11 @@
                   </ValidationProvider>
                 </div>
                 <div class="col-md-4">
-                  <ValidationProvider name="Security Deposit" v-slot="{ errors }">
                     <div class="form-group">
                       <label for="sub">Security Deposit</label>
-                      <input type="number" min="0" v-model="demand.deposit" class="form-control" id="deposit"
+                      <input type="text" min="0" v-model="demand.deposit" class="form-control" id="deposit"
                         placeholder="Enter security deposit" />
-                      <span class="invalid-feedback d-block">{{
-                        errors[0]
-                      }}</span>
                     </div>
-                  </ValidationProvider>
                 </div>
 
                 <div class="col-md-4">

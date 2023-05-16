@@ -2184,6 +2184,34 @@ var render = function render() {
       to: {
         name: "CustomerList",
         params: {
+          id: 13
+        }
+      }
+    }
+  }, [_c("i", {
+    staticClass: "far fa-user nav-icon"
+  }), _vm._v(" "), _c("p", [_vm._v("Co-location List (Port)")])])], 1) : _vm._e(), _vm._v(" "), _vm.$can("Iplc-customer-view") ? _c("li", {
+    staticClass: "nav-item"
+  }, [_c("router-link", {
+    staticClass: "nav-link",
+    attrs: {
+      to: {
+        name: "CustomerList",
+        params: {
+          id: 23
+        }
+      }
+    }
+  }, [_c("i", {
+    staticClass: "far fa-user nav-icon"
+  }), _vm._v(" "), _c("p", [_vm._v("Co-location List (Power)")])])], 1) : _vm._e(), _vm._v(" "), _vm.$can("Iplc-customer-view") ? _c("li", {
+    staticClass: "nav-item"
+  }, [_c("router-link", {
+    staticClass: "nav-link",
+    attrs: {
+      to: {
+        name: "CustomerList",
+        params: {
           id: 1
         }
       }

@@ -129,7 +129,18 @@
                 </p>
               </a>
               <ul class="nav nav-treeview custom-treeview-padding">
-
+                <li class="nav-item" v-if="$can('Iplc-customer-view')">
+                    <router-link :to="{ name: 'CustomerList', params: { id: 13 } }" class="nav-link">
+                    <i class="far fa-user nav-icon"></i>
+                    <p>Co-location List (Port)</p>
+                    </router-link>
+                </li>
+                <li class="nav-item" v-if="$can('Iplc-customer-view')">
+                    <router-link :to="{ name: 'CustomerList', params: { id: 23 } }" class="nav-link">
+                    <i class="far fa-user nav-icon"></i>
+                    <p>Co-location List (Power)</p>
+                    </router-link>
+                </li>
                 <li class="nav-item" v-if="$can('Iplc-customer-view')">
                   <router-link :to="{ name: 'CustomerList', params:{id: 1} }" class="nav-link">
                     <i class="far fa-user nav-icon"></i>
