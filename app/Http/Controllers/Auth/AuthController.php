@@ -40,6 +40,7 @@ class AuthController extends Controller
             $user->address = $request->address;
             $user->designation = $request->designation;
             $user->phone = $request->phone;
+            $user->password = Hash::make($request->password);
             $user->update();
             DB::table('model_has_roles')->where('model_id', $request->id)->delete();
             $user->assignRole($request->input('roles'));
