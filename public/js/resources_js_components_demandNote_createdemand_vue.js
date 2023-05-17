@@ -1163,49 +1163,36 @@ var render = function render() {
           }], null, true)
         })], 1), _vm._v(" "), _c("div", {
           staticClass: "col-md-4"
-        }, [_c("ValidationProvider", {
+        }, [_c("div", {
+          staticClass: "form-group"
+        }, [_c("label", {
           attrs: {
-            name: "Security Deposit"
+            "for": "sub"
+          }
+        }, [_vm._v("Security Deposit")]), _vm._v(" "), _c("input", {
+          directives: [{
+            name: "model",
+            rawName: "v-model",
+            value: _vm.demand.deposit,
+            expression: "demand.deposit"
+          }],
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            min: "0",
+            id: "deposit",
+            placeholder: "Enter security deposit"
           },
-          scopedSlots: _vm._u([{
-            key: "default",
-            fn: function fn(_ref15) {
-              var errors = _ref15.errors;
-              return [_c("div", {
-                staticClass: "form-group"
-              }, [_c("label", {
-                attrs: {
-                  "for": "sub"
-                }
-              }, [_vm._v("Security Deposit")]), _vm._v(" "), _c("input", {
-                directives: [{
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.demand.deposit,
-                  expression: "demand.deposit"
-                }],
-                staticClass: "form-control",
-                attrs: {
-                  type: "number",
-                  min: "0",
-                  id: "deposit",
-                  placeholder: "Enter security deposit"
-                },
-                domProps: {
-                  value: _vm.demand.deposit
-                },
-                on: {
-                  input: function input($event) {
-                    if ($event.target.composing) return;
-                    _vm.$set(_vm.demand, "deposit", $event.target.value);
-                  }
-                }
-              }), _vm._v(" "), _c("span", {
-                staticClass: "invalid-feedback d-block"
-              }, [_vm._v(_vm._s(errors[0]))])])];
+          domProps: {
+            value: _vm.demand.deposit
+          },
+          on: {
+            input: function input($event) {
+              if ($event.target.composing) return;
+              _vm.$set(_vm.demand, "deposit", $event.target.value);
             }
-          }], null, true)
-        })], 1), _vm._v(" "), _c("div", {
+          }
+        })])]), _vm._v(" "), _c("div", {
           staticClass: "col-md-4"
         }, [_c("ValidationProvider", {
           attrs: {
@@ -1214,8 +1201,8 @@ var render = function render() {
           },
           scopedSlots: _vm._u([{
             key: "default",
-            fn: function fn(_ref16) {
-              var errors = _ref16.errors;
+            fn: function fn(_ref15) {
+              var errors = _ref15.errors;
               return [_c("div", {
                 staticClass: "form-group"
               }, [_c("label", {
@@ -1267,8 +1254,8 @@ var render = function render() {
           },
           scopedSlots: _vm._u([{
             key: "default",
-            fn: function fn(_ref17) {
-              var errors = _ref17.errors;
+            fn: function fn(_ref16) {
+              var errors = _ref16.errors;
               return [_c("div", {
                 staticClass: "form-group"
               }, [_c("label", {
@@ -1343,7 +1330,7 @@ var render = function render() {
           }
         }, [_vm._v("\n                Submit\n              ")])])])];
       }
-    }], null, false, 2588768801)
+    }], null, false, 933924021)
   }), _vm._v(" "), _c("div", {
     staticClass: "text-left"
   }, [_c("button", {

@@ -29,9 +29,6 @@ class User extends Authenticatable
     // Spatie package
     // use HasRoles;
 
-
-
-
     protected $fillable = [
         'name',
         'email',
@@ -52,10 +49,10 @@ class User extends Authenticatable
         'password'
     ];
 
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = Hash::make($value);
-    }
+    // public function setPasswordAttribute($value)
+    // {
+    //     $this->attributes['password'] = Hash::make($value);
+    // }
 
     /**
      * The attributes that should be hidden for serialization.

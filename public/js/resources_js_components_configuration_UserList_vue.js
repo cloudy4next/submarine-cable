@@ -47,6 +47,7 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       visibleForm: false,
       passwordShow: 0,
+      editpasswordShow: 1,
       admin: {
         name: "",
         id: "",
@@ -66,6 +67,9 @@ __webpack_require__.r(__webpack_exports__);
     this.getValue();
   },
   methods: {
+    reloadPage: function reloadPage() {
+      // window.location.reload();
+    },
     getValue: function getValue() {
       if (this.user) {
         this.admin.id = this.user.id;
@@ -75,6 +79,7 @@ __webpack_require__.r(__webpack_exports__);
         this.admin.roles = this.user.roles;
         this.admin.address = this.user.address;
         this.passwordShow = 1;
+        this.editpasswordShow = 0;
         this.admin.designation = this.user.designation;
       }
     },
@@ -92,6 +97,7 @@ __webpack_require__.r(__webpack_exports__);
         });
         _this.$emit("executeMethod");
         $("#user-add-modal").modal("hide");
+        // window.location.reload();
       })["catch"](function () {
         _this.loading = false;
         Swal.fire({
@@ -99,6 +105,7 @@ __webpack_require__.r(__webpack_exports__);
           title: "wrong creidentials!"
         });
         $("#user-add-modal").modal("hide");
+        // window.location.reload();
       });
     },
     getRole: function getRole() {
@@ -598,7 +605,7 @@ var render = function render() {
         }, [_c("ValidationProvider", {
           attrs: {
             name: "Password",
-            rules: "required|min:8|max:8"
+            rules: "required|min:8"
           },
           scopedSlots: _vm._u([{
             key: "default",
@@ -637,6 +644,50 @@ var render = function render() {
               }, [_vm._v(_vm._s(errors[0]))])])];
             }
           }], null, true)
+        })], 1) : _vm._e(), _vm._v(" "), _vm.editpasswordShow == 0 ? _c("div", {
+          staticClass: "col-md-6"
+        }, [_c("ValidationProvider", {
+          attrs: {
+            name: "Password",
+            rules: "required|min:8|max:8"
+          },
+          scopedSlots: _vm._u([{
+            key: "default",
+            fn: function fn(_ref9) {
+              var errors = _ref9.errors;
+              return [_c("div", {
+                staticClass: "form-group"
+              }, [_c("label", {
+                attrs: {
+                  "for": "password"
+                }
+              }, [_vm._v("Edit Password")]), _vm._v(" "), _c("input", {
+                directives: [{
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.admin.password,
+                  expression: "admin.password"
+                }],
+                staticClass: "form-control",
+                attrs: {
+                  type: "password",
+                  id: "password",
+                  autocomplete: "off"
+                },
+                domProps: {
+                  value: _vm.admin.password
+                },
+                on: {
+                  input: function input($event) {
+                    if ($event.target.composing) return;
+                    _vm.$set(_vm.admin, "password", $event.target.value);
+                  }
+                }
+              }), _vm._v(" "), _c("span", {
+                staticClass: "invalid-feedback d-block"
+              }, [_vm._v(_vm._s(errors[0]))])])];
+            }
+          }], null, true)
         })], 1) : _vm._e()]), _vm._v(" "), _c("div", {
           staticClass: "text-right"
         }, [_c("button", {
@@ -646,7 +697,7 @@ var render = function render() {
           }
         }, [_vm._v("\n                                        Submit\n                                    ")])])])];
       }
-    }], null, false, 711301626)
+    }], null, false, 375124719)
   })], 1) : _vm._e(), _vm._v(" "), !_vm.visibleForm ? _c("import-user") : _vm._e()], 1)])])])]);
 };
 var staticRenderFns = [function () {

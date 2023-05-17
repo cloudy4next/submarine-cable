@@ -30,7 +30,7 @@
                                 <i class="fa fa-spinner fa-spin"></i>
                             </div>
                             <div class="card-body">
-                                <table class="table table-bordered table-striped table-responsive testDataTable">
+                                <table class="table table-bordered table-striped table-responsive testDataTable ">
                                     <thead>
                                         <tr>
                                             <th style="text-align:center">SL</th>
@@ -178,4 +178,31 @@ export default {
 </script>
 
 
-<style lang=""></style>
+<style scoped>
+.actionStyle {
+    color: red;
+    width: auto;
+}
+
+.table_wrapper {
+    display: block;
+    overflow-x: auto;
+    overflow: scroll;
+    white-space: nowrap;
+}
+
+table {
+
+    width: auto;
+    overflow-x: auto;
+    overflow: scroll;
+    white-space: nowrap;
+    display: -webkit-box;
+    word-break: break-word
+}
+
+th {
+    height: 90px;
+}
+
+</style>

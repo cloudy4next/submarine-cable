@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Event;
-use Illuminate\Support\Arr;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
+    use AuthenticatesUsers;
+
     public function index()
     {
         return view('pages.registration');
@@ -29,61 +32,70 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
-        // return $request->toArray();
-
-        //    $request->validate([
-        //         'name' => 'required',
-        //         'email' => 'required|unique:users,email',
-        //         'phone' => 'required',
-        //         'password' => 'required',
-        //         'address' => 'required',
-        //         'role' => 'required',
-        //         'designation' => 'required',
-
-        //     ]);
-
-        // dd('ok');
 
         if ($request->id) {
             $user = User::find($request->id);
-            $user->name =$request->name;
-            $user->email =$request->email;
-            $user->address =$request->address;
-            $user->designation =$request->designation;
-            $user->phone =$request->phone;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->address = $request->address;
+            $user->designation = $request->designation;
+            $user->phone = $request->phone;
+            $user->password = Hash::make($request->password);
             $user->update();
-            DB::table('model_has_roles')->where('model_id',$request->id)->delete();
+            DB::table('model_has_roles')->where('model_id', $request->id)->delete();
             $user->assignRole($request->input('roles'));
         } else {
-            $user = User::create($request->all());
+            // $user = User::create($request->all());
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'designation' => $request->designation,
+                'password' => Hash::make($request->password),
+            ]);
             $user->assignRole($request->input('roles'));
-
         }
         return response()->json([
             'message' => 'success'
         ], 200);
     }
 
+    public function resetPass(Request $request)
+    {
 
-    public function signImgInfoUpdate(Request $request){
+        $user = Auth::user();
+
+        // Update the password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json([
+            'message' => 'success'
+        ], 200);
+    }
+
+
+    public function signImgInfoUpdate(Request $request)
+    {
         return $request->all();
         // return $request->imageTest;
 
 
 
-         if($request->hasFile('imageTest')){
+        if ($request->hasFile('imageTest')) {
             // return 'ookk';
-            $image=$request->file('imageTest');
+            $image = $request->file('imageTest');
             return $image;
-            $imageName='user_'.'_'.time().'.'.$image->getClientOriginalExtension();
-            Image::make($image)->resize(250,250)->save(base_path('public/uploads/users/'.$imageName));
+            $imageName = 'user_' . '_' . time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(250, 250)->save(base_path('public/uploads/users/' . $imageName));
 
-        //  User::where('id',$insert)->update([
-        //     'photo'=>$imageName,
-        //     'updated_at'=>Carbon::now()->toDateTimeString(),
-        //     ]);
-         }
-         return 'nnoo';
+            //  User::where('id',$insert)->update([
+            //     'photo'=>$imageName,
+            //     'updated_at'=>Carbon::now()->toDateTimeString(),
+            //     ]);
+        }
+        return 'nnoo';
 
 
 
@@ -120,12 +132,14 @@ class AuthController extends Controller
     public function signInfoUpdate(Request $request)
     {
 
-        if($request->iplcSignDemandNote == 1 || $request->iptSignDemandNote == 1 ||
-            $request->iplcSignInvoice == 1 ||$request->iptSignInvoice == 1 ||
-            $request->iplcSignReport == 1 || $request->iptSignReport == 1){
+        if (
+            $request->iplcSignDemandNote == 1 || $request->iptSignDemandNote == 1 ||
+            $request->iplcSignInvoice == 1 || $request->iptSignInvoice == 1 ||
+            $request->iplcSignReport == 1 || $request->iptSignReport == 1
+        ) {
             $sign_status = 1;
-        }else{
-           $sign_status = 0;
+        } else {
+            $sign_status = 0;
         }
 
         // if($request->iplcSign == 1){
@@ -154,7 +168,7 @@ class AuthController extends Controller
 
 
         return response()->json([
-           'message' => 'success'
+            'message' => 'success'
         ], 200);
     }
 
@@ -175,7 +189,7 @@ class AuthController extends Controller
 
 
         return response()->json([
-           'message' => 'success'
+            'message' => 'success'
         ], 200);
     }
 
@@ -192,24 +206,33 @@ class AuthController extends Controller
 
 
         return response()->json([
-           'message' => 'success'
+            'message' => 'success'
         ], 200);
     }
 
 
     public function login(Request $request)
     {
-        if (Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password
-        ])) {
+
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            // if (Auth::attempt([
+            //     'email' => $request->email,
+            //     'password' => $request->password
+            // ])) {
             return response()->json([
                 'msg' => "success"
             ], 200);
         } else {
             return response()->json([
                 'msg' => "Cridential not match!"
-            ], 500);
+            ], 404);
         };
     }
 
@@ -234,6 +257,7 @@ class AuthController extends Controller
 
         Auth::logout();
 
+        Session::flush();
         return redirect('/login');
 
         $request->session()->invalidate();
@@ -243,17 +267,17 @@ class AuthController extends Controller
     }
 
 
-    public function getallroles(){
+    public function getallroles()
+    {
 
-        $data =Role::orderBy('id','desc')->get();
+        $data = Role::orderBy('id', 'desc')->get();
         return response([
             'msg' => 'success',
             'data' => $data
         ]);
     }
 
-    public function getroleName(){
-
-
+    public function getroleName()
+    {
     }
 }
