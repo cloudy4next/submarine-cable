@@ -531,6 +531,25 @@ class ServiceController extends Controller
         }
     }
 
+    public function destroyGroup(Request $request)
+    {
+        $zoneCapacity = $request->params['capacity']['zone'];
+        $delZoneArrayID = $request->zone;
+
+        foreach ($zoneCapacity as $key => $value) {
+            if ($key == $delZoneArrayID) {
+
+                GroupOrZone::where('id', $value['id'])->delete();
+                return response([
+                    'msg' => 'Successfully Sub Removed Group Or Zone',
+                ], 200);
+            } else {
+                return response([
+                    'msg' => 'Data Not found!',
+                ], 401);
+            }
+        }
+    }
 
     public function tariffUpdate(Request $request)
     {
@@ -543,7 +562,7 @@ class ServiceController extends Controller
                 $model = Service::where('id', $item->id)->update([
                     'service' => $request->service
                 ]);
-
+                // dd($request->subServiceId);
                 $sub_model = SubService::where('id', $request->subServiceId)->firstOrFail();
                 // if ($sub_model != '') {
                 //     // $value->create_capacity()->delete();
