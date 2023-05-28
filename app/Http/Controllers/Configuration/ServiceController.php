@@ -562,8 +562,7 @@ class ServiceController extends Controller
                 $model = Service::where('id', $item->id)->update([
                     'service' => $request->service
                 ]);
-                // dd($request->subServiceId);
-                $sub_model = SubService::where('id', $request->subServiceId)->firstOrFail();
+                // $sub_model = SubService::where('id', $request->subServiceId)->firstOrFail();
                 // if ($sub_model != '') {
                 //     // $value->create_capacity()->delete();
                 //     $allTarif = TariffCapacity::where('sub_service_id', $sub_model->id)->get();
@@ -581,32 +580,50 @@ class ServiceController extends Controller
                 //     // $value->delete();
                 // }
 
-                // return $request->sub_service;
                 $sub_model = SubService::where('id', $request->subServiceId)->update([
                     'sub_service_name' => $request->subService['sub_service_name'],
                 ]);
-                // dd( $request->all());
 
                 foreach ($request->subService['capacity'] as $key => $item) {
-                    $tarifId = TariffCapacity::updateOrCreate([
-                        'sub_service_id' => $request->subServiceId,
-                        'capacity_name' => $item['capacity_name'],
-                        'instl_charge' => $item['instl_charge'],
-                        'circuit_id' => $item['circuit_id'],
-                        'max' => $item['max'],
-                    ]);
+                    if (TariffCapacity::where('id', $item['id'])->exists()) {
+                        $tarifId = TariffCapacity::where('id', $item['id'])->update([
+                            'sub_service_id' => $request->subServiceId,
+                            'capacity_name' => $item['capacity_name'],
+                            'instl_charge' => $item['instl_charge'],
+                            'circuit_id' => $item['circuit_id'],
+                            'max' => $item['max'],
+                        ]);
+                        // dd('here');
+                    } else {
+                        $tarifId = TariffCapacity::create([
+                            'sub_service_id' => $request->subServiceId,
+                            'capacity_name' => $item['capacity_name'],
+                            'instl_charge' => $item['instl_charge'],
+                            'circuit_id' => $item['circuit_id'],
+                            'max' => $item['max'],
+                        ]);
+                    }
 
                     foreach ($item['zone'] as $key => $grpAndCharge) {
-                        GroupOrZone::updateOrCreate([
-                            'sub_service_id' => $request->subServiceId,
-                            'capacity_id' => $tarifId->id,
-                            'charge' => $grpAndCharge['charge'],
-                            'vat' => $grpAndCharge['vat'],
-                            'grp_or_zone' => $grpAndCharge['grp_or_zone'],
-                            'circuit_id' => $tarifId->circuit_id,
-                            'instl_charge' => $tarifId->instl_charge,
-                            'max' => $tarifId->max,
-                        ]);
+                        if (GroupOrZone::where('id', $grpAndCharge['id'])->exists()) {
+                            GroupOrZone::where('id', $grpAndCharge['id'])->update([
+                                'sub_service_id' => $request->subServiceId,
+                                'charge' => $grpAndCharge['charge'],
+                                'vat' => $grpAndCharge['vat'],
+                                'grp_or_zone' => $grpAndCharge['grp_or_zone'],
+                            ]);
+                        } else {
+                            GroupOrZone::create([
+                                'sub_service_id' => $request->subServiceId,
+                                'capacity_id' => $tarifId->id,
+                                'charge' => $grpAndCharge['charge'],
+                                'vat' => $grpAndCharge['vat'],
+                                'grp_or_zone' => $grpAndCharge['grp_or_zone'],
+                                'circuit_id' => $tarifId->circuit_id,
+                                'instl_charge' => $tarifId->instl_charge,
+                                'max' => $tarifId->max,
+                            ]);
+                        }
                     }
                 }
             }
