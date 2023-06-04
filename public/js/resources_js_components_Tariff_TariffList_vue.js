@@ -157,7 +157,7 @@ __webpack_require__.r(__webpack_exports__);
         charge: "",
         grp_or_zone: ""
       });
-      console.log(this.capacity[cap].zone);
+      console.log(this.subService.capacity[cap].zone);
     },
     removeGroup: function removeGroup(cap, zone, capacity) {
       var _this5 = this;

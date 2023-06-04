@@ -533,6 +533,7 @@ class ServiceController extends Controller
 
     public function destroyGroup(Request $request)
     {
+        // dd($request->all());
         $zoneCapacity = $request->params['capacity']['zone'];
         $delZoneArrayID = $request->zone;
 
@@ -553,11 +554,9 @@ class ServiceController extends Controller
 
     public function tariffUpdate(Request $request)
     {
-        // dd($request->all());
         try {
-            DB::beginTransaction();
-
             $item = Service::find($request->id);
+            $tarrif_id = '';
             if ($item) {
                 $model = Service::where('id', $item->id)->update([
                     'service' => $request->service
@@ -579,12 +578,12 @@ class ServiceController extends Controller
                 //     TariffCapacity::where('sub_service_id', $sub_model->id)->delete();
                 //     // $value->delete();
                 // }
-
                 $sub_model = SubService::where('id', $request->subServiceId)->update([
                     'sub_service_name' => $request->subService['sub_service_name'],
                 ]);
 
                 foreach ($request->subService['capacity'] as $key => $item) {
+
                     if (TariffCapacity::where('id', $item['id'])->exists()) {
                         $tarifId = TariffCapacity::where('id', $item['id'])->update([
                             'sub_service_id' => $request->subServiceId,
@@ -593,7 +592,7 @@ class ServiceController extends Controller
                             'circuit_id' => $item['circuit_id'],
                             'max' => $item['max'],
                         ]);
-                        // dd('here');
+                        $tarrif_id = $item['id'];
                     } else {
                         $tarifId = TariffCapacity::create([
                             'sub_service_id' => $request->subServiceId,
@@ -602,10 +601,11 @@ class ServiceController extends Controller
                             'circuit_id' => $item['circuit_id'],
                             'max' => $item['max'],
                         ]);
+                        $tarrif_id = $tarifId->id;
                     }
-
                     foreach ($item['zone'] as $key => $grpAndCharge) {
-                        if (GroupOrZone::where('id', $grpAndCharge['id'])->exists()) {
+                        $keyExists = isset($grpAndCharge['id']);
+                        if ($keyExists) {
                             GroupOrZone::where('id', $grpAndCharge['id'])->update([
                                 'sub_service_id' => $request->subServiceId,
                                 'charge' => $grpAndCharge['charge'],
@@ -613,15 +613,17 @@ class ServiceController extends Controller
                                 'grp_or_zone' => $grpAndCharge['grp_or_zone'],
                             ]);
                         } else {
+                            $tarrif = TariffCapacity::where('id', $tarrif_id)->first();
+
                             GroupOrZone::create([
                                 'sub_service_id' => $request->subServiceId,
-                                'capacity_id' => $tarifId->id,
+                                'capacity_id' => $tarrif->id,
                                 'charge' => $grpAndCharge['charge'],
                                 'vat' => $grpAndCharge['vat'],
                                 'grp_or_zone' => $grpAndCharge['grp_or_zone'],
-                                'circuit_id' => $tarifId->circuit_id,
-                                'instl_charge' => $tarifId->instl_charge,
-                                'max' => $tarifId->max,
+                                'circuit_id' => $tarrif->circuit_id,
+                                'instl_charge' => $tarrif->instl_charge,
+                                'max' => $tarrif->max,
                             ]);
                         }
                     }
@@ -629,17 +631,11 @@ class ServiceController extends Controller
             }
             // $model->create_sub_service()->delete();
             // $model->create_sub_service()->createMany($request->sub_service);
-
-            DB::commit();
             return response([
                 'msg' => 'Successfull Update Sub Service & Capacity',
             ], 200);
         } catch (\Throwable $th) {
-            // dd($th);
-            DB::rollBack();
             return response([
-                'status' => false,
-                'message' => 'your custom message',
                 'error' => $th->getMessage(),
             ], 500);
         }
