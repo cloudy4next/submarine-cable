@@ -21,7 +21,7 @@ Route::get('/get-colocation-iplc', [ServiceController::class, 'getColocationIplc
 
 // tariff
 Route::post('/tariff/add', [ServiceController::class, 'tariffUpdate'])->name('tariff.update');
-Route::post('/tariff/delete-group', [ServiceController::class, 'destroyGroup'])->name('tariff.destroy.group');
+Route::get('/tariff/delete-group', [ServiceController::class, 'destroyGroup'])->name('tariff.destroy.group');
 
 Route::post('/change-service-status', [ServiceController::class, 'destroy'])->name('service.status.change');
 Route::get('/get-iplc-list', [ServiceController::class, 'iplc_list'])->name('service.iplc');

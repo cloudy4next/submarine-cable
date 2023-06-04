@@ -161,7 +161,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     removeGroup: function removeGroup(cap, zone, capacity) {
       var _this5 = this;
-      axios.post("/tariff/delete-group/", {
+      axios.get("/tariff/delete-group/", {
         params: {
           cap: cap,
           zone: zone,
@@ -748,7 +748,7 @@ var render = function render() {
               },
               on: {
                 click: function click($event) {
-                  return _vm.removeGroup(capIndex, zoneIndex, capacity);
+                  return _vm.removeGroup(capIndex, zoneIndex, capacity.zone);
                 }
               }
             }, [_c("i", {

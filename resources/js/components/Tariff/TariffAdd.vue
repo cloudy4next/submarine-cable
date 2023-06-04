@@ -218,7 +218,7 @@
                                 <button
                                   class="btn btn-danger btn-sm"
                                   type="button"
-                                  @click="removeGroup(capIndex, zoneIndex, capacity)"
+                                  @click="removeGroup(capIndex, zoneIndex, capacity.zone)"
                                 >
                                   <i class="fa fa-times"></i>
                                 </button>
@@ -429,7 +429,7 @@ export default {
 
       removeGroup(cap, zone,capacity) {
         axios
-        .post("/tariff/delete-group/",{
+        .get("/tariff/delete-group/",{
             params: {
                 cap: cap,
                 zone: zone,

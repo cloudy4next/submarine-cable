@@ -533,13 +533,15 @@ class ServiceController extends Controller
 
     public function destroyGroup(Request $request)
     {
-        $zoneCapacity = $request->params['capacity']['zone'];
+        $zoneCapacity = $request->capacity;
         $delZoneArrayID = $request->zone;
 
         foreach ($zoneCapacity as $key => $value) {
-            if ($key == $delZoneArrayID) {
+            $splice = explode(":", $value);
+            $spliceId = explode(",", $splice[1]);
 
-                GroupOrZone::where('id', $value['id'])->delete();
+            if ($key == $delZoneArrayID) {
+                GroupOrZone::where('id', $spliceId[0])->delete();
                 return response([
                     'msg' => 'Successfully Sub Removed Group Or Zone',
                 ], 200);
