@@ -537,18 +537,16 @@ class ServiceController extends Controller
         $delZoneArrayID = $request->zone;
 
         foreach ($zoneCapacity as $key => $value) {
+            // dd($key);
             $splice = explode(":", $value);
             $spliceId = explode(",", $splice[1]);
 
-            if ($key == $delZoneArrayID) {
+            if ($delZoneArrayID == $key) {
+
                 GroupOrZone::where('id', $spliceId[0])->delete();
                 return response([
                     'msg' => 'Successfully Sub Removed Group Or Zone',
                 ], 200);
-            } else {
-                return response([
-                    'msg' => 'Data Not found!',
-                ], 401);
             }
         }
     }
