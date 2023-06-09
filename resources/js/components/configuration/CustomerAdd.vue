@@ -73,13 +73,13 @@
                                         <div class="form-group">
                                             <label for="bin_vat_etc">BIN or VAT Reg. No </label>
                                             <input type="text" v-model="bin_vat_etc" class="form-control"
-                                                id="bin_vat_etc" placeholder="Enter BIN or VAT Reg. No" />
+                                                id="bin_vat_etc" required  placeholder="Enter BIN or VAT Reg. No" />
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="tin">Tin Number </label>
-                                            <input type="text" v-model="tin" class="form-control" id="tin"
+                                            <input type="text" v-model="tin" required  class="form-control" id="tin"
                                                 placeholder="Enter Tin Reg. No" />
                                         </div>
                                     </div>

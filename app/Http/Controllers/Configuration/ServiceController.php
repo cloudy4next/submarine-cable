@@ -18,15 +18,15 @@ use App\Models\MaxService;
 class ServiceController extends Controller
 {
 
-    public function idWiseGroupZoneInfo($id){
+    public function idWiseGroupZoneInfo($id)
+    {
         // return $id;
-       return $data = GroupOrZone::where('id', $id)->first();
-
+        return $data = GroupOrZone::where('id', $id)->first();
     }
 
-    public function idWiseGroupInfo($id){
-       return $data = Group::where('id', $id)->first();
-
+    public function idWiseGroupInfo($id)
+    {
+        return $data = Group::where('id', $id)->first();
     }
 
     public function index()
@@ -64,21 +64,21 @@ class ServiceController extends Controller
 
     public function get_capacity(Request $request)
     {
-       $models = TariffCapacity::with('zone.groups', 'subservice', 'subservice.service')->where('sub_service_id', $request->sub_service_id)->orderBy('id', 'ASC')->get();
+        $models = TariffCapacity::with('zone.groups', 'subservice', 'subservice.service')->where('sub_service_id', $request->sub_service_id)->orderBy('id', 'ASC')->get();
         return response([
             'msg' => 'Success',
             'data' => $models
         ], 200);
     }
 
-    public function circuitWiseCapacity($subServiceId, $circuitId, $max){
-    //   return $max.'==='.$circuitId.'==='.$subServiceId;
+    public function circuitWiseCapacity($subServiceId, $circuitId, $max)
+    {
+        //   return $max.'==='.$circuitId.'==='.$subServiceId;
         // dd($max,$subServiceId,$circuitId);
-      $capacity = TariffCapacity::where('circuit_id', $circuitId)->where('sub_service_id',$subServiceId)->where('max', $max)->first();
-    // dd($capacity);
+        $capacity = TariffCapacity::where('circuit_id', $circuitId)->where('sub_service_id', $subServiceId)->where('max', $max)->first();
+        // dd($capacity);
 
-      return $model = GroupOrZone::with('groups')->where('capacity_id', $capacity->id)->get();
-
+        return $model = GroupOrZone::with('groups')->where('capacity_id', $capacity->id)->get();
     }
 
     public function getZone(Request $request)
@@ -89,58 +89,58 @@ class ServiceController extends Controller
         $existingDemandNote = (new DemandNoteController)->existingDemandNoteCheck($customerId, $circuitId);
 
         $max = 0;
-        if ($circuitId == 5){
-        $max = 2.5;
-        }elseif($circuitId == 6){
-        $max = 10;
-        }elseif($circuitId == 7){
-        $max = 100;
+        if ($circuitId == 5) {
+            $max = 2.5;
+        } elseif ($circuitId == 6) {
+            $max = 10;
+        } elseif ($circuitId == 7) {
+            $max = 100;
         }
 
-        if($existingDemandNote != null){
+        if ($existingDemandNote != null) {
             $oldMax = (new DemandNoteController)->existingData($customerId, $circuitId);
-            $max =$max + $oldMax;  // New Demand note + Existing Demand note
+            $max = $max + $oldMax;  // New Demand note + Existing Demand note
         }
-        if($circuitId == 5){ // 5 == STM 16
-                if($max >0 && $max <= 30){
-                   $max = 30;
-                }elseif($max >30 && $max <= 50){
-                    $max = 50;
-                }elseif($max >50 && $max <= 100){
-                    $max = 100;
-                }elseif($max >100 && $max <= 150){
-                    $max = 150;
-                }elseif($max >15 && $max <= 200){
-                    $max = 200;
-                }else{
-                    $max = 220;
-                }
-              $model = $this->circuitWiseCapacity($subServiceId, $circuitId, $max);
-        }elseif($circuitId == 6){ //6 == 10G
+        if ($circuitId == 5) { // 5 == STM 16
+            if ($max > 0 && $max <= 30) {
+                $max = 30;
+            } elseif ($max > 30 && $max <= 50) {
+                $max = 50;
+            } elseif ($max > 50 && $max <= 100) {
+                $max = 100;
+            } elseif ($max > 100 && $max <= 150) {
+                $max = 150;
+            } elseif ($max > 15 && $max <= 200) {
+                $max = 200;
+            } else {
+                $max = 220;
+            }
+            $model = $this->circuitWiseCapacity($subServiceId, $circuitId, $max);
+        } elseif ($circuitId == 6) { //6 == 10G
 
-               if($max >0 && $max <= 10){
-                    $max = 10;
-                }elseif($max >10 && $max <= 20){
-                    $max = 20;
-                }elseif($max >20 && $max <= 30){
-                    $max = 30;
-                }elseif($max >30 && $max <= 50){
-                    $max = 50;
-                }elseif($max >50 && $max <= 100){
-                    $max = 100;
-                }elseif($max >100 && $max <= 150){
-                    $max = 150;
-                }elseif($max >150 && $max <= 200){
-                    $max = 200;
-                }elseif($max >200 && $max <= 250){
-                    $max = 250;
-                }elseif($max >250 && $max <= 300){
-                    $max = 300;
-                }elseif($max >300 && $max <= 350){
-                    $max = 350;
-                }else{
-                    $max = 400;
-                }
+            if ($max > 0 && $max <= 10) {
+                $max = 10;
+            } elseif ($max > 10 && $max <= 20) {
+                $max = 20;
+            } elseif ($max > 20 && $max <= 30) {
+                $max = 30;
+            } elseif ($max > 30 && $max <= 50) {
+                $max = 50;
+            } elseif ($max > 50 && $max <= 100) {
+                $max = 100;
+            } elseif ($max > 100 && $max <= 150) {
+                $max = 150;
+            } elseif ($max > 150 && $max <= 200) {
+                $max = 200;
+            } elseif ($max > 200 && $max <= 250) {
+                $max = 250;
+            } elseif ($max > 250 && $max <= 300) {
+                $max = 300;
+            } elseif ($max > 300 && $max <= 350) {
+                $max = 350;
+            } else {
+                $max = 400;
+            }
 
             //    if($max >0 && $max <= 1){
             //         $max = 1;
@@ -164,74 +164,70 @@ class ServiceController extends Controller
             //         $max = 10;
             //     }
             $model = $this->circuitWiseCapacity($subServiceId, $circuitId, $max);
-
-
-        }elseif($circuitId == 7){ //100 g
-                // $max = 200;
-                // dd($max);
-                if($max < 200){
-                    $max = 200;
-                }elseif($max >=200 && $max < 300){
-                    $max = 300;
-                }elseif($max >=300 && $max < 400){
-                    $max = 400;
-                }elseif($max >=400 && $max < 500){
-                    $max = 500;
-                }elseif($max >=500 && $max < 600){
-                    $max = 600;
-                }elseif($max >=600 && $max < 700){
-                    $max = 700;
-                }elseif($max >=700 && $max < 800){
-                    $max = 800;
-                }elseif($max >=800 && $max < 900){
-                    $max = 900;
-                }elseif($max >=900 && $max < 1000){
-                    $max = 1000;
-                }
-                elseif($max >=1000 && $max < 1100){
-                    $max = 1100;
-                }
-                else{
-                     $max = 1200;
-                }
+        } elseif ($circuitId == 7) { //100 g
+            // $max = 200;
+            // dd($max);
+            if ($max < 200) {
+                $max = 200;
+            } elseif ($max >= 200 && $max < 300) {
+                $max = 300;
+            } elseif ($max >= 300 && $max < 400) {
+                $max = 400;
+            } elseif ($max >= 400 && $max < 500) {
+                $max = 500;
+            } elseif ($max >= 500 && $max < 600) {
+                $max = 600;
+            } elseif ($max >= 600 && $max < 700) {
+                $max = 700;
+            } elseif ($max >= 700 && $max < 800) {
+                $max = 800;
+            } elseif ($max >= 800 && $max < 900) {
+                $max = 900;
+            } elseif ($max >= 900 && $max < 1000) {
+                $max = 1000;
+            } elseif ($max >= 1000 && $max < 1100) {
+                $max = 1100;
+            } else {
+                $max = 1200;
+            }
             $model = $this->circuitWiseCapacity($subServiceId, $circuitId, $max);
-        }elseif($circuitId == 8 || $circuitId == 9){    //ip transit isp or iig
+        } elseif ($circuitId == 8 || $circuitId == 9) {    //ip transit isp or iig
 
-                $max = $request->qty;
-                if($existingDemandNote !=''){
-                    $oldMax = (new DemandNoteController)->existingData($customerId, $circuitId);
-                    $max = $max + $oldMax;  // New Demand note + Existing Demand note
-                }
-            if($max >1 && $max < 5000){
-                    $max = 5000;
-                }elseif($max >=5000 && $max < 10000){
-                    $max = 10000;
-                }elseif($max >=10000 && $max < 20000){
-                    $max = 20000;
-                }elseif($max >=20000 && $max < 30000){
-                    $max = 30000;
-                }elseif($max >=30000 && $max < 40000){
-                    $max = 40000;
-                }elseif($max >=40000 && $max < 50000){
-                    $max = 50000;
-                }elseif($max >=50000 && $max < 65000){
-                    $max = 65000;
-                }elseif($max >=65000 && $max < 80000){
-                    $max = 80000;
-                }elseif($max >=80000 && $max < 100000){
-                    $max = 100000;
-                }elseif($max >=100000 && $max < 130000){
-                    $max = 130000;
-                }elseif($max >=130000 && $max < 160000){
-                    $max = 160000;
-                }elseif($max >=160000 && $max < 200000){
-                    $max = 200000;
-                }else{
-                     $max = 300000;
-                }
+            $max = $request->qty;
+            if ($existingDemandNote != '') {
+                $oldMax = (new DemandNoteController)->existingData($customerId, $circuitId);
+                $max = $max + $oldMax;  // New Demand note + Existing Demand note
+            }
+            if ($max > 1 && $max < 5000) {
+                $max = 5000;
+            } elseif ($max >= 5000 && $max < 10000) {
+                $max = 10000;
+            } elseif ($max >= 10000 && $max < 20000) {
+                $max = 20000;
+            } elseif ($max >= 20000 && $max < 30000) {
+                $max = 30000;
+            } elseif ($max >= 30000 && $max < 40000) {
+                $max = 40000;
+            } elseif ($max >= 40000 && $max < 50000) {
+                $max = 50000;
+            } elseif ($max >= 50000 && $max < 65000) {
+                $max = 65000;
+            } elseif ($max >= 65000 && $max < 80000) {
+                $max = 80000;
+            } elseif ($max >= 80000 && $max < 100000) {
+                $max = 100000;
+            } elseif ($max >= 100000 && $max < 130000) {
+                $max = 130000;
+            } elseif ($max >= 130000 && $max < 160000) {
+                $max = 160000;
+            } elseif ($max >= 160000 && $max < 200000) {
+                $max = 200000;
+            } else {
+                $max = 300000;
+            }
             $model = $this->circuitWiseCapacity($subServiceId, $circuitId, $max);
             // dd('this->',$model);
-        }else{
+        } else {
             $model = $this->circuitWiseCapacity($subServiceId, $circuitId, 0);
         }
         // dd($model);
@@ -258,29 +254,29 @@ class ServiceController extends Controller
 
         $existingDemandNote = (new DemandNoteController)->colocationExistingDemandNoteCheck($customerId, $circuitId);
 
-         $max = 0;
-         if($circuitId == 6){
-         $max = 10;
-         }elseif($circuitId == 7){
-         $max = 100;
-         }
+        $max = 0;
+        if ($circuitId == 6) {
+            $max = 10;
+        } elseif ($circuitId == 7) {
+            $max = 100;
+        }
 
 
-        if($existingDemandNote !=''){
+        if ($existingDemandNote != '') {
             $oldMax = (new DemandNoteController)->colocationExistingData($customerId, $circuitId);
             $max = $max + $oldMax;  // New Demand note + Existing Demand note
         }
 
-        if($circuitId  >5){ // 5 == STM 16
-            if($max > 100 && $max <= 200){
+        if ($circuitId  > 5) { // 5 == STM 16
+            if ($max > 100 && $max <= 200) {
                 $max = 200;
-            }elseif($max > 200 && $max <= 300){
+            } elseif ($max > 200 && $max <= 300) {
                 $max = 300;
-            }elseif($max > 300){
+            } elseif ($max > 300) {
                 $max = 400;
             }
             $model = $this->circuitWiseCapacity($subServiceId, $circuitId, $max);
-        }else{
+        } else {
             $model = $this->circuitWiseCapacity($subServiceId, $circuitId, 0);
         }
 
@@ -289,7 +285,6 @@ class ServiceController extends Controller
             'data' => $model
 
         ]);
-
     }
 
 
@@ -429,12 +424,12 @@ class ServiceController extends Controller
 
                             foreach ($item['zone'] as $key => $grpAndCharge) {
                                 GroupOrZone::updateOrCreate([
-                                    'sub_service_id'=> $sub_model->id,
-                                    'capacity_id'=> $tarifId->id,
-                                    'circuit_id'=> $tarifId->circuit_id,
-                                    'max'=> $tarifId->max,
-                                    'charge'=> 0,
-                                    'grp_or_zone'=> $grpAndCharge['grp_or_zone'],
+                                    'sub_service_id' => $sub_model->id,
+                                    'capacity_id' => $tarifId->id,
+                                    'circuit_id' => $tarifId->circuit_id,
+                                    'max' => $tarifId->max,
+                                    'charge' => 0,
+                                    'grp_or_zone' => $grpAndCharge['grp_or_zone'],
                                 ]);
                             }
                         }
@@ -467,57 +462,55 @@ class ServiceController extends Controller
             DB::beginTransaction();
 
             if ($request->id) {
-                 $item = Service::find($request->id);
+                $item = Service::find($request->id);
                 if ($item) {
                     $model = Service::where('id', $item->id)->update([
-                        'service'=> $request->service
+                        'service' => $request->service
                     ]);
 
-                        $sub_model = SubService::where('id', $request->subServiceId)->firstOrFail();
-                        if($sub_model != ''){
-                            // $value->create_capacity()->delete();
-                                $allTarif = TariffCapacity::where('sub_service_id',$sub_model->id)->get();
+                    $sub_model = SubService::where('id', $request->subServiceId)->firstOrFail();
+                    if ($sub_model != '') {
+                        // $value->create_capacity()->delete();
+                        $allTarif = TariffCapacity::where('sub_service_id', $sub_model->id)->get();
 
-                                if(count($allTarif)!= 0){
-                                    // return 'if condition';
-                                    foreach($allTarif as $tarif){
-                                        GroupOrZone::where('capacity_id', $tarif->id)->delete();
-                                    }
-                                }
-
-                                TariffCapacity::where('sub_service_id',$sub_model->id)->delete();
-                            // $value->delete();
-                        }
-
-                        // return $request->sub_service;
-                        $sub_model = SubService::where('id',$request->subServiceId)->update([
-                            'sub_service_name'=> $request->subService['sub_service_name'],
-                        ]);
-                        // dd( $request->all());
-
-                        foreach ($request->subService['capacity'] as $key => $item) {
-                            $tarifId = TariffCapacity::updateOrCreate([
-                                'sub_service_id'=> $request->subServiceId,
-                                'capacity_name'=> $item['capacity_name'],
-                                'instl_charge'=> $item['instl_charge'],
-                                'circuit_id' => $item['circuit_id'],
-                                'max' => $item['max'],
-                            ]);
-
-                            foreach($item['zone'] as $key => $grpAndCharge){
-                                GroupOrZone::updateOrCreate([
-                                    'sub_service_id'=> $request->subServiceId,
-                                    'capacity_id'=> $tarifId->id,
-                                    'charge'=> 0,
-                                    'grp_or_zone'=> $grpAndCharge['grp_or_zone'],
-                                    'circuit_id'=> $tarifId->circuit_id,
-                                    'instl_charge'=> $tarifId->instl_charge,
-                                    'max'=> $tarifId->max,
-                                ]);
+                        if (count($allTarif) != 0) {
+                            // return 'if condition';
+                            foreach ($allTarif as $tarif) {
+                                GroupOrZone::where('capacity_id', $tarif->id)->delete();
                             }
-
                         }
 
+                        TariffCapacity::where('sub_service_id', $sub_model->id)->delete();
+                        // $value->delete();
+                    }
+
+                    // return $request->sub_service;
+                    $sub_model = SubService::where('id', $request->subServiceId)->update([
+                        'sub_service_name' => $request->subService['sub_service_name'],
+                    ]);
+                    // dd( $request->all());
+
+                    foreach ($request->subService['capacity'] as $key => $item) {
+                        $tarifId = TariffCapacity::updateOrCreate([
+                            'sub_service_id' => $request->subServiceId,
+                            'capacity_name' => $item['capacity_name'],
+                            'instl_charge' => $item['instl_charge'],
+                            'circuit_id' => $item['circuit_id'],
+                            'max' => $item['max'],
+                        ]);
+
+                        foreach ($item['zone'] as $key => $grpAndCharge) {
+                            GroupOrZone::updateOrCreate([
+                                'sub_service_id' => $request->subServiceId,
+                                'capacity_id' => $tarifId->id,
+                                'charge' => 0,
+                                'grp_or_zone' => $grpAndCharge['grp_or_zone'],
+                                'circuit_id' => $tarifId->circuit_id,
+                                'instl_charge' => $tarifId->instl_charge,
+                                'max' => $tarifId->max,
+                            ]);
+                        }
+                    }
                 }
             }
             // $model->create_sub_service()->delete();
@@ -525,7 +518,7 @@ class ServiceController extends Controller
 
             DB::commit();
             return response([
-                'msg'=> 'Successfull Update Sub Service & Capacity',
+                'msg' => 'Successfull Update Sub Service & Capacity',
             ], 200);
         } catch (\Throwable $th) {
             // dd($th);
@@ -533,87 +526,116 @@ class ServiceController extends Controller
             return response([
                 'status' => false,
                 'message' => 'your custom message',
-                'error'=> $th->getMessage(),
+                'error' => $th->getMessage(),
             ], 500);
         }
     }
 
+    public function destroyGroup(Request $request)
+    {
+        $zoneCapacity = $request->capacity;
+        $delZoneArrayID = $request->zone;
+
+        foreach ($zoneCapacity as $key => $value) {
+            // dd($key);
+            $splice = explode(":", $value);
+            $spliceId = explode(",", $splice[1]);
+
+            if ($delZoneArrayID == $key) {
+
+                GroupOrZone::where('id', $spliceId[0])->delete();
+                return response([
+                    'msg' => 'Successfully Sub Removed Group Or Zone',
+                ], 200);
+            }
+        }
+    }
 
     public function tariffUpdate(Request $request)
     {
-        // dd($request->all());
         try {
-            DB::beginTransaction();
+            $item = Service::find($request->id);
+            $tarrif_id = '';
+            if ($item) {
+                $model = Service::where('id', $item->id)->update([
+                    'service' => $request->service
+                ]);
+                // $sub_model = SubService::where('id', $request->subServiceId)->firstOrFail();
+                // if ($sub_model != '') {
+                //     // $value->create_capacity()->delete();
+                //     $allTarif = TariffCapacity::where('sub_service_id', $sub_model->id)->get();
 
-            if ($request->id) {
-                 $item = Service::find($request->id);
-                if ($item) {
-                    $model = Service::where('id', $item->id)->update([
-                        'service'=> $request->service
-                    ]);
+                //     if (count($allTarif) != 0) {
+                //         dd("here");
 
-                        $sub_model = SubService::where('id', $request->subServiceId)->firstOrFail();
-                        if($sub_model != ''){
-                            // $value->create_capacity()->delete();
-                                $allTarif = TariffCapacity::where('sub_service_id',$sub_model->id)->get();
+                //         // return 'if condition';
+                //         foreach ($allTarif as $tarif) {
+                //             GroupOrZone::where('capacity_id', $tarif->id)->delete();
+                //         }
+                //     }
 
-                                if(count($allTarif)!= 0){
-                                    // return 'if condition';
-                                    foreach($allTarif as $tarif){
-                                        GroupOrZone::where('capacity_id', $tarif->id)->delete();
-                                    }
-                                }
+                //     TariffCapacity::where('sub_service_id', $sub_model->id)->delete();
+                //     // $value->delete();
+                // }
+                $sub_model = SubService::where('id', $request->subServiceId)->update([
+                    'sub_service_name' => $request->subService['sub_service_name'],
+                ]);
 
-                                TariffCapacity::where('sub_service_id',$sub_model->id)->delete();
-                            // $value->delete();
-                        }
+                foreach ($request->subService['capacity'] as $key => $item) {
 
-                        // return $request->sub_service;
-                        $sub_model = SubService::where('id',$request->subServiceId)->update([
-                            'sub_service_name'=> $request->subService['sub_service_name'],
+                    if (TariffCapacity::where('id', $item['id'])->exists()) {
+                        $tarifId = TariffCapacity::where('id', $item['id'])->update([
+                            'sub_service_id' => $request->subServiceId,
+                            'capacity_name' => $item['capacity_name'],
+                            'instl_charge' => $item['instl_charge'],
+                            'circuit_id' => $item['circuit_id'],
+                            'max' => $item['max'],
                         ]);
-                        // dd( $request->all());
-
-                        foreach ($request->subService['capacity'] as $key => $item) {
-                            $tarifId = TariffCapacity::updateOrCreate([
-                                'sub_service_id'=> $request->subServiceId,
-                                'capacity_name'=> $item['capacity_name'],
-                                'instl_charge'=> $item['instl_charge'],
-                                'circuit_id' => $item['circuit_id'],
-                                'max' => $item['max'],
+                        $tarrif_id = $item['id'];
+                    } else {
+                        $tarifId = TariffCapacity::create([
+                            'sub_service_id' => $request->subServiceId,
+                            'capacity_name' => $item['capacity_name'],
+                            'instl_charge' => $item['instl_charge'],
+                            'circuit_id' => $item['circuit_id'],
+                            'max' => $item['max'],
+                        ]);
+                        $tarrif_id = $tarifId->id;
+                    }
+                    foreach ($item['zone'] as $key => $grpAndCharge) {
+                        $keyExists = isset($grpAndCharge['id']);
+                        if ($keyExists) {
+                            GroupOrZone::where('id', $grpAndCharge['id'])->update([
+                                'sub_service_id' => $request->subServiceId,
+                                'charge' => $grpAndCharge['charge'],
+                                'vat' => $grpAndCharge['vat'],
+                                'grp_or_zone' => $grpAndCharge['grp_or_zone'],
                             ]);
+                        } else {
+                            $tarrif = TariffCapacity::where('id', $tarrif_id)->first();
 
-                            foreach($item['zone'] as $key => $grpAndCharge){
-                                GroupOrZone::updateOrCreate([
-                                    'sub_service_id'=> $request->subServiceId,
-                                    'capacity_id'=> $tarifId->id,
-                                    'charge'=> $grpAndCharge['charge'],
-                                    'vat'=> $grpAndCharge['vat'],
-                                    'grp_or_zone'=> $grpAndCharge['grp_or_zone'],
-                                    'circuit_id'=> $tarifId->circuit_id,
-                                    'instl_charge'=> $tarifId->instl_charge,
-                                    'max'=> $tarifId->max,
-                                ]);
-                            }
-
+                            GroupOrZone::create([
+                                'sub_service_id' => $request->subServiceId,
+                                'capacity_id' => $tarrif->id,
+                                'charge' => $grpAndCharge['charge'],
+                                'vat' => $grpAndCharge['vat'],
+                                'grp_or_zone' => $grpAndCharge['grp_or_zone'],
+                                'circuit_id' => $tarrif->circuit_id,
+                                'instl_charge' => $tarrif->instl_charge,
+                                'max' => $tarrif->max,
+                            ]);
                         }
-
+                    }
                 }
             }
             // $model->create_sub_service()->delete();
             // $model->create_sub_service()->createMany($request->sub_service);
-
-            DB::commit();
             return response([
-                'msg'=> 'Successfull Update Sub Service & Capacity',
+                'msg' => 'Successfull Update Sub Service & Capacity',
             ], 200);
         } catch (\Throwable $th) {
-            // dd($th);
-            DB::rollBack();
             return response([
-                'status' => false,
-                'message' => 'your custom message',
-                'error'=> $th->getMessage(),
+                'error' => $th->getMessage(),
             ], 500);
         }
     }
@@ -646,39 +668,38 @@ class ServiceController extends Controller
         ], 200);
     }
 
-    public function  getIplc(){
+    public function  getIplc()
+    {
 
-        $data =SubService::with('service', 'capacity', 'zone.groups', 'capacity.zone')->where('service_id',1)->orderBy('id','desc')->get();
+        $data = SubService::with('service', 'capacity', 'zone.groups', 'capacity.zone')->where('service_id', 1)->orderBy('id', 'desc')->get();
         return response([
             'msg' => 'success',
-            'data' =>$data
+            'data' => $data
 
-        ],200);
+        ], 200);
     }
 
-    public function  getIptransit(){
-        $data =SubService::with('service', 'capacity', 'zone.groups', 'capacity.zone')->where('service_id',7)->orderBy('id','desc')->get();
+    public function  getIptransit()
+    {
+        $data = SubService::with('service', 'capacity', 'zone.groups', 'capacity.zone')->where('service_id', 7)->orderBy('id', 'desc')->get();
         return response([
 
             'msg' => 'success',
-            'data' =>$data
+            'data' => $data
 
-        ],200);
+        ], 200);
     }
 
-    public function  getColocation(){
-        $data =SubService::with('service', 'capacity', 'zone.groups', 'capacity.zone')->where('service_id',13)->orderBy('id','desc')->get();
+    public function  getColocation()
+    {
+        $data = SubService::with('service', 'capacity', 'zone.groups', 'capacity.zone')->where('service_id', 13)->orderBy('id', 'desc')->get();
         return response([
             'msg' => 'success',
-            'data' =>$data
-        ],200);
+            'data' => $data
+        ], 200);
     }
 
-    public function  getColocationIplc(){
-
-
+    public function  getColocationIplc()
+    {
     }
-
-
-
 }

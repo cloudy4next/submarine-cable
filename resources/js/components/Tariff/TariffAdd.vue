@@ -218,7 +218,7 @@
                                 <button
                                   class="btn btn-danger btn-sm"
                                   type="button"
-                                  @click="removeGroup(capIndex, zoneIndex)"
+                                  @click="removeGroup(capIndex, zoneIndex, capacity.zone)"
                                 >
                                   <i class="fa fa-times"></i>
                                 </button>
@@ -414,7 +414,7 @@ export default {
       console.log(this.subService.capacity.push);
     },
 
-    removeCapItem(cap) {
+      removeCapItem(cap) {
       this.subService.capacity.splice(cap);
     },
 
@@ -427,7 +427,33 @@ export default {
       console.log(this.capacity[cap].zone);
     },
 
-    removeGroup(cap, zone) {
+      removeGroup(cap, zone,capacity) {
+        axios
+        .get("/tariff/delete-group/",{
+            params: {
+                cap: cap,
+                zone: zone,
+                capacity:capacity
+            }
+        })
+        .then((res) => {
+          this.loading = false;
+          Toast.fire({
+            icon: "success",
+            title: "Data Removed Sucsessfully.",
+          });
+          this.$emit("executeMethod");
+        //   $("#tariff-modal").modal("hide");
+        })
+        .catch(() => {
+          this.loading = false;
+          Swal.fire({
+            icon: "warning",
+            title: "There's something wrong",
+          });
+          $("#tariff-modal").modal("hide");
+        });
+        // alert(cap);
       this.subService.capacity[cap].zone.splice(zone, 1);
     },
   },

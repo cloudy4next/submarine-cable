@@ -88,6 +88,18 @@ __webpack_require__.r(__webpack_exports__);
         return 0;
       }
     },
+    MrcFloat: function MrcFloat() {
+      return parseFloat(this.finddata.mrc_ws);
+    },
+    SubTotal: function SubTotal() {
+      return parseFloat(this.finddata.sub_total);
+    },
+    SeqDeposit: function SeqDeposit() {
+      return parseFloat(this.finddata.seq_deposit);
+    },
+    TotalPayAmount: function TotalPayAmount() {
+      return parseFloat(this.finddata.total_pay_amount);
+    },
     InstallationCharge: function InstallationCharge() {
       if (this.finddata.service_id == 1) {
         return this.finddata.capacity.instl_charge;
@@ -96,7 +108,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     Vatno5: function Vatno5() {
-      return (this.RegistrationCharge() + this.InstallationCharge() + this.totalAfterDiscount) * .05;
+      //   return (this.RegistrationCharge() + this.InstallationCharge() + this.totalAfterDiscount) * .05;
+      return parseFloat(this.finddata.vat);
     },
     mrcVatInstallationReg: function mrcVatInstallationReg() {
       return this.totalAfterDiscount + this.vatAmount;
@@ -158,7 +171,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     totalAfterDiscount: function totalAfterDiscount() {
-      return this.finddata.mrc - this.finddata.mrc * this.finddata.discount / 100;
+      return parseFloat(this.finddata.mrc_ws_ad);
     },
     vat: function vat() {
       return this.finddata.zonelist.vat;
@@ -167,7 +180,8 @@ __webpack_require__.r(__webpack_exports__);
       return this.totalAfterDiscount * this.vat / 100;
     },
     mrcAfterVat: function mrcAfterVat() {
-      return this.totalAfterDiscount + this.vatAmount;
+      // return this.totalAfterDiscount + this.vatAmount;
+      return parseFloat(this.finddata.vat_mrc);
     },
     mrcVatDeposit: function mrcVatDeposit() {
       // return this.mrcAfterVat + this.finddata.deposit;
@@ -340,7 +354,7 @@ var render = function render() {
     }
   }, [_vm._v("3")]), _vm._v(" "), _c("td", [_vm._v("\n                      Monthly Recurring Charge (MRC) for Wet Segment\n                      ")]), _vm._v(" "), _c("td", {
     staticClass: "text-right"
-  }, [_vm._v(_vm._s(_vm._f("comma")(_vm.finddata.mrc.toFixed(2))))]), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _c("tr", [_c("td", {
+  }, [_vm._v(_vm._s(_vm._f("comma")(_vm.MrcFloat().toFixed(2))))]), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _c("tr", [_c("td", {
     staticStyle: {
       "text-align": "center"
     }
@@ -404,7 +418,7 @@ var render = function render() {
     }
   }, [_vm._v("9")]), _vm._v(" "), _c("td", [_vm._v("Subtotal Amount")]), _vm._v(" "), _c("td", {
     staticClass: "text-right"
-  }, [_c("span", [_vm._v(" " + _vm._s(_vm._f("comma")((_vm.RegistrationCharge() + _vm.InstallationCharge() + _vm.Vatno5() + _vm.totalAfterDiscount).toFixed(2))) + "\n                      ")])]), _vm._v(" "), _c("td", {
+  }, [_c("span", [_vm._v(" " + _vm._s(_vm._f("comma")(_vm.SubTotal().toFixed(2))) + "\n                      ")])]), _vm._v(" "), _c("td", {
     staticStyle: {
       "text-align": "center"
     }
@@ -414,7 +428,7 @@ var render = function render() {
     }
   }, [_vm._v("10")]), _vm._v(" "), _c("td", [_vm._v("Security Deposit")]), _vm._v(" "), _c("td", {
     staticClass: "text-right"
-  }, [_vm._v("\n                      " + _vm._s(_vm._f("comma")((_vm.totalAfterDiscount * 1.05).toFixed(2))) + "\n                    ")]), _vm._v(" "), _c("td", {
+  }, [_vm._v("\n                      " + _vm._s(_vm._f("comma")(_vm.SeqDeposit().toFixed(2))) + "\n                    ")]), _vm._v(" "), _c("td", {
     staticStyle: {
       "text-align": "center"
     }
@@ -424,13 +438,13 @@ var render = function render() {
     }
   }, [_vm._v("11")]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c("td", {
     staticClass: "text-right"
-  }, [_vm._v("\n                      " + _vm._s(_vm._f("comma")((_vm.RegistrationCharge() + _vm.InstallationCharge() + _vm.Vatno5() + _vm.totalAfterDiscount + _vm.totalAfterDiscount * 1.05).toFixed(2))) + "\n                    ")]), _vm._v(" "), _c("td", {
+  }, [_vm._v("\n                      " + _vm._s(_vm._f("comma")(_vm.TotalPayAmount().toFixed(2))) + "\n                    ")]), _vm._v(" "), _c("td", {
     staticStyle: {
       "text-align": "center"
     }
   }, [_vm._v("(9+10)")])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-md-10 offset-1 mb-2"
-  }, [_c("p", [_vm._v("\n            In words (Taka) : " + _vm._s(_vm._f("toWords")(_vm.totalPayable())) + ".\n          ")])]), _vm._v(" "), _vm.manager[0] ? _c("div", {
+  }, [_c("p", [_vm._v("\n            In words (Taka) : " + _vm._s(_vm._f("toWords")(_vm.TotalPayAmount())) + ".\n          ")])]), _vm._v(" "), _vm.manager[0] ? _c("div", {
     staticClass: "col-md-6 text-center",
     staticStyle: {
       "padding-top": "25px"
@@ -470,7 +484,7 @@ var render = function render() {
     staticClass: "col-md-12 text-left pl-4 pb-3"
   }, [_c("p", {
     staticClass: "mb-0"
-  }, [_c("b", [_vm._v("Note :")]), _vm._v(" "), _c("strong", [_vm._v('\n              Please issue payorder in favour of "Bangladesh Submarine Cable Company Limited" with an amount of Tk. ' + _vm._s(_vm._f("comma")(_vm.totalPayable().toFixed(2))) + "\n            ")])]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7)]) : _vm._e(), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("div", {
+  }, [_c("b", [_vm._v("Note :")]), _vm._v(" "), _c("strong", [_vm._v('\n              Please issue payorder in favour of "Bangladesh Submarine Cable Company Limited" with an amount of Tk. ' + _vm._s(_vm._f("comma")(_vm.TotalPayAmount().toFixed(2))) + "\n            ")])]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7)]) : _vm._e(), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("div", {
     staticClass: "col-md-12 text-left pl-4 pb-3"
   }, [_vm._m(8), _vm._v(" "), _vm._m(9)]) : _vm._e(), _vm._v(" "), _vm.finddata.service_id == 7 ? _c("div", {
     staticClass: "col-md-12 text-left pl-4 pb-3"

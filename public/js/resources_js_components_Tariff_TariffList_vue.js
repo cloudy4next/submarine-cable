@@ -159,7 +159,31 @@ __webpack_require__.r(__webpack_exports__);
       });
       console.log(this.capacity[cap].zone);
     },
-    removeGroup: function removeGroup(cap, zone) {
+    removeGroup: function removeGroup(cap, zone, capacity) {
+      var _this5 = this;
+      axios.get("/tariff/delete-group/", {
+        params: {
+          cap: cap,
+          zone: zone,
+          capacity: capacity
+        }
+      }).then(function (res) {
+        _this5.loading = false;
+        Toast.fire({
+          icon: "success",
+          title: "Data Removed Sucsessfully."
+        });
+        _this5.$emit("executeMethod");
+        //   $("#tariff-modal").modal("hide");
+      })["catch"](function () {
+        _this5.loading = false;
+        Swal.fire({
+          icon: "warning",
+          title: "There's something wrong"
+        });
+        $("#tariff-modal").modal("hide");
+      });
+      // alert(cap);
       this.subService.capacity[cap].zone.splice(zone, 1);
     }
   }
@@ -724,7 +748,7 @@ var render = function render() {
               },
               on: {
                 click: function click($event) {
-                  return _vm.removeGroup(capIndex, zoneIndex);
+                  return _vm.removeGroup(capIndex, zoneIndex, capacity.zone);
                 }
               }
             }, [_c("i", {
