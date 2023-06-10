@@ -307,18 +307,18 @@
                         <!-- {{ vat }} %  <input type="text" class="form-control"> -->
                       </td>
                     </tr>
-                    <tr>
-                      <td style="text-align:center">8</td>
-                      <td>MRC with Vat</td>
-                      <td class="text-right">{{ mrcAfterVat.toFixed(2) | comma }}</td>
-                      <td class="text-center">
+                    <!-- <tr> -->
+                      <!-- <td style="text-align:center">8</td> -->
+                      <!-- <td>MRC with Vat</td> -->
+                      <!-- <td class="text-right">{{ mrcAfterVat.toFixed(2) | comma }}</td> -->
+                      <!-- <td class="text-center"> -->
                         <!-- {{ vat }} % Amount {{ vatAmount }}  -->
                         <!-- <input type="text" class="form-control"> -->
-                      </td>
-                    </tr>
+                      <!-- </td> -->
+                    <!-- </tr> -->
 
                     <tr>
-                      <td style="text-align:center">9</td>
+                      <td style="text-align:center">8</td>
                       <td>Subtotal Amount</td>
                       <td class="text-right">
                         <span> {{  SubTotal().toFixed(2) | comma
@@ -330,7 +330,7 @@
 
 
                     <tr>
-                      <td style="text-align:center">10</td>
+                      <td style="text-align:center">9</td>
                       <td>Security Deposit</td>
                       <td class="text-right">
                         <!-- {{ finddata.deposit.toFixed(2) }} -->
@@ -342,7 +342,7 @@
 
 
                     <tr>
-                      <td style="text-align:center">11</td>
+                      <td style="text-align:center">10</td>
                       <td class="text-center">
                         <strong>Total Payable Amount</strong>
                       </td>
@@ -351,7 +351,7 @@
                         <!-- {{ (totalAfterDiscount*1.05) + mrcVatInstallationReg()+ RegistrationCharge() + InstallationCharge()}} -->
                         {{ TotalPayAmount().toFixed(2) | comma }}
                       </td>
-                      <td style="text-align:center">(9+10)</td>
+                      <td style="text-align:center">(8+9)</td>
                     </tr>
                   </tbody>
                 </table>
