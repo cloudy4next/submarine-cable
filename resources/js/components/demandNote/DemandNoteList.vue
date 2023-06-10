@@ -201,7 +201,9 @@
                           props: true,
                           params: { id: item.id },
                         }" title="View Details" class="btn btn-success btn-sm">View DN</router-link>
-                        <button v-if="item.approval_status != 2" type="button" title="Delete Demand Note" class="btn btn-danger btn-sm" @click="deleteItem(item)">
+                        <!-- add this to set privilage  on not to delete activated circuit -->
+                        <!-- v-if="item.approval_status != 2" -->
+                        <button  type="button" title="Delete Demand Note" class="btn btn-danger btn-sm" @click="deleteItem(item)">
                                                 <i class="fa fa-trash action-btn-font m-0" aria-hidden="true"></i>
                                             </button>
                         <router-link v-if="item.approval_status == 1" class="btn btn-primary btn-sm" data-toggle="modal"

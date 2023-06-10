@@ -499,7 +499,7 @@ var render = function render() {
         },
         title: "View Details"
       }
-    }, [_vm._v("View DN")]), _vm._v(" "), item.approval_status != 2 ? _c("button", {
+    }, [_vm._v("View DN")]), _vm._v(" "), _c("button", {
       staticClass: "btn btn-danger btn-sm",
       attrs: {
         type: "button",
@@ -515,7 +515,7 @@ var render = function render() {
       attrs: {
         "aria-hidden": "true"
       }
-    })]) : _vm._e(), _vm._v(" "), item.approval_status == 1 ? _c("router-link", {
+    })]), _vm._v(" "), item.approval_status == 1 ? _c("router-link", {
       staticClass: "btn btn-primary btn-sm",
       attrs: {
         "data-toggle": "modal",
