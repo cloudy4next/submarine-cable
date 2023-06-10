@@ -581,6 +581,7 @@ class DemandNoteController extends Controller
             ->count();
         $checkCurrentUtilization = DemandNote::where('customer_id', $request->customer_id)->where('service_id', $request->service_id)->where('approval_status', 2)
             ->count();
+        // dd($checkCurrentUtilization);
 
         if ($existCustomer) {
             $coutnDemandNote = $this->countCustomerDemandNote($request->customer_id, $request->service_id);

@@ -61,56 +61,23 @@
                           Reference No: 14.34.0000.{{ Department }}.{{ Subject }}.{{ ClientId }}.{{ Year }}.{{
                             DemandNoteNumber }}
                         </p>
-
-                        <div class="row">
-
-                          <div class="col-md-2"></div>
-                          <div class="col-md-3" style="margin-left: 10px">
-                            <p class="mb-0">
-                              Name of the Company
-                            </p>
-                            <p class="mb-0">
-                              BIN Number
-                            </p>
-                            <p class="mb-0">
-                              Address
-                            </p>
-                            <br>
-                            <p class="mb-0">
-                              Contact Person
-                            </p>
-                            <p class="mb-0">
-                              Contact Number
-                            </p>
-
-                          </div>
-
-
-                          <div class="col-md-5">
-
-                            <p class="mb-0">
-                              :<strong>{{ finddata.customers.com_name }}</strong>
-                            </p>
-                            <p class="mb-0">
-                              :{{ finddata.customers.bin_vat_etc }}
-                            </p>
-                            <p class="mb-0">
-                              :{{ finddata.customers.address }}
-                            </p>
-                            <p class="mb-0">
-                              :{{ finddata.customers.name }}
-                            </p>
-                            <p class="mb-0">
-                              :{{ finddata.customers.phone }}
-                            </p>
-                          </div>
-
-                        </div>
-
-
-
-
-                        <p class="mb-0 mt-4">Customer License Type : {{ customerType }}</p>
+                        <p class="mb-0">
+                            Name of the Company :<strong>{{ finddata.customers.com_name }}</strong>
+                        </p>
+                        <p class="mb-0">
+                            BIN Number :{{ finddata.customers.bin_vat_etc }}
+                        </p>
+                        <p class="mb-0">
+                            Address :{{ finddata.customers.address }}
+                        </p>
+                        <p class="mb-0">
+                            Contact Person :{{ finddata.customers.name }}
+                        </p>
+                        <p class="mb-0">
+                            Contact Number : :{{ finddata.customers.phone }}
+                        </p>
+                       <br>
+                        <p class="mb-0 ">Customer License Type : {{ customerType }}</p>
                         <p class="mb-0 ">Submarine Cable : {{ finddata.subservice.sub_service_name }}</p>
 
                         <p class="mb-0" v-if="finddata.service_id == 1">
@@ -133,18 +100,20 @@
                           {{ finddata.groups.group_name }}
                         </p> -->
 
+                            <p v-for="(circuit, i) in circuitConnectionInformation" :key="i" class="mb-0">
+                              Current Utilization :
+                              <span v-if="circuit.is_approved == 2" >
+                                 {{ finddata.on_process_notes }} * {{ circuit.name }}
+                              </span>
 
-                        <p class="mb-0">
-                          Current Utilization :
-                          <span >
-                             {{ finddata.on_process_notes }}
-                          </span>
-                        </p>
-                        <p class="mb-0">
-                        Pending :
-                            <span >
-                                {{ finddata.pending_notes }}
-                            </span>
+                            </p>
+
+                        <p v-for="(circuit, i) in circuitConnectionInformation" :key="i" class="mb-0">
+                                  Current Pending :
+                                  <span>
+                                     {{ finddata.pending_notes }} * {{ circuit.name }}
+                                  </span>
+
                         </p>
                         <!-- <p v-for="(circuit, i) in circuitConnectionInformation" :key="i" class="mb-0">
                           On Process Circuit :
@@ -186,12 +155,10 @@
                         </p> -->
                         <br>
                         <br>
-                        <br>
-                        <br>
 
-                        <p class="mb-0" v-if="finddata.service_id == 1">>Commitment Period : N/A</p>
+                        <p class="mb-0" v-if="finddata.service_id == 1">Commitment Period : N/A</p>
                         <p class="mb-0">
-                          Discount on Wet Segment MRC : {{ finddata.discount + " %" }}
+                          Discount on Wet Segment MRC : {{ finddata.discount + "%" }}
                         </p>
                         <p class="mb-0">
                           Back-haul-Provider : {{ finddata.backhole_port }}

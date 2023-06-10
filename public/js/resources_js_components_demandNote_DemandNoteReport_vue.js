@@ -265,24 +265,18 @@ var render = function render() {
     staticStyle: {
       "margin-left": "20px"
     }
-  }, [_c("p", [_vm._v("\n                        Reference No: 14.34.0000." + _vm._s(_vm.Department) + "." + _vm._s(_vm.Subject) + "." + _vm._s(_vm.ClientId) + "." + _vm._s(_vm.Year) + "." + _vm._s(_vm.DemandNoteNumber) + "\n                      ")]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-2"
-  }), _vm._v(" "), _vm._m(1), _vm._v(" "), _c("div", {
-    staticClass: "col-md-5"
-  }, [_c("p", {
+  }, [_c("p", [_vm._v("\n                        Reference No: 14.34.0000." + _vm._s(_vm.Department) + "." + _vm._s(_vm.Subject) + "." + _vm._s(_vm.ClientId) + "." + _vm._s(_vm.Year) + "." + _vm._s(_vm.DemandNoteNumber) + "\n                      ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                            :"), _c("strong", [_vm._v(_vm._s(_vm.finddata.customers.com_name))])]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                          Name of the Company :"), _c("strong", [_vm._v(_vm._s(_vm.finddata.customers.com_name))])]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                            :" + _vm._s(_vm.finddata.customers.bin_vat_etc) + "\n                          ")]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                          BIN Number :" + _vm._s(_vm.finddata.customers.bin_vat_etc) + "\n                      ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                            :" + _vm._s(_vm.finddata.customers.address) + "\n                          ")]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                          Address :" + _vm._s(_vm.finddata.customers.address) + "\n                      ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                            :" + _vm._s(_vm.finddata.customers.name) + "\n                          ")]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                          Contact Person :" + _vm._s(_vm.finddata.customers.name) + "\n                      ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                            :" + _vm._s(_vm.finddata.customers.phone) + "\n                          ")])])]), _vm._v(" "), _c("p", {
-    staticClass: "mb-0 mt-4"
+  }, [_vm._v("\n                          Contact Number : :" + _vm._s(_vm.finddata.customers.phone) + "\n                      ")]), _vm._v(" "), _c("br"), _vm._v(" "), _c("p", {
+    staticClass: "mb-0"
   }, [_vm._v("Customer License Type : " + _vm._s(_vm.customerType))]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
   }, [_vm._v("Submarine Cable : " + _vm._s(_vm.finddata.subservice.sub_service_name))]), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("p", {
@@ -291,11 +285,17 @@ var render = function render() {
     staticClass: "mb-0"
   }, [_vm._v("\n                        Bandwidth : 1 * " + _vm._s(_vm.circuitType) + "\n                        ")]) : _vm._e(), _vm.finddata.service_id == 7 ? _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                        Bandwidth :\n                        " + _vm._s(_vm.totalBand) + "\n                      ")]) : _vm._e(), _vm._v(" "), _c("p", {
-    staticClass: "mb-0"
-  }, [_vm._v("\n                        Current Utilization :\n                        "), _c("span", [_vm._v("\n                           " + _vm._s(_vm.finddata.on_process_notes) + "\n                        ")])]), _vm._v(" "), _c("p", {
-    staticClass: "mb-0"
-  }, [_vm._v("\n                      Pending :\n                          "), _c("span", [_vm._v("\n                              " + _vm._s(_vm.finddata.pending_notes) + "\n                          ")])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                        Bandwidth :\n                        " + _vm._s(_vm.totalBand) + "\n                      ")]) : _vm._e(), _vm._v(" "), _vm._l(_vm.circuitConnectionInformation, function (circuit, i) {
+    return _c("p", {
+      key: i,
+      staticClass: "mb-0"
+    }, [_vm._v("\n                            Current Utilization :\n                            "), circuit.is_approved == 2 ? _c("span", [_vm._v("\n                               " + _vm._s(_vm.finddata.on_process_notes) + " * " + _vm._s(circuit.name) + "\n                            ")]) : _vm._e()]);
+  }), _vm._v(" "), _vm._l(_vm.circuitConnectionInformation, function (circuit, i) {
+    return _c("p", {
+      key: i,
+      staticClass: "mb-0"
+    }, [_vm._v("\n                                Current Pending :\n                                "), _c("span", [_vm._v("\n                                   " + _vm._s(_vm.finddata.pending_notes) + " * " + _vm._s(circuit.name) + "\n                                ")])]);
+  })], 2), _vm._v(" "), _c("div", {
     staticClass: "col-md-3"
   }, [_c("p", {
     staticClass: "mt-0"
@@ -308,11 +308,11 @@ var render = function render() {
     staticClass: "mb-0"
   }, [_vm._v("For Office Use Only")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                          ID No : DN(" + _vm._s(_vm.cableType) + ")/" + _vm._s(_vm.customerType) + "/" + _vm._s(_vm.circuitType) + "/000" + _vm._s(_vm.iplcTotalDemandNote) + "\n                        ")])]), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("p", {
+  }, [_vm._v("\n                          ID No : DN(" + _vm._s(_vm.cableType) + ")/" + _vm._s(_vm.customerType) + "/" + _vm._s(_vm.circuitType) + "/000" + _vm._s(_vm.iplcTotalDemandNote) + "\n                        ")])]), _vm._v(" "), _c("br"), _vm._v(" "), _c("br"), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v(">Commitment Period : N/A")]) : _vm._e(), _vm._v(" "), _c("p", {
+  }, [_vm._v("Commitment Period : N/A")]) : _vm._e(), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                        Discount on Wet Segment MRC : " + _vm._s(_vm.finddata.discount + " %") + "\n                      ")]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\n                        Discount on Wet Segment MRC : " + _vm._s(_vm.finddata.discount + "%") + "\n                      ")]), _vm._v(" "), _c("p", {
     staticClass: "mb-0"
   }, [_vm._v("\n                        Back-haul-Provider : " + _vm._s(_vm.finddata.backhole_port) + "\n                      ")])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "card-body"
@@ -321,13 +321,13 @@ var render = function render() {
     attrs: {
       id: "example1"
     }
-  }, [_vm._m(2), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", {
+  }, [_vm._m(1), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", {
     staticStyle: {
       "text-align": "center"
     }
   }, [_vm._v("1")]), _vm._v(" "), _c("td", [_vm._v("\n                      Registration Charge\n                      ")]), _vm._v(" "), _c("td", {
     staticClass: "text-right"
-  }, [_vm._v(_vm._s(_vm.RegistrationCharge().toFixed(2)))]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c("tr", [_c("td", {
+  }, [_vm._v(_vm._s(_vm.RegistrationCharge().toFixed(2)))]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c("tr", [_c("td", {
     staticStyle: {
       "text-align": "center"
     }
@@ -353,7 +353,7 @@ var render = function render() {
     }
   }, [_vm._v("3")]), _vm._v(" "), _c("td", [_vm._v("\n                      Monthly Recurring Charge (MRC) for Wet Segment\n                      ")]), _vm._v(" "), _c("td", {
     staticClass: "text-right"
-  }, [_vm._v(_vm._s(_vm._f("comma")(_vm.MrcFloat().toFixed(2))))]), _vm._v(" "), _vm._m(4)]), _vm._v(" "), _c("tr", [_c("td", {
+  }, [_vm._v(_vm._s(_vm._f("comma")(_vm.MrcFloat().toFixed(2))))]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c("tr", [_c("td", {
     staticStyle: {
       "text-align": "center"
     }
@@ -427,7 +427,7 @@ var render = function render() {
     staticStyle: {
       "text-align": "center"
     }
-  }, [_vm._v("10")]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c("td", {
+  }, [_vm._v("10")]), _vm._v(" "), _vm._m(4), _vm._v(" "), _c("td", {
     staticClass: "text-right"
   }, [_vm._v("\n                      " + _vm._s(_vm._f("comma")(_vm.TotalPayAmount().toFixed(2))) + "\n                    ")]), _vm._v(" "), _c("td", {
     staticStyle: {
@@ -475,11 +475,11 @@ var render = function render() {
     staticClass: "col-md-12 text-left pl-4 pb-3"
   }, [_c("p", {
     staticClass: "mb-0"
-  }, [_c("b", [_vm._v("Note :")]), _vm._v(" "), _c("strong", [_vm._v('\n              Please issue payorder in favour of "Bangladesh Submarine Cable Company Limited" with an amount of Tk. ' + _vm._s(_vm._f("comma")(_vm.TotalPayAmount().toFixed(2))) + "\n            ")])]), _vm._v(" "), _vm._m(6), _vm._v(" "), _vm._m(7)]) : _vm._e(), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("div", {
+  }, [_c("b", [_vm._v("Note :")]), _vm._v(" "), _c("strong", [_vm._v('\n              Please issue payorder in favour of "Bangladesh Submarine Cable Company Limited" with an amount of Tk. ' + _vm._s(_vm._f("comma")(_vm.TotalPayAmount().toFixed(2))) + "\n            ")])]), _vm._v(" "), _vm._m(5), _vm._v(" "), _vm._m(6)]) : _vm._e(), _vm._v(" "), _vm.finddata.service_id == 1 ? _c("div", {
     staticClass: "col-md-12 text-left pl-4 pb-3"
-  }, [_vm._m(8), _vm._v(" "), _vm._m(9)]) : _vm._e(), _vm._v(" "), _vm.finddata.service_id == 7 ? _c("div", {
+  }, [_vm._m(7), _vm._v(" "), _vm._m(8)]) : _vm._e(), _vm._v(" "), _vm.finddata.service_id == 7 ? _c("div", {
     staticClass: "col-md-12 text-left pl-4 pb-3"
-  }, [_vm._m(10), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12), _vm._v(" "), _vm._m(13), _vm._v(" "), _vm._m(14)]) : _vm._e()])])])]);
+  }, [_vm._m(9), _vm._v(" "), _vm._m(10), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12), _vm._v(" "), _vm._m(13)]) : _vm._e()])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -510,25 +510,6 @@ var staticRenderFns = [function () {
       src: "/assets/dist/logo/download.jpg"
     }
   })])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "col-md-3",
-    staticStyle: {
-      "margin-left": "10px"
-    }
-  }, [_c("p", {
-    staticClass: "mb-0"
-  }, [_vm._v("\n                            Name of the Company\n                          ")]), _vm._v(" "), _c("p", {
-    staticClass: "mb-0"
-  }, [_vm._v("\n                            BIN Number\n                          ")]), _vm._v(" "), _c("p", {
-    staticClass: "mb-0"
-  }, [_vm._v("\n                            Address\n                          ")]), _vm._v(" "), _c("br"), _vm._v(" "), _c("p", {
-    staticClass: "mb-0"
-  }, [_vm._v("\n                            Contact Person\n                          ")]), _vm._v(" "), _c("p", {
-    staticClass: "mb-0"
-  }, [_vm._v("\n                            Contact Number\n                          ")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
