@@ -84,9 +84,9 @@ __webpack_require__.r(__webpack_exports__);
       this.approveDemandNote();
     },
     reject: function reject() {
-      //   alert('reject');
-      this.approve.approval_status = 3;
-      this.approveDemandNote();
+      $("#approveNRC").modal("hide");
+      //   this.approve.approval_status = 3;
+      //   this.approveDemandNote();
     },
     approveDemandNote: function approveDemandNote() {
       var _this3 = this;
@@ -354,7 +354,7 @@ var render = function render() {
         return _vm.reject();
       }
     }
-  }, [_vm._v("\n                            Reject\n                          ")])])])])])])]), _vm._v(" "), _c("table", {
+  }, [_vm._v("\n                            Close\n                          ")])])])])])])]), _vm._v(" "), _c("table", {
     staticClass: "table table-bordered table-striped table-responsive testDataTable"
   }, [_c("thead", [_c("tr", [_c("th", {
     staticStyle: {

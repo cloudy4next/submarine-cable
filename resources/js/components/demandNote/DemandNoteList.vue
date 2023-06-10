@@ -124,7 +124,7 @@
                               Approve
                             </button>
                             <button type="submit" @click="reject()" class="btn btn-danger">
-                              Reject
+                              Close
                             </button>
                           </div>
                         </form>
@@ -201,7 +201,7 @@
                           props: true,
                           params: { id: item.id },
                         }" title="View Details" class="btn btn-success btn-sm">View DN</router-link>
-                        <!-- add this to set privilage  on not to delete activated circuit -->
+
                         <!-- v-if="item.approval_status != 2" -->
                         <button  type="button" title="Delete Demand Note" class="btn btn-danger btn-sm" @click="deleteItem(item)">
                                                 <i class="fa fa-trash action-btn-font m-0" aria-hidden="true"></i>
@@ -305,9 +305,9 @@ export default {
       this.approveDemandNote();
     },
     reject() {
-      //   alert('reject');
-      this.approve.approval_status = 3;
-      this.approveDemandNote();
+            $("#approveNRC").modal("hide");
+    //   this.approve.approval_status = 3;
+    //   this.approveDemandNote();
     },
 
     approveDemandNote() {
