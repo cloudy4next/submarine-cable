@@ -291,12 +291,11 @@ var render = function render() {
     staticClass: "mb-0"
   }, [_vm._v("\n                        Bandwidth : 1 * " + _vm._s(_vm.circuitType) + "\n                        ")]) : _vm._e(), _vm.finddata.service_id == 7 ? _c("p", {
     staticClass: "mb-0"
-  }, [_vm._v("\n                        Bandwidth :\n                        " + _vm._s(_vm.totalBand) + "\n                      ")]) : _vm._e(), _vm._v(" "), _vm._l(_vm.circuitConnectionInformation, function (circuit, i) {
-    return _c("p", {
-      key: i,
-      staticClass: "mb-0"
-    }, [_vm._v("\n                        Current Utilization :\n                        "), circuit.is_approved == 2 ? _c("span", [_vm._v("\n                           " + _vm._s(circuit.qty) + " * " + _vm._s(circuit.name) + "\n                        ")]) : _vm._e()]);
-  })], 2), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                        Bandwidth :\n                        " + _vm._s(_vm.totalBand) + "\n                      ")]) : _vm._e(), _vm._v(" "), _c("p", {
+    staticClass: "mb-0"
+  }, [_vm._v("\n                        Current Utilization :\n                        "), _c("span", [_vm._v("\n                           " + _vm._s(_vm.finddata.on_process_notes) + "\n                        ")])]), _vm._v(" "), _c("p", {
+    staticClass: "mb-0"
+  }, [_vm._v("\n                      Pending :\n                          "), _c("span", [_vm._v("\n                              " + _vm._s(_vm.finddata.pending_notes) + "\n                          ")])])]), _vm._v(" "), _c("div", {
     staticClass: "col-md-3"
   }, [_c("p", {
     staticClass: "mt-0"
@@ -408,15 +407,7 @@ var render = function render() {
     staticStyle: {
       "text-align": "center"
     }
-  }, [_vm._v("8")]), _vm._v(" "), _c("td", [_vm._v("MRC with Vat")]), _vm._v(" "), _c("td", {
-    staticClass: "text-right"
-  }, [_vm._v(_vm._s(_vm._f("comma")(_vm.mrcAfterVat.toFixed(2))))]), _vm._v(" "), _c("td", {
-    staticClass: "text-center"
-  })]), _vm._v(" "), _c("tr", [_c("td", {
-    staticStyle: {
-      "text-align": "center"
-    }
-  }, [_vm._v("9")]), _vm._v(" "), _c("td", [_vm._v("Subtotal Amount")]), _vm._v(" "), _c("td", {
+  }, [_vm._v("8")]), _vm._v(" "), _c("td", [_vm._v("Subtotal Amount")]), _vm._v(" "), _c("td", {
     staticClass: "text-right"
   }, [_c("span", [_vm._v(" " + _vm._s(_vm._f("comma")(_vm.SubTotal().toFixed(2))) + "\n                      ")])]), _vm._v(" "), _c("td", {
     staticStyle: {
@@ -426,7 +417,7 @@ var render = function render() {
     staticStyle: {
       "text-align": "center"
     }
-  }, [_vm._v("10")]), _vm._v(" "), _c("td", [_vm._v("Security Deposit")]), _vm._v(" "), _c("td", {
+  }, [_vm._v("9")]), _vm._v(" "), _c("td", [_vm._v("Security Deposit")]), _vm._v(" "), _c("td", {
     staticClass: "text-right"
   }, [_vm._v("\n                      " + _vm._s(_vm._f("comma")(_vm.SeqDeposit().toFixed(2))) + "\n                    ")]), _vm._v(" "), _c("td", {
     staticStyle: {
@@ -436,13 +427,13 @@ var render = function render() {
     staticStyle: {
       "text-align": "center"
     }
-  }, [_vm._v("11")]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c("td", {
+  }, [_vm._v("10")]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c("td", {
     staticClass: "text-right"
   }, [_vm._v("\n                      " + _vm._s(_vm._f("comma")(_vm.TotalPayAmount().toFixed(2))) + "\n                    ")]), _vm._v(" "), _c("td", {
     staticStyle: {
       "text-align": "center"
     }
-  }, [_vm._v("(9+10)")])])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("(8+9)")])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-md-10 offset-1 mb-2"
   }, [_c("p", [_vm._v("\n            In words (Taka) : " + _vm._s(_vm._f("toWords")(_vm.TotalPayAmount())) + ".\n          ")])]), _vm._v(" "), _vm.manager[0] ? _c("div", {
     staticClass: "col-md-6 text-center",

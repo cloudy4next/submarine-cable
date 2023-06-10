@@ -205,7 +205,7 @@ class DemandNoteController extends Controller
 
             ];
         }
-
+        // dd($data);
         return response([
             'msg' => 'success',
             'data' => $data,
@@ -577,6 +577,10 @@ class DemandNoteController extends Controller
         // dd($request->all());
         $count_demand_note = 1;
         $existCustomer = $this->existingCustomer($request->customer_id, $request->service_id);
+        $checkPendingProcess = DemandNote::where('customer_id', $request->customer_id)->where('service_id', $request->service_id)->where('approval_status', 1)
+            ->count();
+        $checkCurrentUtilization = DemandNote::where('customer_id', $request->customer_id)->where('service_id', $request->service_id)->where('approval_status', 2)
+            ->count();
 
         if ($existCustomer) {
             $coutnDemandNote = $this->countCustomerDemandNote($request->customer_id, $request->service_id);
@@ -592,7 +596,6 @@ class DemandNoteController extends Controller
         // }
         $groupZoneInfo = (new ServiceController)->idWiseGroupZoneInfo($request->grp_or_zone);
         $groupId = $groupZoneInfo->grp_or_zone;
-        // DemandNote::create($request->all());
 
         $data = new DemandNote();
         $data->count_demand_note = $count_demand_note;
@@ -620,6 +623,9 @@ class DemandNoteController extends Controller
         $demand_note_calculation = (new DemandNoteAuthController)->demand_note_collection($data);
 
         $collection = DemandNote::find($data->id);
+        $collection->pending_notes =  $checkPendingProcess;
+        $collection->on_process_notes = $checkCurrentUtilization;
+
         $collection->reg_charge = $demand_note_calculation['regCharge'];
         $collection->ins_charge = $demand_note_calculation['installation'];
         $collection->mrc_ws  = $demand_note_calculation['mrcWS'];

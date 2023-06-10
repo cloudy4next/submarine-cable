@@ -133,12 +133,18 @@
                           {{ finddata.groups.group_name }}
                         </p> -->
 
-                        <p v-for="(circuit, i) in circuitConnectionInformation" :key="i" class="mb-0">
-                          Current Utilization :
-                          <span v-if="circuit.is_approved == 2" >
-                             {{ circuit.qty }} * {{ circuit.name }}
-                          </span>
 
+                        <p class="mb-0">
+                          Current Utilization :
+                          <span >
+                             {{ finddata.on_process_notes }}
+                          </span>
+                        </p>
+                        <p class="mb-0">
+                        Pending :
+                            <span >
+                                {{ finddata.pending_notes }}
+                            </span>
                         </p>
                         <!-- <p v-for="(circuit, i) in circuitConnectionInformation" :key="i" class="mb-0">
                           On Process Circuit :
