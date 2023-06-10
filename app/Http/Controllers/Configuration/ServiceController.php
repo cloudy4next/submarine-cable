@@ -582,8 +582,7 @@ class ServiceController extends Controller
                 ]);
 
                 foreach ($request->subService['capacity'] as $key => $item) {
-
-                    if (TariffCapacity::where('id', $item['id'])->exists()) {
+                    if (array_key_exists('id', $item)) {
                         $tarifId = TariffCapacity::where('id', $item['id'])->update([
                             'sub_service_id' => $request->subServiceId,
                             'capacity_name' => $item['capacity_name'],
